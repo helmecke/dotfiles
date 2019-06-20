@@ -1,0 +1,12 @@
+# vim: ft=dosini cms=#%s
+
+separator=false
+separator_block_width=10
+
+[battery2]
+command=$SCRIPT_DIR/battery2/battery2
+interval=60
+
+[time]
+command=date +' %H:%M  %d.%m.%y'
+interval=5

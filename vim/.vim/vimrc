@@ -1,0 +1,267 @@
+" vim: fdm=marker
+execute pathogen#infect()
+set nocompatible
+
+filetype indent plugin on
+scriptencoding utf-8
+
+" Vim Settings {{{1
+" Visual Settings {{{2
+syntax enable
+colorscheme solarized
+set background=dark
+
+" file handling {{{2
+set autoread
+set autowrite
+set noswapfile
+
+" other {{{2
+set confirm
+set encoding=utf-8
+set scrolloff=3
+set hidden
+set wildmenu
+set wildmode=list:longest
+set cursorline
+set ttyfast
+set ttymouse=xterm2
+set ttyscroll=3
+set ruler
+set backspace=indent,eol,start
+set laststatus=2
+set relativenumber
+set list
+set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·,eol:¬
+set textwidth=0
+set wrapmargin=0
+set colorcolumn=80
+set ignorecase
+set smartcase
+set incsearch
+set showmatch
+set hlsearch
+set splitright
+set splitbelow
+set wrap
+set linebreak
+set lazyredraw
+set completeopt-=preview
+set updatetime=250
+
+" Plugin Settings {{{1
+" nerdcommenter {{{2
+let NERDSpaceDelims = 1
+let g:NERDCompactSexyComs = 0
+
+" nerdtree {{{2
+" let g:NERDTreeDirArrowExpandable=""
+" let g:NERDTreeDirArrowCollapsible=""
+let g:NERDTreeQuitOnOpen = 1
+let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeWinSize=40
+
+" airline {{{2
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#ale#enabled = 1
+let g:airline_powerline_fonts = 1
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_symbols.linenr = ''
+
+" ale {{{2
+let g:ale_open_list = 0
+let g:ale_sign_column_always = 1
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
+let g:ale_fix_on_save = 1
+
+let g:ale_linters = {'go': ['gometalinter']}
+
+" completor {{{2
+let g:completor_gocode_binary = '~/Documents/Go/bin/gocode'
+
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+
+" ultisnips {{{2
+let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+let g:UltiSnipsJumpForwardTrigger = "<C-n>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-p>"
+
+" use enter as expand trigger
+let g:UltiSnipsExpandTrigger = "<nop>"
+let g:ulti_expand_or_jump_res = 0
+function! ExpandSnippetOrCarriageReturn()
+    let snippet = UltiSnips#ExpandSnippetOrJump()
+    if g:ulti_expand_or_jump_res > 0
+	return snippet
+    else
+	return "\<CR>"
+    endif
+endfunction
+inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
+
+" vim-go {{{2
+let g:go_fmt_command = "goimports"
+let g:go_autodetect_gopath = 1
+let g:go_auto_type_info = 1
+let g:go_auto_sameids = 0
+let g:go_fmt_experimental=1
+
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_generate_tags = 1
+
+" Open :GoDeclsDir with ctrl-g
+nmap <C-g> :GoDeclsDir<cr>
+imap <C-g> <esc>:<C-u>GoDeclsDir<cr>
+
+augroup go
+  autocmd!
+
+  " Show by default 4 spaces for a tab
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 foldmethod=syntax foldnestmax=2
+
+  " :GoBuild and :GoTestCompile
+  autocmd FileType go nmap <leader>gb :<C-u>call <SID>build_go_files()<CR>
+
+  " :GoTest
+  autocmd FileType go nmap <leader>gt  <Plug>(go-test)
+
+  " :GoRun
+  autocmd FileType go nmap <leader>gr  <Plug>(go-run)
+
+  " :GoDoc
+  autocmd FileType go nmap <Leader>gd <Plug>(go-doc)
+
+  " :GoCoverageToggle
+  autocmd FileType go nmap <Leader>gc <Plug>(go-coverage-toggle)
+
+  " :GoInfo
+  autocmd FileType go nmap <Leader>gi <Plug>(go-info)
+
+  " :GoMetaLinter
+  autocmd FileType go nmap <Leader>gl <Plug>(go-metalinter)
+
+  " :GoDef but opens in a vertical split
+  autocmd FileType go nmap <Leader>gv <Plug>(go-def-vertical)
+  " :GoDef but opens in a horizontal split
+  autocmd FileType go nmap <Leader>gs <Plug>(go-def-split)
+
+  " :GoAlternate  commands :A, :AV, :AS and :AT
+  autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit',,)
+  autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit',,)
+  autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split',,)
+  autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe',,)
+augroup END
+
+" build_go_files is a custom function that builds or compiles the test file.
+" It calls :GoBuild if its a Go file, or :GoTestCompile if it's a test file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
+" vim-arduino {{{2
+let g:arduino_dir = '~/Arduino'
+let g:arduino_serial_port = '/dev/ttyUSB0'
+
+" Key mappings {{{1
+set pastetoggle=<F2>
+
+inoremap jj <ESC>
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-L> <C-W>l
+nnoremap <C-H> <C-W>h
+nnoremap <space> za
+
+cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
+
+" umlaute remap {{{2
+map ü <C-]>
+map ö [
+map ä ]
+map Ö {
+map Ä }
+map ß /
+
+" Leader mappings {{{2
+let mapleader=","
+
+map <leader>ew :e %%
+map <leader>es :sp %%
+map <leader>ev :vsp %%
+map <leader>et :tabe %%
+
+map <leader>t :tabnew<cr>
+
+map <silent> <leader><space> :noh<CR>
+
+nmap <leader>v :edit $MYVIMRC<CR>
+
+map <silent> <leader>n :call NumberToggle()<cr>
+
+map <leader>/ <plug>NERDCommenterToggle
+nnoremap <Leader>f :NERDTreeToggle<Enter>
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+nnoremap <silent> <Leader>bd :Bclose<CR>
+nnoremap <silent> <Leader>bD :Bclose!<CR>
+nnoremap <silent> <Leader>Bd :bufdo bw<CR>
+nnoremap <silent> <Leader>BD :bufdo bw!<CR>
+
+" wl-clipboard mappings {{{2
+xnoremap "+y y:call system("wl-copy", @")<cr>
+nnoremap "+p :let @"=substitute(system("wl-paste --no-newline"), '<C-v><C-m>', '', 'g')<cr>p
+nnoremap "*p :let @"=substitute(system("wl-paste --no-newline --primary"), '<C-v><C-m>', '', 'g')<cr>p
+
+" Auto commands {{{1
+if has("autocmd")
+" autocommands go here
+  autocmd FileType yaml setlocal autoindent sw=2 ts=2 expandtab indentkeys-=<:>
+  autocmd FileType json setlocal autoindent sw=2 ts=2 expandtab foldmethod=syntax
+  autocmd FileType cucumber setlocal autoindent sw=2 ts=2 expandtab foldmethod=indent
+  autocmd FileType php setlocal autoindent sw=4 ts=4 expandtab
+  autocmd FileType conf setlocal autoindent sw=4 ts=4 expandtab
+  autocmd FileType sh setlocal noexpandtab tabstop=4 shiftwidth=4
+  autocmd FileType git setlocal foldmethod=syntax
+  autocmd FileType sql setlocal autoindent sw=4 ts=4 expandtab
+  autocmd BufRead /tmp/helm-edit* setlocal ft=yaml
+  autocmd BufRead,BufNewFile */templates/*.yaml,*/templates/*.tpl setlocal ft=helm
+  autocmd BufRead,BufNewFile *.conf set ft=config
+  autocmd QuickFixCmdPost *grep* cwindow
+  " Open markdown files with Chrome.
+  autocmd BufRead,BufNewFile *.md exe 'noremap <F5> :!exec google-chrome-stable %:p<CR>'
+endif
+
+if has('unnamedplus')
+  set clipboard=unnamed,unnamedplus
+endif
+
+"python with virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
+
+command! Greview :execute ':Git! diff --staged' | :redraw!
+command! Gclean :execute ':Git! branch --merged | grep -v \* | xargs git branch -D' | :redraw!
+command! Gmaster :execute ':Git checkout master | Gpull | Gclean'
+command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
