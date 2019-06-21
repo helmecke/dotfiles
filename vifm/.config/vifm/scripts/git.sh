@@ -63,10 +63,10 @@ vcs_commits() {
 	res=""
 
 	ahead=$(git rev-list --count "$branch@{upstream}..HEAD" 2>/dev/null)
-	[ -n "$ahead" ] && res="$res ${AHEAD_ICO} $ahead"
+	[ -n "$ahead" ] && [ "$ahead" -gt 0 ] && res="$res ${AHEAD_ICO} $ahead"
 
 	behind=$(git rev-list --count "HEAD..$branch@{upstream}" 2>/dev/null)
-	[ -n "$behind" ] && res="$res ${BEHIND_ICO} $behind"
+	[ -n "$behind" ] && [ "$behind" -gt 0 ] && res="$res ${BEHIND_ICO} $behind"
 
 	echo "$res"
 }
