@@ -131,7 +131,7 @@ command! reload :write | restart
 command G tig status
 command Gstatus tig status
 command Gblame tig blame %f
-command Gbrowse tig
+command Gbrowse hub browse
 command! Gclean git branch --merged | grep -v \* | xargs git branch -D
 
 " Filetypes {{{1
