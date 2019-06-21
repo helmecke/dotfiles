@@ -65,3 +65,6 @@ bind status + !@git add -- %(file)
 bind status - !@git reset -- %(file)
 bind status = enter
 bind stage  = view-close
+
+# Load colorscheme
+source ~/.config/tig/solarized-dark.theme
