@@ -1,0 +1,26 @@
+# Settings {{{1
+# Open document in fit-width mode by default
+set adjust-open "best-fit"
+
+# One page per row by default
+set pages-per-row 1
+
+#stop at page boundries
+set scroll-page-aware "true"
+set smooth-scroll "true"
+set scroll-full-overlap 0.01
+set scroll-step 100
+
+#zoom settings
+set zoom-min 10
+set guioptions ""
+
+# Mappings {{{1
+map f toggle_fullscreen
+map [fullscreen] f toggle_fullscreen
+map <C-h> navigate previous
+map [fullscreen] <C-h> navigate previous
+map <C-l> navigate next
+map [fullscreen] <C-l> navigate next
+
+# vim: ft=conf fdm=marker
