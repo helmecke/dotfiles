@@ -1,0 +1,9 @@
+font=InconsolataGo Nerd Font 14
+default-timeout=5000
+background-color=#002b36
+text-color=#839496
+border-color=#b58900
+border-size=3
+width=500
+
+# vim: ft=dosini cms=#%s
