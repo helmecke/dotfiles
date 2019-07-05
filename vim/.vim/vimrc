@@ -1,6 +1,27 @@
-" vim: fdm=marker
-execute pathogen#infect()
 set nocompatible
+
+if has('packages')
+  packadd! airline
+  packadd! airline-themes
+  packadd! ale
+  packadd! arduino
+  packadd! completor
+  packadd! fugitive
+  packadd! go
+  packadd! helm
+  packadd! indentline
+  packadd! markdown
+  packadd! nerdcommenter
+  packadd! nerdtree
+  packadd! repeat
+  packadd! rhubarb
+  packadd! snippets
+  packadd! surround
+  packadd! toml
+  packadd! ultisnips
+  packadd! unimpaired
+  packadd! vifm
+endif
 
 filetype indent plugin on
 scriptencoding utf-8
@@ -70,7 +91,6 @@ let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
-let g:airline_symbols.linenr = ''
 
 " ale {{{2
 let g:ale_open_list = 0
@@ -86,12 +106,10 @@ let g:completor_gocode_binary = '~/Documents/Go/bin/gocode'
 
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
 
 " ultisnips {{{2
-let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
-let g:UltiSnipsJumpForwardTrigger = "<C-n>"
-let g:UltiSnipsJumpBackwardTrigger = "<C-p>"
+let g:UltiSnipsSnippetsDir = '~/.vim/ultisnips'
+let g:UltiSnipsSnippetDirectories=['~/.vim/ultisnips','UltiSnips']
 
 " use enter as expand trigger
 let g:UltiSnipsExpandTrigger = "<nop>"
@@ -216,7 +234,6 @@ map <silent> <leader>n :call NumberToggle()<cr>
 
 map <leader>/ <plug>NERDCommenterToggle
 nnoremap <Leader>f :NERDTreeToggle<Enter>
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 nnoremap <silent> <Leader>bd :Bclose<CR>
 nnoremap <silent> <Leader>bD :Bclose!<CR>

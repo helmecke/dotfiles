@@ -1,0 +1,63 @@
+[submodule "vim/.vim/pack/bundle/opt/colors-solarized"]
+	path = vim/.vim/pack/bundle/opt/colors-solarized
+	url = https://github.com/altercation/vim-colors-solarized.git
+[submodule "vim/.vim/pack/bundle/opt/nerdtree"]
+	path = vim/.vim/pack/bundle/opt/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "vim/.vim/pack/bundle/opt/airline"]
+	path = vim/.vim/pack/bundle/opt/airline
+	url = https://github.com/vim-airline/vim-airline.git
+[submodule "vim/.vim/pack/bundle/opt/airline-themes"]
+	path = vim/.vim/pack/bundle/opt/airline-themes
+	url = https://github.com/vim-airline/vim-airline-themes.git
+[submodule "vim/.vim/pack/bundle/opt/ale"]
+	path = vim/.vim/pack/bundle/opt/ale
+	url = https://github.com/w0rp/ale.git
+[submodule "vim/.vim/pack/bundle/opt/arduino"]
+	path = vim/.vim/pack/bundle/opt/arduino
+	url = https://github.com/stevearc/vim-arduino.git
+[submodule "vim/.vim/pack/bundle/opt/completor"]
+	path = vim/.vim/pack/bundle/opt/completor
+	url = https://github.com/maralla/completor.vim.git
+[submodule "vim/.vim/pack/bundle/opt/fugitive"]
+	path = vim/.vim/pack/bundle/opt/fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule "vim/.vim/pack/bundle/opt/go"]
+	path = vim/.vim/pack/bundle/opt/go
+	url = https://github.com/fatih/vim-go.git
+[submodule "vim/.vim/pack/bundle/opt/indentline"]
+	path = vim/.vim/pack/bundle/opt/indentline
+	url = https://github.com/Yggdroot/indentLine.git
+[submodule "vim/.vim/pack/bundle/opt/markdown"]
+	path = vim/.vim/pack/bundle/opt/markdown
+	url = https://github.com/plasticboy/vim-markdown.git
+[submodule "vim/.vim/pack/bundle/opt/nerdcommenter"]
+	path = vim/.vim/pack/bundle/opt/nerdcommenter
+	url = https://github.com/scrooloose/nerdcommenter.git
+[submodule "vim/.vim/pack/bundle/opt/repeat"]
+	path = vim/.vim/pack/bundle/opt/repeat
+	url = https://github.com/tpope/vim-repeat.git
+[submodule "vim/.vim/pack/bundle/opt/surround"]
+	path = vim/.vim/pack/bundle/opt/surround
+	url = https://github.com/tpope/vim-surround.git
+[submodule "vim/.vim/pack/bundle/opt/unimpaired"]
+	path = vim/.vim/pack/bundle/opt/unimpaired
+	url = https://github.com/tpope/vim-unimpaired.git
+[submodule "vim/.vim/pack/bundle/opt/helm"]
+	path = vim/.vim/pack/bundle/opt/helm
+	url = https://github.com/towolf/vim-helm.git
+[submodule "vim/.vim/pack/bundle/opt/vifm"]
+	path = vim/.vim/pack/bundle/opt/vifm
+	url = https://github.com/vifm/vifm.vim.git
+[submodule "vim/.vim/pack/bundle/opt/toml"]
+	path = vim/.vim/pack/bundle/opt/toml
+	url = https://github.com/cespare/vim-toml.git
+[submodule "vim/.vim/pack/bundle/opt/rhubarb"]
+	path = vim/.vim/pack/bundle/opt/rhubarb
+	url = https://github.com/tpope/vim-rhubarb.git
+[submodule "vim/.vim/pack/bundle/opt/ultisnips"]
+	path = vim/.vim/pack/bundle/opt/ultisnips
+	url = https://github.com/SirVer/ultisnips.git
+[submodule "vim/.vim/pack/bundle/opt/snippets"]
+	path = vim/.vim/pack/bundle/opt/snippets
+	url = https://github.com/honza/vim-snippets.git
