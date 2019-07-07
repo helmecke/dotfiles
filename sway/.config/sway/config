@@ -1,25 +1,23 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
+# vim: fdm=marker
 # Read `man 5 sway` for a complete reference.
 
-### Variables
-#
-# Logo key. Use Mod1 for Alt.
+# Variables {{{1
+# Logo key. Use Mod1 for Alt. {{{2
 set $mod Mod4
-# Home row direction keys, like vim
+# Home row direction keys, like vim {{{2
 set $left h
 set $down j
 set $up k
 set $right l
-# Your preferred terminal emulator
+
+# Your preferred terminal emulator {{{2
 set $term termite
-# Your preferred application launcher
+
+# Your preferred application launcher {{{2
 # Note: it's recommended that you pass the final command to sway
 set $menu rofi -show combi
 
-# Solarized colors
+# Solarized colors {{{2
 set $S_base03        #002b36
 set $S_base02        #073642
 set $S_base01        #586e75
@@ -38,23 +36,19 @@ set $S_blue          #268bd2
 set $S_cyan          #2aa198
 set $S_green         #859900
 
+# Font {{{1
 font InconsolataGo Nerd Font 14
-### Output configuration
-#
-# Default wallpaper
-# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output eDP1 bg ~/Pictures/Wallpaper/solarized-root.png center $S_base02
-#
+
+# Output configuration {{{1
+output * bg ~/Pictures/Wallpaper/solarized-root.png center $S_base02
+
 # Example configuration:
 #
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
-### Idle configuration
-#
-# Example configuration:
-#
+# Idle configuration {{{1
 exec swayidle -w \
    timeout 300 'swaylock -f -c 000000' \
    timeout 600 'swaymsg "output * dpms off"' \
@@ -65,24 +59,20 @@ exec swayidle -w \
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 
-### Input configuration
-#
-# Example configuration:
-#
+# Input configuration {{{1
 input "1739:30383:DLL075B:01_06CB:76AF_Touchpad" {
     dwt enabled
     tap enabled
     # natural_scroll enabled
     middle_emulation enabled
 }
-#
+
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
-### Key bindings
-#
-# Basics:
-#
+# Key bindings {{{1
+# Basics {{{2
+
     # start a terminal
     bindsym $mod+Return exec $term
 
@@ -103,34 +93,26 @@ input "1739:30383:DLL075B:01_06CB:76AF_Touchpad" {
     bindsym $mod+Control+r reload
 
     # exit sway (logs you out of your Wayland session)
-    bindsym $mod+Control+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes exit sway' 'swaymsg exit'
-#
-# Moving around:
-#
+    bindsym $mod+Control+q exec swaynag -t warning \
+        -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' \
+        -b 'Yes exit sway' 'swaymsg exit'
+
+# Moving around {{{2
+
     # Move your focus around
     bindsym $mod+$left focus left
     bindsym $mod+$down focus down
     bindsym $mod+$up focus up
     bindsym $mod+$right focus right
-    # or use $mod+[up|down|left|right]
-    bindsym $mod+Left focus left
-    bindsym $mod+Down focus down
-    bindsym $mod+Up focus up
-    bindsym $mod+Right focus right
 
     # _move_ the focused window with the same, but add Shift
     bindsym $mod+Shift+$left move left
     bindsym $mod+Shift+$down move down
     bindsym $mod+Shift+$up move up
     bindsym $mod+Shift+$right move right
-    # ditto, with arrow keys
-    bindsym $mod+Shift+Left move left
-    bindsym $mod+Shift+Down move down
-    bindsym $mod+Shift+Up move up
-    bindsym $mod+Shift+Right move right
-#
-# Workspaces:
-#
+
+# Workspaces {{{2
+
     # switch to workspace
     bindsym $mod+1 workspace 1
     bindsym $mod+2 workspace 2
@@ -155,9 +137,10 @@ input "1739:30383:DLL075B:01_06CB:76AF_Touchpad" {
     bindsym $mod+Shift+0 move container to workspace 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
-#
-# Layout stuff:
-#
+    bindsym $mod+n workspace next
+
+# Layout stuff {{{2
+
     default_border pixel 3
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
@@ -183,9 +166,9 @@ input "1739:30383:DLL075B:01_06CB:76AF_Touchpad" {
 
     # move focus to the parent container
     bindsym $mod+a focus parent
-#
-# Scratchpad:
-#
+
+# Scratchpad {{{2
+
     # Sway has a "scratchpad", which is a bag of holding for windows.
     # You can send windows there and get them back later.
 
@@ -197,9 +180,8 @@ input "1739:30383:DLL075B:01_06CB:76AF_Touchpad" {
     # them.
     bindsym $mod+minus scratchpad show
 
-#
-# Custom
-#
+# Custom {{{2
+
     bindsym $mod+w workspace ; \
         exec [ $(pgrep -c chrome) = 0 ] && \
         google-chrome-stable
@@ -231,11 +213,18 @@ input "1739:30383:DLL075B:01_06CB:76AF_Touchpad" {
     bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+ unmute
     bindsym XF86AudioLowerVolume exec amixer -q set Master 5%- unmute
     bindsym XF86AudioMute exec amixer -q set Master toggle
-    bindsym XF86AudioPlay exec mpc toggle -q
-    bindsym XF86AudioNext exec mpc next -q
-    bindsym XF86AudioPrev mpc prev -q
     bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
     bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+
+    # Spotify related key bindings
+    bindsym XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+    bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+    bindsym XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+    bindsym XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+
+    # bindsym XF86AudioPlay exec mpc toggle -q
+    # bindsym XF86AudioNext exec mpc next -q
+    # bindsym XF86AudioPrev mpc prev -q
 
     bindsym $mod+Control+h move workspace to output left
     bindsym $mod+Control+l move workspace to output right
@@ -248,16 +237,16 @@ input "1739:30383:DLL075B:01_06CB:76AF_Touchpad" {
     bindsym Print+Shift exec slurp | grim -g - $(xdg-user-dir PICTURES)/$(date +'%Y-%m-%d-%H%M%S_grim.png')
     bindsym Print+Mod1 exec slurp | grim -g - - | wl-copy
 
-#
-# Custom window rules
-#
+
+# Window rules {{{1
 # use: swaymsg -t get_tree
     for_window [app_id="calculator"] floating enable
     for_window [app_id="gnome-calculator"] floating enable
+    for_window [app_id="libreoffice-startcenter"] move container to workspace  ; workspace 
+    for_window [instance="spotify"] move container to workspace  ; workspace  
 
-#
-# Resizing containers:
-#
+# Resizing containers {{{1
+
 mode "resize" {
     # left will shrink the containers width
     # right will grow the containers width
@@ -280,16 +269,14 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-# window colors
+# Window colors {{{1
 #                       border      background  text        indicator   child_border
 client.focused          $S_base01   $S_base01   $S_base3    $S_green    $S_base01
 client.unfocused        $S_base03   $S_base03   $S_base0    $S_base03   $S_base02
 client.focused_inactive $S_base01   $S_base01   $S_base3    $S_base03   $S_base02
 client.urgent           $S_red      $S_base03   $S_base03   $S_base03   $S_red
 
-#
-# Status Bar:
-#
+# Status Bar {{{1
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     position top
@@ -312,4 +299,6 @@ bar {
 
 }
 
+# Startup {{{1
 exec setxkbmap de
+exec mako
