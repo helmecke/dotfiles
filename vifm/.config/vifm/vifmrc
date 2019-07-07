@@ -101,8 +101,9 @@ set statusline="  Hint: %z%= %A %10u:%-7g %15s %20d  "
 " Bookmarks {{{1
 " :mark mark /full/directory/path [filename]
 
-mark b ~/bin/
-mark h ~/
+mark B ~/.local/bin/
+mark D ~/.dotfiles/
+mark H ~/
 
 " Commands {{{1
 " :com[mand][!] command_name action
@@ -133,6 +134,11 @@ command Gstatus tig status
 command Gblame tig blame %f
 command Gbrowse hub browse
 command! Gclean git branch --merged | grep -v \* | xargs git branch -D
+
+" fzf commands
+command! FZFlocate :execute 'goto "'.system('locate $HOME | fzf --height 10 2>/dev/tty ').'"%IU'
+command! FZFfind :execute 'goto "'.system('find 2>/dev/null | fzf 2>/dev/tty ').'"%IU'
+command! FZFcd :execute 'cd "'.system('find -type d 2>/dev/null | fzf 2>/dev/tty ').'"%IU'
 
 " Filetypes {{{1
 " The file type is for the default programs to be used with
@@ -450,6 +456,9 @@ nnoremap I za
 
 " Open console in current directory
 nnoremap ,t :!termite >/dev/null 2>&1 &<cr>
+
+nnoremap <c-t> :FZFfind<cr>
+nnoremap <a-c> :FZFcd<cr>
 
 " Various customization examples {{{1
 
