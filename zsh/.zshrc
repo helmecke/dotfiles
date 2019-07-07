@@ -111,6 +111,13 @@ export KEYTIMEOUT=20
 
 # Easier, more vim-like editor opening
 bindkey -M vicmd v edit-command-line
+
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
 # aliases {{{1
 if ! type sw_vers > /dev/null 2>&1; then
   alias ls="ls --color=auto"
