@@ -58,9 +58,8 @@ if [[ -f /usr/share/zsh-theme-powerlevel9k/powerlevel9k.zsh-theme && "$DISPLAY" 
 # powerlevel9k {{{1
 # settings {{{2
 POWERLEVEL9K_MODE="nerdfont-fontconfig"
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(vi_mode ssh context dir rbenv virtualenv vcs)
-# POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs command_execution_time)
-POWERLEVEL9K_DISABLE_RPROMPT=true
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(vi_mode ssh dir rbenv virtualenv vcs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(kubecontext root_indicator)
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
 POWERLEVEL9K_STATUS_VERBOSE=false
 POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=3
@@ -89,6 +88,10 @@ POWERLEVEL9K_VI_MODE_NORMAL_BACKGROUND="11"
 POWERLEVEL9K_VI_MODE_NORMAL_FOREGROUND="white"
 POWERLEVEL9K_VI_INSERT_MODE_STRING="%BINSERT%b"
 POWERLEVEL9K_VI_COMMAND_MODE_STRING="%BNORMAL%b"
+POWERLEVEL9K_KUBECONTEXT_BACKGROUND="11"
+POWERLEVEL9K_KUBECONTEXT_FOREGROUND="white"
+POWERLEVEL9K_ROOT_INDICATOR_BACKGROUND="red"
+POWERLEVEL9K_ROOT_INDICATOR_FOREGROUND="white"
 
 fi
 
@@ -115,8 +118,10 @@ bindkey -M vicmd v edit-command-line
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+bindkey '^F' fzf-file-widget
+bindkey -M vicmd '^F' fzf-file-widget
+bindkey '^G' fzf-cd-widget
+bindkey -M vicmd '^G' fzf-cd-widget
 
 # aliases {{{1
 if ! type sw_vers > /dev/null 2>&1; then
@@ -134,6 +139,7 @@ alias pac-rank-mirror="sudo reflector --verbose --country 'Germany' -l 200 -p ht
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 alias git-remove-local-branches='git branch -D `git branch --merged | grep -v \* | xargs`'
+alias lzd='lazydocker'
 
 if [[ -a /usr/bin/virtualenvwrapper.sh ]]; then
   export WORKON_HOME=$HOME/.virtualenvs
@@ -162,3 +168,5 @@ function pet-select() {
 zle -N pet-select
 stty -ixon
 bindkey '^s' pet-select
+
+eval "$(jira --completion-script-zsh)"
