@@ -1,4 +1,4 @@
 let g:completor_gocode_binary = '~/Documents/Go/bin/gocode-gomod'
 
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <Expr> <Tab> pumvisible() ? "\<C-N>" : "\<Tab>"
+inoremap <Expr> <S-Tab> pumvisible() ? "\<C-P>" : "\<S-Tab>"

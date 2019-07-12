@@ -6,4 +6,6 @@ function! NumberToggle()
     set relativenumber
     set number
   endif
-endfunc
+endfunction
+
+map <Silent> <Leader>n :call NumberToggle()<CR>
