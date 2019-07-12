@@ -1,1 +1,1 @@
-setlocal tabstop=2 shiftwidth=2 expandtab indentkeys-=<:>
+setlocal tabstop=2 shiftwidth=2 expandtab

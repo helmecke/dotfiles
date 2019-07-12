@@ -1,2 +1,4 @@
-let NERDSpaceDelims = 1
-let g:NERDCompactSexyComs = 0
+let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'left'
+
+map <Leader>/ <Plug>NERDCommenterToggle
