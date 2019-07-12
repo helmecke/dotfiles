@@ -5,7 +5,9 @@ if has('packages')
   packadd! arduino
   packadd! completor
   packadd! fugitive
+  packadd! fzf
   packadd! go
+  packadd! graphviz
   packadd! helm
   packadd! indentline
   packadd! markdown
