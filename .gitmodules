@@ -61,3 +61,9 @@
 [submodule "vim/.vim/pack/bundle/opt/snippets"]
 	path = vim/.vim/pack/bundle/opt/snippets
 	url = https://github.com/honza/vim-snippets.git
+[submodule "vim/.vim/pack/bundle/opt/graphviz"]
+	path = vim/.vim/pack/bundle/opt/graphviz
+	url = https://github.com/wannesm/wmgraphviz.vim.git
+[submodule "vim/.vim/pack/bundle/opt/fzf"]
+	path = vim/.vim/pack/bundle/opt/fzf
+	url = https://github.com/junegunn/fzf.vim.git
