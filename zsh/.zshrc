@@ -14,7 +14,6 @@ HISTSIZE=10000000
 SAVEHIST=10000000
 ZLE_RPROMPT_INDENT=0
 TERM=xterm-256color
-PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
