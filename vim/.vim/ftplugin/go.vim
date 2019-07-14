@@ -1,12 +1,12 @@
 setlocal tabstop=4 shiftwidth=4 foldmethod=syntax
 
-map <Buffer> <Localleader>b <Plug>(go-build)
-map <Buffer> <Localleader>r <Plug>(go-run)
-map <Buffer> <Localleader>t <Plug>(go-test)
-map <Buffer> <Localleader>i <Plug>(go-info)
-map <Buffer> <Localleader>c <Plug>(go-coverage-toggle)
-map <Buffer> <Localleader>a <Plug>(go-alternate-edit)
-map <Buffer> <Localleader>as <Plug>(go-alternate-split)
-map <Buffer> <Localleader>av <Plug>(go-alternate-vertical)
+map <buffer> <localleader>b <plug>(go-build)
+map <buffer> <localleader>r <plug>(go-run)
+map <buffer> <localleader>t <plug>(go-test)
+map <buffer> <localleader>i <plug>(go-info)
+map <buffer> <localleader>c <plug>(go-coverage-toggle)
+map <buffer> <localleader>a <plug>(go-alternate-edit)
+map <buffer> <localleader>as <plug>(go-alternate-split)
+map <buffer> <localleader>av <plug>(go-alternate-vertical)
 
-map <Buffer> <Silent> <C-]> <Plug>(go-def)
+map <buffer> <silent> <c-]> <plug>(go-def)
