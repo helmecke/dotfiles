@@ -10,8 +10,8 @@ function! ExpandSnippetOrCarriageReturn()
   if g:ulti_expand_or_jump_res > 0
     return snippet
   else
-    return "\<CR>"
+    return "\<cr>"
   endif
 endfunction
 
-inoremap <Expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
+inoremap <expr> <cr> pumvisible() ? "<c-r>=ExpandSnippetOrCarriageReturn()<cr>" : "\<cr>"

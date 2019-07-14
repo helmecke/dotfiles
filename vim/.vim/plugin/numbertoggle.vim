@@ -8,4 +8,4 @@ function! NumberToggle()
   endif
 endfunction
 
-map <Silent> <Leader>n :call NumberToggle()<CR>
+map <silent> <leader>n :call NumberToggle()<cr>
