@@ -139,7 +139,7 @@ command Git git %a
 " fzf commands
 command! FZFlocate :execute 'goto "'.system('locate $HOME | fzf --height 40%% 2>/dev/tty ').'"%IU' | redraw
 command! FZFfind :execute 'goto "'.system('eval $FZF_CTRL_T_COMMAND | fzf --height 40%% 2>/dev/tty ').'"%IU' | redraw
-command! FZFcd :execute 'cd "'.system('find -type d 2>/dev/null | fzf --height 40%% 2>/dev/tty ').'"%IU' | redraw
+command! FZFcd :execute 'cd "'.system('find ~ -type d 2>/dev/null | fzf --height 40%% 2>/dev/tty ').'"%IU' | redraw
 
 " Filetypes {{{1
 " The file type is for the default programs to be used with
