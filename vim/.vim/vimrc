@@ -16,6 +16,7 @@ if has('packages')
   packadd! repeat
   packadd! rhubarb
   packadd! snippets
+  packadd! startify
   packadd! surround
   packadd! toml
   packadd! ultisnips
