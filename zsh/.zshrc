@@ -1,7 +1,14 @@
 # vim: fdm=marker
+if [[ -n "$XDG_CACHE_HOME/zsh" ]]; then
+  mkdir -p "$XDG_CACHE_HOME/zsh"
+fi
+
+if [[ -n "$XDG_DATA_HOME/zsh" ]]; then
+  mkdir -p "$XDG_DATA_HOME/zsh"
+fi
 
 autoload -Uz compinit
-compinit
+compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
 
 if [[ $TERM == xterm-termite ]]; then
   . /etc/profile.d/vte.sh
@@ -9,7 +16,7 @@ if [[ $TERM == xterm-termite ]]; then
 fi
 
 # Lines configured by zsh-newuser-install
-HISTFILE="$HOME/.zhistory"
+HISTFILE="$XDG_DATA_HOME/zsh/history"
 HISTSIZE=10000000
 SAVEHIST=10000000
 ZLE_RPROMPT_INDENT=0

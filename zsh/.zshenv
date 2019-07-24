@@ -1,3 +1,7 @@
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+
 export VISUAL="vim"
 export EDITOR="vim"
 
@@ -7,7 +11,7 @@ export GOPATH=~/Documents/Go
 export GOROOT=/usr/lib/go
 export GO111MODULE=on
 
-export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOPATH/bin:${KREW_ROOT:-$HOME/.krew}/bin
 
 export FZF_DEFAULT_OPTS='--layout=default'
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.cache,.git,node_modules}/*" 2> /dev/null'
