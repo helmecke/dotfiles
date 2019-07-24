@@ -1,0 +1,61 @@
+// vim: ft=json
+{
+  "height": 27,
+  "layer": "top",
+  "position": "top",
+  "modules-left": ["sway/workspaces", "sway/mode"],
+  "modules-center": [],
+  "modules-right": ["idle_inhibitor", "pulseaudio", "network", "backlight", "battery", "clock#1", "clock#2"],
+  "sway/workspaces": {
+    "format": "{name}"
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "deactivated": "鈴",
+      "activated": "零"
+    }
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "",
+    "format-icons": {
+      "speaker": "",
+      "headphones": ""
+    },
+    "on-click": "pavucontrol",
+    "tooltip": false,
+    "scroll-step": 5,
+    "smooth-scrolling-threshold": 0.1
+  },
+  "network": {
+    "format": "{icon} {signalStrength}%",
+    "format-alt": "{ipaddr}/{cidr} {icon}",
+    "format-alt-click": "click-right",
+    "format-icons": {
+        "wifi": ["直"],
+        "ethernet": [""],
+        "disconnected": ["睊"]
+    },
+    "on-click": "termite -e nmtui",
+  "tooltip": false
+  },
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": [""]
+  },
+  "battery": {
+    "format": "{icon} {capacity}%",
+    "format-icons": ["", "", "", "", ""],
+      "states": {
+          "warning": 30,
+          "critical": 15
+      }
+  },
+  "clock#1": {
+    "format": " {:%H:%M}"
+  },
+  "clock#2": {
+    "format": " {:%d.%m.%y}"
+  }
+}
