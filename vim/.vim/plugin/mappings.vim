@@ -21,11 +21,11 @@ let mapleader=","
 let maplocalleader=";"
 
 nnoremap <leader><leader> <c-^>
-nnoremap <leader>o :only<cr>
-nnoremap <leader>bd :bw<cr>
-nnoremap <leader>bD :bw!<cr>
-nnoremap <leader>Bd :bufdo bw<cr>
-nnoremap <leader>BD :bufdo bw!<cr>
+nnoremap <silent> <leader>o :only<cr>
+nnoremap <silent> <leader>bd :bw<cr>
+nnoremap <silent> <leader>bD :bw!<cr>
+nnoremap <silent> <leader>Bd :bufdo bw<cr>
+nnoremap <silent> <leader>BD :bufdo bw!<cr>
 
 nnoremap <silent> <leader><space> :noh<cr>
 
