@@ -286,26 +286,8 @@ client.urgent           $S_red      $S_base03   $S_base03   $S_base03   $S_red
 # Status Bar {{{1
 # Read `man 5 sway-bar` for more information about this section.
 bar {
-    position top
-    height 24
-    font InconsolataGo Nerd Font 14
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command SCRIPT_DIR=~/.local/bin/i3blocks-contrib i3blocks
-
-    colors {
-        background $S_base03
-        statusline $S_base0
-        separator  $S_base01
-        focused_workspace   $S_yellow    $S_yellow   $S_base03
-        active_workspace    $S_base01    $S_base01   $S_base03
-        inactive_workspace  $S_base02    $S_base03   $S_base0
-        urgent_workspace    $S_red       $S_red      $S_base3
-    }
-
+    swaybar_command waybar
 }
 
 # Startup {{{1
-exec setxkbmap de
 exec mako
