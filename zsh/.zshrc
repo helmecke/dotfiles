@@ -146,6 +146,7 @@ alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 alias git-remove-local-branches='git branch -D `git branch --merged | grep -v \* | xargs`'
 alias lzd='lazydocker'
+alias vim=nvim
 
 if [[ -a /usr/bin/virtualenvwrapper.sh ]]; then
   export WORKON_HOME=$HOME/.virtualenvs
