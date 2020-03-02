@@ -1,13 +1,18 @@
 {
   "suggest.noselect": false,
+  "coc.preferences.formatOnSaveFiletypes": ["go"],
   "python.jediEnabled": false,
-  "python.linting.flake8Enabled": true,
   "python.linting.enabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.mypyEnabled": true,
   "languageserver": {
     "golang": {
       "command": "gopls",
-      "rootPatterns": ["go.mod"],
-      "filetypes": ["go"]
+      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+      "filetypes": ["go"],
+      "initializationOptions": {
+        "usePlaceholders": true
+      }
     }
   }
 }

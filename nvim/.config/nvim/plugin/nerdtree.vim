@@ -3,5 +3,5 @@ let g:NERDTreeAutoDeleteBuffer = 1
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeWinSize = 40
 
-map <leader>f :NERDTreeToggle<cr>
-map <leader>l :NERDTreeFind %<cr>
+map <silent> <leader>f :NERDTreeToggle<cr>
+map <silent> <leader>l :NERDTreeFind %<cr>

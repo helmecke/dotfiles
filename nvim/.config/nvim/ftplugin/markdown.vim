@@ -1,1 +1,1 @@
-noremap <buffer> <localleader>b :silent exec "!google-chrome-stable %:p"
+setlocal conceallevel=0 shiftwidth=2
