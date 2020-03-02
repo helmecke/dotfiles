@@ -1,0 +1,6 @@
+[General]
+  snippetdirs = ["/home/jhe/Documents/Github/helmecke/pet-snippets/", "/home/jhe/Documents/Github/t3n/pet-snippets/"]
+  editor = "nvim"
+  column = 40
+  selectcmd = "fzf --ansi -m"
+  sortby = ""
