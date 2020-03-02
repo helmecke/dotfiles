@@ -101,9 +101,11 @@ set statusline="  Hint: %z%= %A %10u:%-7g %15s %20d  "
 " Bookmarks {{{1
 " :mark mark /full/directory/path [filename]
 
-mark B ~/.local/bin/
-mark D ~/.dotfiles/
-mark H ~/
+mark b ~/.local/bin/
+mark d ~/.dotfiles/
+mark h ~/
+mark m /run/media/jhe/
+mark t ~/Documents/Github/t3n/
 
 " Commands {{{1
 " :com[mand][!] command_name action
@@ -140,6 +142,9 @@ command Git git %a
 command! FZFlocate :execute 'goto "'.system('locate $HOME | fzf --height 40%% 2>/dev/tty ').'"%IU' | redraw
 command! FZFfind :execute 'goto "'.system('eval $FZF_CTRL_T_COMMAND | fzf --height 40%% 2>/dev/tty ').'"%IU' | redraw
 command! FZFcd :execute 'cd "'.system('find ~ -type d 2>/dev/null | fzf --height 40%% 2>/dev/tty ').'"%IU' | redraw
+
+" rsync commands
+command rsync rsync -a %f %D
 
 " Filetypes {{{1
 " The file type is for the default programs to be used with
@@ -405,8 +410,10 @@ nnoremap S :sort<cr>
 nnoremap w :view<cr>
 vnoremap w :view<cr>gv
 
+" Open file in existing instance of nvim
+nnoremap o :!nvr -l %f && swaymsg workspace 7:<cr>
 " Open file in new instance of gvim
-nnoremap o :!nvim %f<cr>
+nnoremap O :!nvim %f<cr>
 
 " Open file in the background using its default program
 nnoremap gb :file &<cr>l
