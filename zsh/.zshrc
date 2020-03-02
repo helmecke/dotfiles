@@ -64,8 +64,9 @@ if [[ -f /usr/share/zsh-theme-powerlevel9k/powerlevel9k.zsh-theme && "$DISPLAY" 
 # powerlevel9k {{{1
 # settings {{{2
 POWERLEVEL9K_MODE="nerdfont-fontconfig"
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(vi_mode ssh dir rbenv virtualenv vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(kubecontext root_indicator)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(vi_mode root_indicator ssh dir rbenv virtualenv vcs)
+POWERLEVEL9K_DISABLE_RPROMPT=true
+# POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
 POWERLEVEL9K_STATUS_VERBOSE=false
 POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=3
@@ -96,14 +97,13 @@ POWERLEVEL9K_VI_INSERT_MODE_STRING="%BINSERT%b"
 POWERLEVEL9K_VI_COMMAND_MODE_STRING="%BNORMAL%b"
 POWERLEVEL9K_KUBECONTEXT_BACKGROUND="11"
 POWERLEVEL9K_KUBECONTEXT_FOREGROUND="white"
-POWERLEVEL9K_ROOT_INDICATOR_BACKGROUND="red"
+POWERLEVEL9K_ROOT_INDICATOR_BACKGROUND="11"
 POWERLEVEL9K_ROOT_INDICATOR_FOREGROUND="white"
 
 fi
 
 # keybinds {{{1
 bindkey -v
-bindkey -M viins 'jj' vi-cmd-mode
 unsetopt MULTIBYTE
 bindkey "${terminfo[khome]}" beginning-of-line
 bindkey "${terminfo[kend]}" end-of-line
@@ -136,6 +136,8 @@ fi
 alias l="ls -h"
 alias ll="ls -lh"
 alias lla="ls -lha"
+# A trailing space in VALUE causes the next word to be checked for alias substitution when the alias is expanded.
+alias watch="watch "
 alias rdesktop="rdesktop -k de -r clipboard:PRIMARYCLIPBOARD -g 1366x738 -z"
 alias poweroff="sudo poweroff"
 alias reboot="sudo reboot"
@@ -147,15 +149,27 @@ alias pbpaste='xsel --clipboard --output'
 alias git-remove-local-branches='git branch -D `git branch --merged | grep -v \* | xargs`'
 alias lzd='lazydocker'
 alias vim=nvim
+alias kubetail='kubetail -k false '
+alias Gclean='git branch --merged | grep -v \* | xargs git branch -D'
 
 if [[ -a /usr/bin/virtualenvwrapper.sh ]]; then
   export WORKON_HOME=$HOME/.virtualenvs
   source /usr/bin/virtualenvwrapper.sh
 fi
 
+alias helm='helm2'
+alias helm3='/usr/bin/helm '
+
 # helper functions {{{1
 alias _inline_fzf="fzf --multi --ansi -i -1 --height=50% --reverse -0 --header-lines=1 --inline-info --border"
 alias _inline_fzf_nh="fzf --multi --ansi -i -1 --height=50% --reverse -0 --inline-info --border"
+
+# mkdir, cd into it (via http://onethingwell.org/post/586977440/mkcd-improved)
+function mkcd () {
+    mkdir -p "$*"
+    cd "$*"
+}
+
 # kubenetes {{{1
 # kubectl {{{2
 alias k="kubectl"
@@ -166,6 +180,11 @@ alias kns="kubens"
 
 source /opt/google-cloud-sdk/completion.zsh.inc
 source /usr/share/zsh/site-functions/_minikube
+
+function pet-prev() {
+  PREV=$(fc -lrn | head -n 1)
+  sh -c "pet new `printf %q "$PREV"`"
+}
 
 function pet-select() {
   BUFFER=$(pet search --query "$LBUFFER")
