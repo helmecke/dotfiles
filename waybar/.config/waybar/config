@@ -5,7 +5,7 @@
   "position": "top",
   "modules-left": ["sway/workspaces", "sway/mode"],
   "modules-center": [],
-  "modules-right": ["idle_inhibitor", "pulseaudio", "network", "backlight", "battery", "clock#1", "clock#2"],
+  "modules-right": ["custom/kubecontext", "idle_inhibitor", "pulseaudio", "network#wlan", "network#lan", "backlight", "battery", "clock#1", "clock#2"],
   "sway/workspaces": {
     "format": "{name}"
   },
@@ -14,35 +14,52 @@
     "format-icons": {
       "deactivated": "鈴",
       "activated": "零"
-    }
+    },
+    "tooltip": false
   },
   "pulseaudio": {
     "format": "{icon} {volume}%",
     "format-muted": "",
     "format-icons": {
-      "speaker": "",
-      "headphones": ""
+      "headphones": "",
+      "handsfree": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "speaker": ["", ""],
+      "default": ""
     },
     "on-click": "pavucontrol",
+    "on-click-right": "pacmd set-sink-port 0 analog-output-headphones",
     "tooltip": false,
     "scroll-step": 5,
     "smooth-scrolling-threshold": 0.1
   },
-  "network": {
+  "network#lan": {
+    "interface": "enp57s0u1u2",
+    "format-ethernet": " {ipaddr}/{cidr}",
+    "format-disconnected": "",
+    "on-click": "termite -e nmtui",
+    "tooltip": false
+  },
+  "network#wlan": {
+    "interface": "wlp2s0",
     "format": "{icon} {signalStrength}%",
-    "format-alt": "{ipaddr}/{cidr} {icon}",
-    "format-alt-click": "click-right",
     "format-icons": {
         "wifi": ["直"],
-        "ethernet": [""],
         "disconnected": ["睊"]
     },
     "on-click": "termite -e nmtui",
-  "tooltip": false
+    "tooltip": false
   },
   "backlight": {
     "format": "{icon} {percent}%",
-    "format-icons": [""]
+    "format-icons": [""],
+    "on-click": "brightnessctl set 100%",
+    "on-scroll-up": "brightnessctl set +5%",
+    "on-scroll-down": "brightnessctl set 5%-",
+    "smooth-scrolling-threshold": 0.1
   },
   "battery": {
     "format": "{icon} {capacity}%",
@@ -53,9 +70,17 @@
       }
   },
   "clock#1": {
-    "format": " {:%H:%M}"
+    "format": " {:%H:%M}",
+    "tooltip": false
   },
   "clock#2": {
-    "format": " {:%d.%m.%y}"
+    "format": " {:%d.%m.%y}",
+    "tooltip": false
+  },
+  "custom/kubecontext": {
+    "exec": "$HOME/.local/bin/kubecontext; while inotifywait -q -e modify $HOME/.kube/config > /dev/null; do $HOME/.local/bin/kubecontext; done",
+    "format": "⎈ {}",
+    "format-alt": "⎈",
+    "tooltip": false
   }
 }

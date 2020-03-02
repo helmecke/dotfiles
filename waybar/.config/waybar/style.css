@@ -37,6 +37,7 @@ window#waybar {
 #mode {
     background-color: #073642;
     border-bottom: 3px solid #d33682;
+    margin: 0 10px;
 }
 
 #clock,
@@ -54,10 +55,13 @@ window#waybar {
     padding: 0 7px;
 }
 
+#custom-kubecontext {
+    padding: 0 15px;
+}
+
 @keyframes blink {
     to {
-        background-color: #ffffff;
-        color: #000000;
+        color: #dc322f;
     }
 }
 
@@ -67,8 +71,6 @@ window#waybar {
     animation-iteration-count: infinite;
     animation-name: blink;
     animation-timing-function: linear;
-    background-color: #f53c3c;
-    color: #ffffff;
 }
 
 label:focus {
