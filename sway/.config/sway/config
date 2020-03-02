@@ -10,13 +10,15 @@ set $down j
 set $up k
 set $right l
 
-# Your preferred terminal emulator {{{2
+# Your preferred applications {{{2
 set $term termite
 
-# Your preferred application launcher {{{2
+# Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
 set $menu rofi -show combi
+set $menu termite --name=launcher -e "$HOME/.local/bin/launcher"
 
+set $browser qutebrowser
 # Solarized colors {{{2
 set $S_base03        #002b36
 set $S_base02        #073642
@@ -36,45 +38,75 @@ set $S_blue          #268bd2
 set $S_cyan          #2aa198
 set $S_green         #859900
 
+# Workspaces {{{2
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws4 4
+set $ws5 5:
+set $ws6 6:
+set $ws7 7:
+set $ws8 8:
+set $ws9 9:
+
 # Font {{{1
-font InconsolataGo Nerd Font 14
+font InconsolataGo Nerd Font 11
 
 # Output configuration {{{1
 output * bg ~/Pictures/Wallpaper/solarized-root.png center $S_base02
 
-# Example configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
+output "eDP-1" {
+    position 0 360
+    # position 0 660
+    # position 640 1800
+    # scale 1.2
+}
 
-# Idle configuration {{{1
-exec swayidle -w \
-   timeout 300 'swaylock -f -c 000000' \
-   timeout 600 'swaymsg "output * dpms off"' \
-      resume 'swaymsg "output * dpms on"' \
-   before-sleep 'swaylock -f -c 000000'
+output "DP-1" {
+    # position 1372 0
+    position 1920 0
+    scale 1.5
+}
 
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
+output "DP-2" {
+    # position 1372 0
+    position 1920 0
+    scale 1.5
+}
+
+workspace $ws5 output DP-2
+workspace $ws6 output eDP-1
+workspace $ws7 output DP-2
+workspace $ws8 output DP-2
+workspace $ws9 output eDP-1
 
 # Input configuration {{{1
-input "1739:30383:DLL075B:01_06CB:76AF_Touchpad" {
+input "type:touchpad" {
     dwt enabled
     tap enabled
-    # natural_scroll enabled
+    drag enabled
     middle_emulation enabled
+    pointer_accel 0.5
 }
 
 input "*" {
-    repeat_delay 200
+    repeat_delay 400
+    repeat_rate 30
+    xkb_layout eu
+    xkb_options caps:escape
+}
+
+input "1133:45900:Keyboard_K370/K375_Keyboard" {
+    repeat_delay 250
     repeat_rate 40
     xkb_layout de
+    xkb_variant nodeadkeys
     xkb_numlock enabled
 }
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
+
+seat * hide_cursor 3000
 
 # Key bindings {{{1
 # Basics {{{2
@@ -98,11 +130,6 @@ input "*" {
     # reload the configuration file
     bindsym $mod+Shift+r reload
 
-    # exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+q exec swaynag -t warning \
-        -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' \
-        -b 'Yes exit sway' 'swaymsg exit'
-
 # Moving around {{{2
 
     # Move your focus around
@@ -120,34 +147,46 @@ input "*" {
 # Workspaces {{{2
 
     # switch to workspace
-    bindsym $mod+1 workspace 1
-    bindsym $mod+2 workspace 2
-    bindsym $mod+3 workspace 3
-    bindsym $mod+4 workspace 4
-    bindsym $mod+5 workspace 5
-    bindsym $mod+6 workspace 6
-    bindsym $mod+7 workspace 7
-    bindsym $mod+8 workspace 8
-    bindsym $mod+9 workspace 9
-    bindsym $mod+0 workspace 10
+    bindsym $mod+1 workspace $ws1
+    bindsym $mod+2 workspace $ws2
+    bindsym $mod+3 workspace $ws3
+    bindsym $mod+4 workspace $ws4
+    bindsym $mod+5 workspace $ws5
+    bindsym $mod+6 workspace $ws6
+    bindsym $mod+7 workspace $ws7
+    bindsym $mod+8 workspace $ws8
+    bindsym $mod+9 workspace $ws9
+
     # move focused container to workspace
-    bindsym $mod+Shift+1 move container to workspace 1
-    bindsym $mod+Shift+2 move container to workspace 2
-    bindsym $mod+Shift+3 move container to workspace 3
-    bindsym $mod+Shift+4 move container to workspace 4
-    bindsym $mod+Shift+5 move container to workspace 5
-    bindsym $mod+Shift+6 move container to workspace 6
-    bindsym $mod+Shift+7 move container to workspace 7
-    bindsym $mod+Shift+8 move container to workspace 8
-    bindsym $mod+Shift+9 move container to workspace 9
-    bindsym $mod+Shift+0 move container to workspace 10
-    # Note: workspaces can have any name you want, not just numbers.
-    # We just use 1-10 as the default.
-    bindsym $mod+n workspace next
+    bindsym $mod+Shift+1 move container to workspace $ws1
+    bindsym $mod+Shift+2 move container to workspace $ws2
+    bindsym $mod+Shift+3 move container to workspace $ws3
+    bindsym $mod+Shift+4 move container to workspace $ws4
+    bindsym $mod+Shift+5 move container to workspace $ws5
+    bindsym $mod+Shift+6 move container to workspace $ws6
+    bindsym $mod+Shift+7 move container to workspace $ws7
+    bindsym $mod+Shift+8 move container to workspace $ws8
+    bindsym $mod+Shift+9 move container to workspace $ws9
+
+    bindsym $mod+Shift+w move container to workspace $ws5
+    bindsym $mod+Shift+s move container to workspace $ws6
+    bindsym $mod+Shift+e move container to workspace $ws7
+    bindsym $mod+Shift+f move container to workspace $ws8
+    bindsym $mod+Shift+d move container to workspace $ws9
+
+    # move focused workspace to output
+    bindsym $mod+Control+$left move workspace to output left
+    bindsym $mod+Control+$down move workspace to output down
+    bindsym $mod+Control+$up move workspace to output  up
+    bindsym $mod+Control+$right move workspace to output right
 
 # Layout stuff {{{2
 
     default_border pixel 3
+
+    # Switch and move to previosly active workspace
+    workspace_auto_back_and_forth yes
+
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
@@ -159,16 +198,17 @@ input "*" {
     # bindsym $mod+w layout tabbed
     # bindsym $mod+e layout toggle split
     bindsym $mod+tab layout toggle
-    bindsym $mod+Shift+tab layout toggle split tabbed stacking
+    # bindsym $mod+Shift+tab layout toggle split tabbed stacking
 
     # Make the current focus fullscreen
-    bindsym $mod+Mod1+f fullscreen
+    bindsym $mod+Control+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+space floating toggle
+    bindsym $mod+Control+space floating toggle
 
     # Swap focus between the tiling area and the floating area
     # bindsym $mod+space focus mode_toggle
+    bindsym $mod+Shift+space focus mode_toggle
 
     # move focus to the parent container
     bindsym $mod+a focus parent
@@ -188,37 +228,28 @@ input "*" {
 
 # Custom {{{2
 
-    bindsym $mod+w workspace  ; \
-        exec [ $(pgrep -c chrome) = 0 ] && \
-        google-chrome-stable
-    bindsym $mod+e workspace  ; \
-        exec [ $(pgrep -cf '^vim.--servername.vim$') = 0 ] && \
-        termite -t vim -e 'vim --servername vim'
-    bindsym $mod+f workspace  ; \
+    bindsym $mod+w workspace $ws5; \
+        exec [ $(pgrep -c $browser) = 0 ] && \
+        $browser
+    # bindsym $mod+e workspace $ws7; \
+    #     exec [ $(pgrep -cf '^vim.--servername.vim$') = 0 ] && \
+    #     termite --name vim -t vim -e 'vim'
+    bindsym $mod+e workspace $ws7; \
+        exec [ $(pgrep -cf '^nvim$') = 0 ] && \
+        termite --name nvim -t nvim -e 'nvr'
+    bindsym $mod+f workspace $ws8; \
         exec [ $(pgrep -cf 'vifm$') = 0 ] && \
-        termite -t vifm -e 'vifm'
-    bindsym $mod+d workspace  ; \
+        termite --name vifm -t vifm -e 'vifm'
+    bindsym $mod+d workspace $ws9; \
         exec [ $(pgrep -c electron) = 0 ] && \
         keeweb&
-    bindsym $mod+s workspace  ; \
+    bindsym $mod+s workspace $ws6; \
         exec [ $(pgrep -c rambox) = 0 ] && \
         rambox
 
-    bindsym $mod+Shift+w move container to workspace 
-    bindsym $mod+Shift+e move container to workspace 
-    bindsym $mod+Shift+f move container to workspace 
-    bindsym $mod+Shift+d move container to workspace 
-    bindsym $mod+Shift+s move container to workspace 
-
-    bindsym $mod+p output eDP-1 pos 0 1080 res 1920x1080; \
-        output DP-1 pos 1920 0 res 3840x2160; \
-        output DP-1 scale 1.2
-
-    bindsym $mod+Mod1+l exec swaylock -c 000000
-
-    bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+ unmute
-    bindsym XF86AudioLowerVolume exec amixer -q set Master 5%- unmute
-    bindsym XF86AudioMute exec amixer -q set Master toggle
+    bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
+    bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
+    bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
     bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
     bindsym XF86MonBrightnessUp exec brightnessctl set +5%
 
@@ -232,28 +263,30 @@ input "*" {
     # bindsym XF86AudioNext exec mpc next -q
     # bindsym XF86AudioPrev mpc prev -q
 
-    bindsym $mod+Control+h move workspace to output left
-    bindsym $mod+Control+l move workspace to output right
-
     bindsym $mod+c exec wl-paste -p | wl-copy -n
-    bindsym $mod+v exec wl-paste
-    for_window [title="wl-clipboard"] floating enable
-
-    bindsym Print exec grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') $(xdg-user-dir PICTURES)/Screenshots/$(date +'%Y-%m-%d-%H%M%S.png')
-    bindsym Print+Shift exec slurp | grim -g - $(xdg-user-dir PICTURES)/Screenshots/$(date +'%Y-%m-%d-%H%M%S.png')
-    bindsym Print+Mod1 exec slurp | grim -g - - | wl-copy
-
 
 # Window rules {{{1
 # use: swaymsg -t get_tree
-    for_window [app_id="calculator"] floating enable
-    for_window [app_id="gnome-calculator"] floating enable
-    for_window [app_id="libreoffice-startcenter"] move container to workspace  ; workspace 
-    for_window [app_id="zathura"] move container to workspace  ; workspace 
-    for_window [instance="spotify"] move container to workspace  ; workspace  
+    for_window [title="^wl-clipboard$"] floating enable
+    for_window [app_id="galculator"] floating enable
+    for_window [app_id="pavucontrol"] floating enable
+    for_window [app_id="nm-connection-editor"] floating enable
+    for_window [app_id="^launcher$"] floating enable
+    for_window [app_id="org.qutebrowser.input"] floating enable; resize grow width 450px; resize grow height 450px
+    for_window [app_id="tipp10"] floating enable
+    for_window [app_id="org.pwmt.zathura"] floating enable; resize grow width 450px; resize grow height 450px
 
-# Resizing containers {{{1
+    assign [app_id="nvim"] $ws7
+    assign [title="^Preview:.*qutebrowser$"] $ws7
+    assign [app_id="vifm"] $ws8
+    assign [app_id="org.qutebrowser.qutebrowser"] $ws5
 
+    assign [instance="brave-browser"] $ws5
+    assign [instance="rambox"] $ws6
+    assign [instance="keeweb"] $ws9
+
+# Modes {{{1
+# Resizing containers {{{2
 mode "resize" {
     # left will shrink the containers width
     # right will grow the containers width
@@ -264,17 +297,84 @@ mode "resize" {
     bindsym $up resize shrink height 10px
     bindsym $right resize grow width 10px
 
-    # ditto, with arrow keys
-    bindsym Left resize shrink width 10px
-    bindsym Down resize grow height 10px
-    bindsym Up resize shrink height 10px
-    bindsym Right resize grow width 10px
+    # return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Control+r mode "resize"
+
+# Layout {{{2
+set $mode_layout "Layout: (s) stacking, (w) tabbed, (e) split, (f) fullscreen, (space) floating"
+mode $mode_layout {
+    bindsym s mode "default"; layout stacking
+    bindsym w mode "default"; layout tabbed
+    bindsym e mode "default"; layout toggle split
+    bindsym h mode "default"; layout splith
+    bindsym v mode "default"; layout splitv
+    bindsym f mode "default"; fullscreen
+    bindsym Space mode "default"; floating toggle
 
     # return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+r mode "resize"
+bindsym $mod+t mode $mode_layout
+
+# Screenshot {{{2
+set $mode_screenshot "Screenshot: (a) all, (w) workspace, (r) region, (c) region to clipboard, (f) flameshot"
+mode $mode_screenshot {
+    bindsym a mode "default"; exec grim $(xdg-user-dir PICTURES)/Screenshots/$(date +'%Y-%m-%d-%H%M%S.png')
+    bindsym w mode "default"; exec grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') $(xdg-user-dir PICTURES)/Screenshots/$(date +'%Y-%m-%d-%H%M%S.png')
+    bindsym r mode "default"; exec slurp | grim -g - $(xdg-user-dir PICTURES)/Screenshots/$(date +'%Y-%m-%d-%H%M%S.png')
+    bindsym c mode "default"; exec slurp | grim -g - - | wl-copy
+    bindsym f mode "default"; exec flameshot gui
+
+    # return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym Print mode $mode_screenshot
+
+# Power {{{2
+set $mode_system "System: (l) lock, (e) exit, (s) suspend, (r) reboot, (p) shutdown"
+mode $mode_system {
+    bindsym l mode "default"; exec swaylock
+    bindsym e mode "default"; exit
+    bindsym s mode "default"; exec systemctl suspend
+    bindsym r mode "default"; exec systemctl reboot
+    bindsym p mode "default"; exec systemctl poweroff
+
+    # return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Shift+q mode $mode_system
+
+# Notification {{{2
+set $mode_notification "Notification: (i) invoke, (d) dismiss, (a) dismiss all"
+mode $mode_notification {
+	bindsym i mode "default"; exec makoctl invoke; exec makoctl dismiss
+	bindsym d mode "default"; exec makoctl dismiss
+	bindsym a mode "default"; exec makoctl dismiss -a
+
+    # return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+n mode $mode_notification
+
+# Gopass {{{2
+set $mode_gopass "Gopass: (u) username, (p) password, (o) otp"
+mode $mode_gopass {
+	bindsym u mode "default"; exec termite --name=launcher -e "$HOME/.local/bin/fzf-gopass-user"
+	bindsym p mode "default"; exec termite --name=launcher -e "$HOME/.local/bin/fzf-gopass-pass"
+	bindsym o mode "default"; exec termite --name=launcher -e "$HOME/.local/bin/fzf-gopass-otp"
+
+    # return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+z mode $mode_gopass
 
 # Window colors {{{1
 #                       border      background  text        indicator   child_border
@@ -290,4 +390,23 @@ bar {
 }
 
 # Startup {{{1
+
+# Notification daemon
 exec mako
+
+# Clipboard sync
+exec wl-paste --watch wl-copy --primary
+
+exec --no-startup-id autotiling
+
+# Idle configuration {{{2
+exec swayidle -w \
+   timeout 300 'swaylock' \
+   timeout 600 'swaymsg "output * dpms off"' \
+      resume 'swaymsg "output * dpms on"' \
+   before-sleep 'swaylock'
+
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
