@@ -3,7 +3,6 @@
 [options]
 clickable_url = true
 cursor_blink = system
-#cursor_shape=block
 dynamic_title = true
 mouse_autohide = true
 scrollback_lines = 10000
