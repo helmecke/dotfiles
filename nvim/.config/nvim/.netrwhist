@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =3
+let g:netrw_dirhist_3='/home/jhe/Documents/Github/helmecke/qmk_firmware/keyboards/keebio/iris/keymaps/hbbisenieks'
+let g:netrw_dirhist_2='/home/jhe/Documents/Github/helmecke/qmk_firmware/keyboards/keebio'
+let g:netrw_dirhist_1='/home/jhe/.dotfiles'
