@@ -1,30 +1,31 @@
 # vim: ft=conf
 
+bind generic <F1> view-help
+
 bind generic H scroll-left
 bind generic j move-down
 bind generic k move-up
 bind generic L scroll-right
 
-bind main    h  view-help
-bind generic h  view-close
-bind tree    l  enter
-bind tree    h  parent
+bind generic h view-close
 
-bind generic g  none
-bind generic gg move-first-line
+bind generic g none
 bind generic gj next
 bind generic gk previous
 bind generic gp parent
 bind generic gP back
 bind generic gn view-next
 
-bind main    G move-last-line
+bind generic gg move-first-line
 bind generic G move-last-line
 
 bind generic <C-f> move-page-down
 bind generic <C-b> move-page-up
 
-bind generic v  none
+bind generic v none
+bind generic y none
+bind generic yl !@sh -c "echo %(commit) | wl-copy -p -n"
+bind generic ys !@sh -c "git rev-parse --short %(commit) | wl-copy -p -n"
 bind generic vm view-main
 bind generic vd view-diff
 bind generic vl view-log
@@ -37,34 +38,37 @@ bind generic vu view-stage
 bind generic vy view-stash
 bind generic vg view-grep
 bind generic vp view-pager
-bind generic vh view-help
 
 bind generic o !@sh -c "vim --remote %(file) && swaymsg workspace  "
 
-bind generic @  none
+bind generic @ none
 bind generic @j :/^@@
 bind generic @k :?^@@
 bind generic @- :toggle diff-context -1
 bind generic @+ :toggle diff-context +1
 
-bind status  u  none
-bind stage   u  none
 bind generic uu status-update
 bind generic ur status-revert
 bind generic um status-merge
 bind generic ul stage-update-line
 bind generic us stage-split-chunk
 
-bind generic c  none
+bind generic c none
 bind generic cc !git commit
 bind generic ca !?@git commit --amend --no-edit
 
 bind generic <C-w>l view-next
 
-bind status + !@git add -- %(file)
-bind status - !@git reset -- %(file)
+bind tree l enter
+bind tree h parent
+
+bind stage u none
+bind stage = view-close
+
+bind status u none
+bind status - status-update
 bind status = enter
-bind stage  = view-close
+bind status P !git push origin
 
 # Load colorscheme
 source ~/.config/tig/solarized-dark.theme
