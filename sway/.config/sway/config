@@ -366,10 +366,9 @@ bindsym $mod+n mode $mode_notification
 # Gopass {{{2
 set $mode_gopass "Gopass: (u) username, (p) password, (o) otp"
 mode $mode_gopass {
-	bindsym u mode "default"; exec termite --name=launcher -e "$HOME/.local/bin/fzf-gopass-user"
-	bindsym p mode "default"; exec termite --name=launcher -e "$HOME/.local/bin/fzf-gopass-pass"
-	bindsym o mode "default"; exec termite --name=launcher -e "$HOME/.local/bin/fzf-gopass-otp"
-
+	bindsym u mode "default"; exec gopass ls --flat | wofi --dmenu | xargs -I{} -r swaymsg -t command exec -- gopass show --clip {} username
+	bindsym p mode "default"; exec gopass ls --flat | wofi --dmenu | xargs -r swaymsg -t command exec -- gopass show --clip
+	bindsym o mode "default"; exec gopass ls --flat | wofi --dmenu | xargs -r swaymsg -t command exec -- gopass totp --clip
     # return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
