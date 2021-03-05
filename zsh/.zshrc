@@ -38,6 +38,13 @@ setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 setopt NO_NOMATCH                # Disable globbing
 
 unsetopt beep
+#{ prompt
+autoload -U promptinit
+promptinit
+PS1="%B%(!.#.$)%b "
+PS2="%B>%b "
+PS3='%B?#%b '
+PS4='%B+>%b '
 
 autoload edit-command-line
 zle -N edit-command-line
@@ -48,11 +55,6 @@ autoload -U colors && colors
 # Colors
 if ! type sw_vers > /dev/null 2>&1; then
   eval `dircolors ~/.dircolors`
-fi
-
-if [[ -f /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme && ("$DISPLAY" || "$WAYLAND_DISPLAY") ]]; then
-  source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
-  source ~/.p10k.zsh
 fi
 
 # keybinds {{{1
