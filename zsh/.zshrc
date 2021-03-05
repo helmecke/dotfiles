@@ -76,14 +76,6 @@ export KEYTIMEOUT=20
 # Easier, more vim-like editor opening
 bindkey -M vicmd v edit-command-line
 
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
-
-bindkey '^F' fzf-file-widget
-bindkey -M vicmd '^F' fzf-file-widget
-bindkey '^G' fzf-cd-widget
-bindkey -M vicmd '^G' fzf-cd-widget
-
 # aliases {{{1
 if ! type sw_vers > /dev/null 2>&1; then
   alias ls="ls --color=auto"
@@ -116,8 +108,6 @@ alias helm='helm2'
 alias helm3='/usr/bin/helm '
 
 # helper functions {{{1
-alias _inline_fzf="fzf --multi --ansi -i -1 --height=50% --reverse -0 --header-lines=1 --inline-info --border"
-alias _inline_fzf_nh="fzf --multi --ansi -i -1 --height=50% --reverse -0 --inline-info --border"
 
 # mkdir, cd into it (via http://onethingwell.org/post/586977440/mkcd-improved)
 function mkcd () {
