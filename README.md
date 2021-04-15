@@ -4,7 +4,7 @@
 
 I manage _dotfiles_ using [(GNU Stow)](http://www.gnu.org/software/stow/).
 
-Install _dotfiles_ by cloning the git repository into a hidden folder in $HOME.
+Install _dotfiles_ by cloning the git repository. I recommand using [ghq](https://github.com/x-motemen/ghq).
 
 `git clone https://github.com/helmecke/dotfiles.git ~/.dotfiles`
 
@@ -12,11 +12,11 @@ You can now symlink any configurations you wish to use:
 
 ```bash
 # Enter repository folder
-cd ~/.dotfiles
+cd $(ghq list -p | grep helmecke/dotfiles)
 
 # Symlink sway config
-stow sway
+stow -t ~ sway
 
 # Remove sway symlink
-stow -D sway
+stow -t ~ -D sway
 ```
