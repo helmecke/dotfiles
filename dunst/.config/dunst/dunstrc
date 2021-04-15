@@ -1,0 +1,25 @@
+[global]
+    geometry = "500x5-30+55"
+    shrink = yes
+    font = MesloLGM Nerd Font 11
+    frame_width = 3
+    frame_color = "#586e75"
+    padding = 8
+    horizontal_padding = 8
+
+[urgency_low]
+    background = "#002b36"
+    foreground = "#fdf6e3"
+    timeout = 5
+
+[urgency_normal]
+    background = "#002b36"
+    foreground = "#fdf6e3"
+    frame_color = "#859900"
+    timeout = 10
+
+[urgency_critical]
+    background = "#900000"
+    foreground = "#fdf6e3"
+    frame_color = "#dc322f"
+    timeout = 0
