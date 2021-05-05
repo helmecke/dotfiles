@@ -64,12 +64,18 @@ default_border pixel 3
 workspace_layout default
 
 # Key bingings {{{1
+# Media keys {{{2
 # Use pactl to adjust volume in PulseAudio.
 bindsym XF86AudioRaiseVolume $exec pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume $exec pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute $exec pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute $exec pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym XF86AudioPlay $exec playerctl play-pause
+bindsym XF86AudioStop $exec playerctl stop
+bindsym XF86AudioPrev $exec playerctl previous
+bindsym XF86AudioNext $exec playerctl next
 
+# Rest {{{2
 # start a terminal
 bindsym $mod+Return $exec $term
 
