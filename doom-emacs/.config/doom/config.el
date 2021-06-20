@@ -29,7 +29,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/Dokumente/Org/")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -52,5 +52,47 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-(setq doom-leader-key ","
-      doom-leader-alt-key ";")
+(setq doom-leader-key ",")
+(setq doom-localleader-key ";")
+
+(map!
+ ;; Easier window navigation
+ :n "C-h"   #'evil-window-left
+ :n "C-j"   #'evil-window-down
+ :n "C-k"   #'evil-window-up
+ :n "C-l"   #'evil-window-right)
+
+(evil-define-command my-git(arg)
+  (message "%s" arg))
+
+(evil-ex-define-cmd "Git" 'my-git)
+
+(require 'ivy-ghq)
+
+(defun ivy-ghq--open-cd (file)
+  (cd
+   (if ivy-ghq-short-list
+       (format "%s%s" (ivy-ghq--get-root) file)
+     (format "%s" file))))
+
+(defun ivy-ghq-cd ()
+  "Use `ivy-completing-read' to \\[cd] a ghq list"
+  (interactive)
+  (let ((path (ivy-completing-read "Find ghq repo.: "
+                                   (ivy-ghq--list-candidates))))
+    (if (ivy-ghq--open-cd path)
+        (message (format "Directory %s" path)))))
+
+;;(add-hook 'dired-mode-hook 'centaur-tabs-local-mode)
+
+(map! :leader
+      :desc "Find ghq repository"
+      "f g" #'ivy-ghq-cd)
+
+(after! doom-modeline
+  (doom-modeline-def-modeline 'main
+  '(bar workspace-name window-number modals matches vcs buffer-info remote-host)
+  '(objed-state misc-info persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info buffer-encoding major-mode buffer-position word-count parrot selection-info process checker))
+  (remove-hook 'doom-modeline-mode-hook #'size-indication-mode) ; filesize in modeline
+  (remove-hook 'doom-modeline-mode-hook #'column-number-mode)   ; cursor column in modeline
+)
