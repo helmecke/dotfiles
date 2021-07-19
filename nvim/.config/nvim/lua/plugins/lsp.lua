@@ -1,174 +1,174 @@
-local lspconfig = require('lspconfig')
+local lspconfig = require 'lspconfig'
+local configs = require 'lspconfig/configs'
 
 local on_attach = function(client)
   local noremap = { noremap = true, silent = true }
   local expr = { expr = true, silent = true }
 
+  vim.lsp.set_log_level 'debug'
+
   -- See `:help nvim_buf_set_keymap()` for more information
   vim.api.nvim_buf_set_keymap(0, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', noremap)
   vim.api.nvim_buf_set_keymap(0, 'n', '<c-]>', '<cmd>lua vim.lsp.buf.definition()<CR>', noremap)
-  vim.api.nvim_buf_set_keymap(0, 'n', 'gf', '<cmd>lua vim.lsp.buf.formatting()<CR>', noremap)
-  vim.api.nvim_buf_set_keymap(0, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', noremap)
-  vim.api.nvim_buf_set_keymap(0, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', noremap)
-
   vim.api.nvim_buf_set_keymap(0, 'n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', noremap)
   vim.api.nvim_buf_set_keymap(0, 'n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', noremap)
-  vim.api.nvim_buf_set_keymap(0, 'n', 'gl', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', noremap)
 
   -- Use LSP as the handler for omnifunc.
   --    See `:help omnifunc` and `:help ins-completion` for more information.
   vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   vim.api.nvim_win_set_option(0, 'signcolumn', 'yes')
 
+  vim.api.nvim_command [[command! -buffer LspFormat lua vim.lsp.buf.formatting()]]
+
   -- vim.api.nvim_command [[autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()]]
   -- vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
   -- vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
 end
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = false,
-    signs = true,
-  }
-)
+vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+  virtual_text = false,
+  signs = true,
+})
 
-vim.fn.sign_define('LspDiagnosticsSignError', { text = "", texthl = "LspDiagnosticsError" })
-vim.fn.sign_define('LspDiagnosticsSignWarning', { text = "", texthl = "LspDiagnosticsWarning" })
-vim.fn.sign_define('LspDiagnosticsSignInformation', { text = "", texthl = "LspDiagnosticsInformation" })
-vim.fn.sign_define('LspDiagnosticsSignHint', { text = "", texthl = "LspDiagnosticsHint" })
+vim.fn.sign_define('LspDiagnosticsSignError', { text = '', texthl = 'LspDiagnosticsError' })
+vim.fn.sign_define('LspDiagnosticsSignWarning', { text = '', texthl = 'LspDiagnosticsWarning' })
+vim.fn.sign_define('LspDiagnosticsSignInformation', { text = '', texthl = 'LspDiagnosticsInformation' })
+vim.fn.sign_define('LspDiagnosticsSignHint', { text = '', texthl = 'LspDiagnosticsHint' })
 
-lspconfig.gopls.setup{on_attach=on_attach}
-
-lspconfig.tflint.setup{on_attach=on_attach}
-lspconfig.terraformls.setup{on_attach=on_attach}
-
-
-lspconfig.pyls.setup{
-  on_attach=on_attach,
-  settings = {
-    pyls = {
-      configurationSources = {'flake8'},
-      plugins = {
-        autopep8 = {enabled = false},
-        black = {enabled = true},
-        flake8 = {enabled = true},
-        mccabe = {enabled = false},
-        pycodestyle = {enabled = false},
-        pyflakes = {enabled = false},
-        yapf = {enabled = false}
-      }
-    }
-  }
+lspconfig.terraformls.setup {
+  on_attach = on_attach,
 }
 
--- lspconfig.yamlls.setup{
---   on_attach=on_attach,
---   settings = {
---     yaml = {
---       validate = true,
---       format = {
---         singleQuote = true,
---         enable = true
---       },
---       completion = true
---     }
---   }
--- }
+lspconfig.gopls.setup {
+  on_attach = on_attach,
+}
 
--- lspconfig.sumneko_lua.setup{
---  settings = {
---    Lua = {
---      diagnostics = {
---        enable = true,
---        globals = { "vim" },
---      },
---    }
---  },
---  on_attach = on_attach
--- }
+lspconfig.dotls.setup {
+  on_attach = on_attach,
+}
 
-lspconfig.diagnosticls.setup{
-  on_attach=on_attach,
-  filetypes = { "sh", 'go' },
+--[[ lspconfig.pyls.setup {
+  on_attach = on_attach,
+  settings = {
+    pyls = {
+      configurationSources = { 'flake8' },
+      plugins = {
+        autopep8 = { enabled = false },
+        black = { enabled = true },
+        flake8 = { enabled = true },
+        mccabe = { enabled = false },
+        pycodestyle = { enabled = false },
+        pyflakes = { enabled = false },
+        yapf = { enabled = false },
+      },
+    },
+  },
+}
+]]
+
+lspconfig.yamlls.setup {
+  on_attach = on_attach,
+  settings = {
+    yaml = {
+      validate = false,
+      hover = true,
+      completion = true,
+      schemaStore = { enable = true },
+      schemas = {
+        -- ['https://json.schemastore.org/ansible-role-2.9.json'] = 'roles/**/{yml,yaml}',
+        -- ['https://json.schemastore.org/ansible-playbook.json'] = 'playbook*.{yml,yaml}',
+        ['https://json.schemastore.org/gitlab-ci.json'] = {
+          'gitlab-ci.{yml,yaml}',
+          'gitlab-ci-templates/**/*.{yml,yaml}',
+        },
+      },
+    },
+  },
+}
+
+shfmt = require 'lsp.diagnosticls.formatters.shfmt'
+shellcheck = require 'lsp.diagnosticls.linters.shellcheck'
+yamllint = require 'lsp.diagnosticls.linters.yamllint'
+ansible_lint = require 'lsp.diagnosticls.linters.ansible-lint'
+golangcilint = require 'lsp.diagnosticls.linters.golangci-lint'
+
+lspconfig.diagnosticls.setup {
+  on_attach = on_attach,
+  filetypes = { 'sh', 'yaml', 'lua' },
   init_options = {
     filetypes = {
-      sh = "shellcheck",
-      go = {'golint', 'golangci'},
+      sh = 'shellcheck',
+      yaml = 'yamllint',
     },
     formatFiletypes = {
-      sh = "shfmt",
+      sh = 'shfmt',
+      lua = 'stylua',
     },
     formatters = {
-      shfmt = {
-        command = "shfmt",
-        args = {
-          "-i",
-          "2",
-          "-bn",
-          "-ci",
-          "-sr",
-        },
-      }
+      shfmt = shfmt,
+      stylua = {
+        rootPatterns = { '.git' },
+        command = 'stylua',
+        args = { '-' },
+      },
     },
     linters = {
-      shellcheck = {
-        command = "shellcheck",
-        rootPatterns = {},
-        isStdout = true,
-        isStderr = false,
-        debounce = 100,
-        args = { "--format=gcc", "-"},
-        offsetLine = 0,
-        offsetColumn = 0,
-        sourceName = "shellcheck",
-        formatLines = 1,
-        formatPattern = {
-          "^([^:]+):(\\d+):(\\d+):\\s+([^:]+):\\s+(.*)$",
-          {
-            line = 2,
-            column = 3,
-            endline = 2,
-            endColumn = 3,
-            message = {5},
-            security = 4
-          }
-        },
-        securities  = {
-          error  ="error",
-          warning = "warning",
-          note = "info"
-        },
+      shellcheck = shellcheck,
+      yamllint = yamllint,
+    },
+  },
+}
+
+if not lspconfig.golangcilsp then
+  configs.golangcilsp = {
+    default_config = {
+      cmd = { 'golangci-lint-langserver' },
+      root_dir = lspconfig.util.root_pattern('.git', 'go.mod'),
+      init_options = {
+        command = { 'golangci-lint', 'run', '--enable-all', '--disable', 'lll', '--out-format', 'json' },
       },
-      golangci = {
-        command = 'golangci-lint',
-        rootPatterns = {'go.mod'},
-        debounce = 100,
-        args = {'run', '--out-format=json'},
-        sourceName = 'golangci-lint',
-        parseJson = {
-          sourceName = 'Pos.Filename',
-          sourceNameFilter = true,
-          errorsRoot = 'Issues',
-          line = 'Pos.Line',
-          column = 'Pos.Column',
-          message = '${Text} [${FromLinter}]'
-        }
-      },
-      golint = {
-        command = 'golint',
-        rootPatterns = {'go.mod'},
-        isStdout = true,
-        isStderr = false,
-        debounce = 100,
-        args = {'%filepath'},
-        offsetLine = 0,
-        offsetColumn = 0,
-        formatLines = 1,
-        formatPattern = {
-          '^[^:]+:(\\d+):(\\d+):\\s(.*)$',
-          {line = 1, column = 2, message = 3}
-        },
-      }
-    }
+    },
   }
+end
+
+lspconfig.golangcilsp.setup {
+  filetypes = { 'go' },
+}
+
+-- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
+local sumneko_root_path = '/usr/share/lua-language-server'
+local sumneko_binary = '/usr/bin/lua-language-server'
+
+local runtime_path = vim.split(package.path, ';')
+table.insert(runtime_path, 'lua/?.lua')
+table.insert(runtime_path, 'lua/?/init.lua')
+
+require('lspconfig').sumneko_lua.setup {
+  on_attach = on_attach,
+  cmd = { sumneko_binary, '-E', sumneko_root_path .. '/main.lua' },
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+        -- Setup your lua path
+        path = runtime_path,
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = { 'vim', 'describe' },
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = {
+          vim.api.nvim_get_runtime_file('', true),
+          [vim.fn.expand '/usr/share/awesome/lib'] = true,
+        },
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
 }

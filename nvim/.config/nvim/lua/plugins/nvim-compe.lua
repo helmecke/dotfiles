@@ -5,10 +5,11 @@ require'compe'.setup {
     path = true,
     buffer = true,
     nvim_lsp = true,
-    spell = true,
+    spell = false,
     tags = true,
     nvim_lua = true,
     treesitter = true,
+    orgmode = true,
   }
 }
 

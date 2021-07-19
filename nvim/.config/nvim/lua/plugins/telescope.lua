@@ -1,31 +1,58 @@
-vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>Telescope find_files<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>fl', '<cmd>Telescope live_grep<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>fgr', '<cmd>Telescope ghq list<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<c-g>', '<cmd>Telescope git_files<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>fgs', '<cmd>Telescope git_status<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>fgc', '<cmd>Telescope git_commits<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>fgb', '<cmd>Telescope git_branches<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>fb', '<cmd>Telescope buffers<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>fh', '<cmd>Telescope help_tags<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<a-g>', '<cmd>Telescope ghq list<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<c-b>', '<cmd>Telescope buffers<cr>', {noremap=true})
+local telescope = require 'telescope'
 
-require'telescope'.setup {
-  defaults = {
-    file_sorter = require'telescope.sorters'.get_fzy_sorter,
-    file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
-    grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
-    qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
-  },
+telescope.setup {
   extensions = {
     fzy_native = {
-      override_generic_sorter = false,
+      override_generic_sorter = true,
       override_file_sorter = true,
     }
-  }
+  },
+  pickers = {
+    find_files = {
+      hidden = true,
+    },
+    file_browser = {
+      hidden = true,
+    },
+    buffers = {
+      sort_lastused = true,
+      show_all_buffers = true,
+      mappings = {
+        i = { ["<c-d>"] = "delete_buffer" },
+        n = { ["<c-d>"] = "delete_buffer" },
+      },
+    },
+  },
 }
-require'telescope'.setup{}
 
-require'telescope'.load_extension'fzy_native'
-require'telescope'.load_extension'gh'
-require'telescope'.load_extension'ghq'
+telescope.load_extension'fzy_native'
+telescope.load_extension'gh'
+telescope.load_extension'ghq'
+
+vim.api.nvim_set_keymap('n', '<a-g>', '<cmd>Telescope ghq list<cr>', {noremap=true})
+
+require("which-key").register({
+  ["<leader>"] = {
+    b = {
+      name = "+buffer",
+      b = { "<cmd>Telescope buffers<cr>", "Find buffer" },
+    },
+    f = {
+      name = "+find",
+      f = { "<cmd>Telescope find_files<cr>", "Find file" },
+      g = { "<cmd>Telescope live_grep<cr>", "Find string" },
+      r = { "<cmd>Telescope oldfiles<cr>", "Find recent file" },
+      m = { "<cmd>Telescope man_pages<cr>", "Find man page" },
+    },
+    g = {
+      name = "+git",
+      r = { "<cmd>Telescope ghq list<cr>", "Find repository" },
+      f = { "<cmd>Telescope git_files<cr>", "Find file" },
+      c = { "<cmd>Telescope git_commits<cr>", "Find commit" },
+      b = { "<cmd>Telescope git_branches<cr>", "Find branch" },
+      s = { "<cmd>Telescope git_status<cr>", "Find change" },
+      S = { "<cmd>Telescope git_stash<cr>", "Find stash" },
+      C = { "<cmd>Telescope git_bcommits<cr>", "Find buffer commit" },
+    },
+  },
+})

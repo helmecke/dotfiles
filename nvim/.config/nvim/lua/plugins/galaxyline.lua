@@ -1,87 +1,15 @@
 local gl = require 'galaxyline'
-local condition = require'galaxyline.condition'
+local gls = gl.section
+local condition = require 'galaxyline.condition'
 local fileinfo = require 'galaxyline.provider_fileinfo'
 local devicons = require 'nvim-web-devicons'
 
-local colors = {
-  bg = '#073642',
-  yellow = '#b58900',
-  cyan = '#2aa198',
-  darkblue = '#081633',
-  green = '#859900',
-  orange = '#cb4b16',
-  purple = '#5d4d7a',
-  magenta = '#d33682',
-  grey = '#c0c0c0',
-  blue = '#268bd2',
-  red = '#dc322f'
-}
-
-local gls = gl.section
-local function u(code)
-  if type(code) == 'string' then
-    code = tonumber('0x' .. code)
-  end
-  local c = string.char
-  if code <= 0x7f then
-    return c(code)
-  end
-  local t = {}
-  if code <= 0x07ff then
-    t[1] = c(bit.bor(0xc0, bit.rshift(code, 6)))
-    t[2] = c(bit.bor(0x80, bit.band(code, 0x3f)))
-  elseif code <= 0xffff then
-    t[1] = c(bit.bor(0xe0, bit.rshift(code, 12)))
-    t[2] = c(bit.bor(0x80, bit.band(bit.rshift(code, 6), 0x3f)))
-    t[3] = c(bit.bor(0x80, bit.band(code, 0x3f)))
-  else
-    t[1] = c(bit.bor(0xf0, bit.rshift(code, 18)))
-    t[2] = c(bit.bor(0x80, bit.band(bit.rshift(code, 12), 0x3f)))
-    t[3] = c(bit.bor(0x80, bit.band(bit.rshift(code, 6), 0x3f)))
-    t[4] = c(bit.bor(0x80, bit.band(code, 0x3f)))
-  end
-  return table.concat(t)
-end
-
-local mode_map = {
-  ['n'] = {'NORMAL', colors.grey},
-  ['i'] = {'INSERT', colors.yellow},
-  ['R'] = {'REPLACE', colors.grey},
-  ['v'] = {'VISUAL', colors.grey},
-  ['V'] = {'V-LINE', colors.grey},
-  ['c'] = {'COMMAND', colors.grey},
-  ['s'] = {'SELECT', colors.grey},
-  ['S'] = {'S-LINE', colors.grey},
-  ['t'] = {'TERMINAL', colors.grey},
-  [''] = {'V-BLOCK', colors.grey},
-  [''] = {'S-BLOCK', colors.grey},
-  ['Rv'] = {'VIRTUAL'},
-  ['rm'] = {'--MORE'},
-}
+local colors = require 'onedark.colors'
 
 local sep = {
-  right_filled = u '2590',
-  left_filled = u '258c',
-  -- right_filled = u 'e0b2',
-  -- left_filled = u 'e0b0',
-  right = u '2503',
-  left = u '2503',
-  -- right = u 'e0b3',
-  -- left = u 'e0b1',
+  left = '',
+  right = '',
 }
-
-local icons = {
-  locker = u 'f023',
-  unsaved = u 'f693',
-  dos = u 'e70f',
-  unix = u 'f17c',
-  mac = u 'f179',
-  lsp_warn = u 'f071',
-  lsp_error = u 'f46e',
-}
-
-local function mode_label() return mode_map[vim.fn.mode()][1] or 'N/A' end
-local function mode_hl() return mode_map[vim.fn.mode()][2] or colors.none end
 
 local function highlight(group, fg, bg, gui)
   local cmd = string.format('highlight %s guifg=%s guibg=%s', group, fg, bg)
@@ -91,222 +19,268 @@ local function highlight(group, fg, bg, gui)
   vim.cmd(cmd)
 end
 
-local function buffer_not_empty()
-  if vim.fn.empty(vim.fn.expand '%:t') ~= 1 then
-    return true
+-- get file encode
+local function get_file_info()
+  local encode = vim.bo.fenc ~= '' and vim.bo.fenc or vim.o.enc
+  local eol = '[!EOL]'
+  if vim.bo.eol then
+    eol = ''
   end
-  return false
+  return eol .. encode .. '[' .. vim.bo.fileformat .. ']'
 end
 
-local function diagnostic_exists()
-  return vim.tbl_isempty(vim.lsp.buf_get_clients(0))
+local function get_buffer_filetype()
+  return vim.bo.filetype
 end
 
-local function wide_enough()
-  local squeeze_width = vim.fn.winwidth(0)
-  if squeeze_width > 80 then
-    return true
+local function get_file_icon()
+  local fname, ext = vim.fn.expand '%:t', vim.fn.expand '%:e'
+  local icon, iconhl = devicons.get_icon(fname, ext)
+  if icon == nil then
+    for _,v in ipairs(gl.short_line_list) do
+      if v == fname then
+        return ''
+      end
+    end
+    icon = ''
+    iconhl = '#6d8086'
   end
-  return false
+  local fg = vim.fn.synIDattr(vim.fn.hlID(iconhl), 'fg')
+  highlight('GalaxyFileIcon', fg, colors.vertsplit.gui)
+  return ' ' .. icon .. ' '
 end
 
 
-i = 1
-gls.left[i] = {
+-- get current file name
+local function get_current_file_name(modified_icon, readonly_icon)
+  local file
+  if condition.hide_in_width() then
+    file = vim.fn.fnamemodify(vim.fn.expand '%', ':~:.')
+    if file:len() > 50 then
+      file = file:sub(-48, -1)
+      bla = file
+      local bla = file:find('/')
+      file = '..' .. file:sub(bla, -1)
+    end
+  else
+    file = vim.fn.expand '%:t'
+  end
+  return file .. ' '
+end
+
+local function get_current_file_modified(modified_icon)
+  local file = vim.fn.expand '%:t'
+  local icon = modified_icon or '●'
+  if vim.fn.empty(file) == 1 then return '' end
+  if vim.bo.modifiable then
+    if vim.bo.modified then
+      return ' ' .. icon .. ' '
+    end
+  end
+  return ''
+end
+
+local function get_current_file_readonly(readonly_icon)
+  local file = vim.fn.expand '%:t'
+  local icon = readonly_icon or ''
+  if vim.fn.empty(file) == 1 then return '' end
+  if vim.bo.filetype == 'help' then
+    return ''
+  end
+  if vim.bo.readonly == true then
+    return ' ' .. icon .. ' '
+  end
+  return ''
+end
+
+table.insert(gls.left, {
+  Start = {
+    provider = function() return '▎' end,
+    highlight = {colors.white.gui, colors.vertsplit.gui},
+    separator_highlight = {colors.white.gui, colors.vertsplit.gui},
+  }
+})
+
+table.insert(gls.left, {
   ViMode = {
     provider = function()
-      local modehl = mode_hl()
-      highlight('GalaxyViMode', colors.bg, modehl, 'bold')
-      highlight('GalaxyViModeInv', modehl, colors.bg, 'bold')
-      return string.format('  %s ', mode_label())
+      -- auto change color according the vim mode
+      local mode_color = {
+        n = colors.red.gui,
+        i = colors.yellow.gui,
+        v = colors.purple.gui,
+        [''] = colors.purple.gui,
+        V = colors.purple.gui,
+        c = colors.white.gui,
+        no = colors.white.gui,
+        s = colors.dark_yellow.gui,
+        S = colors.dark_yellow.gui,
+        [''] = colors.dark_yellow.gui,
+        ic = colors.yellow.gui,
+        R = colors.red.gui,
+        Rv = colors.red.gui,
+        cv = colors.white.gui,
+        ce = colors.white.gui,
+        r = colors.cyan.gui,
+        rm = colors.cyan.gui,
+        ['r?'] = colors.cyan.gui,
+        ['!']  = colors.white.gui,
+        t = colors.blue.gui,
+      }
+      vim.api.nvim_command('hi GalaxyViMode guifg='..mode_color[vim.fn.mode()] ..' guibg='..colors.vertsplit.gui)
+      return '  '
     end,
-    separator = sep.left_filled,
-    separator_highlight = 'GalaxyViModeInv',
   }
-}
+})
 
-i = i + 1
-gls.left[i] = {
+table.insert(gls.left, {
+FileSize = {
+    provider = 'FileSize',
+    condition = condition.buffer_not_empty,
+    highlight = {colors.white.gui, colors.vertsplit.gui},
+  }
+})
+
+table.insert(gls.left, {
+  FileIcon = {
+    provider = get_file_icon,
+    condition = condition.buffer_not_empty,
+    highlight = {colors.white.gui, colors.vertsplit.gui},
+    separator_highlight = {colors.white.gui, colors.vertsplit.gui},
+  }
+})
+
+table.insert(gls.left, {
+  FileName = {
+    provider = get_current_file_name,
+    highlight = {colors.white.gui, colors.vertsplit.gui},
+    separator_highlight = {colors.white.gui, colors.vertsplit.gui},
+  }
+})
+
+table.insert(gls.left, {
+  Modified = {
+    provider = get_current_file_modified,
+    highlight = {colors.green.gui, colors.vertsplit.gui},
+  }
+})
+
+table.insert(gls.left, {
+  ReadOnly = {
+    provider = get_current_file_readonly,
+    highlight = {colors.red.gui, colors.vertsplit.gui},
+  }
+})
+
+table.insert(gls.left, {
+  BufferIcon = {
+    provider= 'BufferIcon',
+    highlight = {colors.white.gui, colors.vertsplit.gui},
+    separator_highlight = {colors.white.gui, colors.vertsplit.gui},
+  }
+})
+
+-- table.insert(gls.right, {
+--   BufferType = {
+--     provider = get_buffer_filetype,
+--     separator = ' ',
+--     separator_highlight = {'NONE', colors.vertsplit.gui},
+--     highlight = {colors.green.gui, colors.vertsplit.gui,'bold'}
+--   }
+-- })
+
+table.insert(gls.right, {
+  FileEncode = {
+    provider = get_file_info,
+    condition = condition.buffer_not_empty,
+    separator = ' ',
+    highlight = {colors.white.gui, colors.vertsplit.gui},
+    separator_highlight = {colors.white.gui, colors.vertsplit.gui},
+  }
+})
+
+table.insert(gls.right, {
   GitIcon = {
-    provider = function() return '  ' end,
-    condition = buffer_not_empty,
-    highlight = {colors.orange,colors.bg},
+    provider = function() return '   ' end,
+    condition = condition.check_git_workspace,
+    highlight = {colors.red.gui, colors.vertsplit.gui},
   }
-}
+})
 
-i = i + 1
-gls.left[i] = {
+table.insert(gls.right, {
   GitBranch = {
     provider = 'GitBranch',
-    separator = ' ',
-    separator_highlight = {colors.purple,colors.bg},
-    condition = buffer_not_empty,
-    highlight = {colors.fg, colors.bg},
+    condition = condition.check_git_workspace,
+    highlight = {colors.white.gui, colors.vertsplit.gui},
   }
-}
+})
 
-i = i + 1
-gls.left[i] = {
-  FileIcon = {
-    provider = function()
-      local fname, ext = vim.fn.expand '%:t', vim.fn.expand '%:e'
-      local icon, iconhl = devicons.get_icon(fname, ext)
-      if icon == nil then
-        return ''
-      end
-      local fg = vim.fn.synIDattr(vim.fn.hlID(iconhl), 'fg')
-      highlight('GalaxyFileIcon', fg, colors.bg)
-      return ' ' .. icon .. ' '
-    end,
-    condition = buffer_not_empty,
-  }
-}
-
-i = i + 1
-gls.left[i] = {
-  FileName = {
-    provider = function()
-      if not buffer_not_empty() then
-        return ''
-      end
-      local fname
-      if wide_enough() then
-        fname = vim.fn.fnamemodify(vim.fn.expand '%', ':~:.')
-      else
-        fname = vim.fn.expand '%:t'
-      end
-      if #fname == 0 then
-        return ''
-      end
-      if vim.bo.readonly then
-        fname = fname .. ' ' .. icons.locker
-      end
-      if vim.bo.modified then
-        fname = fname .. ' ' .. icons.unsaved
-      end
-      return ' ' .. fname .. ' '
-    end,
-    highlight = {colors.fg, colors.bg},
-  }
-}
-
-k = 1
-gls.right[k] = {
-  LspStatus = {
-    provider = function()
-      local connected = not vim.tbl_isempty(vim.lsp.buf_get_clients(0))
-      if connected then
-        return ' ' .. u 'f817' .. ' '
-      else
-        return ''
-      end
-    end,
-    highlight = {colors.lsp_active, colors.bg},
-  }
-}
-
-k = k + 1
-gls.right[k] = {
-  DiagnosticWarn = {
-    provider = function()
-      local n = vim.lsp.diagnostic.get_count(0, 'Warning')
-      if n == 0 then
-        return ''
-      end
-      return string.format(' %s %d ', icons.lsp_warn, n)
-    end,
-    highlight = {'yellow', colors.bg},
-  }
-}
-
-k = k + 1
-gls.right[k] = {
-  DiagnosticError = {
-    provider = function()
-      local n = vim.lsp.diagnostic.get_count(0, 'Error')
-      if n == 0 then
-        return ''
-      end
-      return string.format(' %s %d ', icons.lsp_error, n)
-    end,
-    highlight = {'red', colors.bg},
-  }
-}
-
-k = k + 1
-gls.right[k] = {
-  FileType = {
-    provider = function()
-      if not buffer_not_empty() then
-        return ''
-      end
-      local icon = icons[vim.bo.fileformat] or ''
-      return string.format(' %s %s ', icon, vim.bo.filetype)
-    end,
-    condition = buffer_not_empty,
-    highlight = {colors.fg, colors.bg},
-  }
-}
-
-k = k + 1
-gls.right[k] = {
-  FileEncode = {
-    provider = 'FileEncode',
-    condition = buffer_not_empty,
-    highlight = {colors.grey,colors.bg},
-  }
-}
-
-k = k + 1
-gls.right[k] = {
-  FileFormat = {
-    provider = 'FileFormat',
-    condition = buffer_not_empty,
-    highlight = {colors.grey,colors.bg},
-  }
-}
-
-k = k + 1
-gls.right[k] = {
-  LineInfo = {
-    provider = 'LineColumn',
-    condition = buffer_not_empty,
-    highlight = {colors.grey,colors.bg},
-  },
-}
-
-k = k + 1
-gls.right[k] = {
-  PerCent = {
-    provider = 'LinePercent',
-    condition = buffer_not_empty,
-    highlight = {colors.grey,colors.bg},
-  }
-}
-
-gl.short_line_list = {'NvimTree', 'vista', 'dbui'}
-
-j = 1
-gls.short_line_left[j] = {
-  ShortLineSeparator = {
+table.insert(gls.right, {
+  Whitespace = {
     provider = function() return ' ' end,
-    highlight = {colors.section_bg, colors.section_bg},
+    condition = condition.check_git_workspace,
+    highlight = {colors.white.gui, colors.vertsplit.gui},
+    separator_highlight = {colors.white.gui, colors.vertsplit.gui},
   }
-}
+})
 
-j = j + 1
-gls.short_line_left[j] = {
-  ShortLineFileName = {
-    provider = 'FileName',
+gl.short_line_list = {'NvimTree', 'packer'}
+
+table.insert(gls.short_line_left, {
+  Start = {
+    provider = function() return '▎' end,
+    highlight = {colors.white.gui, colors.vertsplit.gui},
+    separator_highlight = {colors.white.gui, colors.vertsplit.gui},
+  }
+})
+
+table.insert(gls.short_line_left, {
+  SFileIcon = {
+    provider = get_file_icon,
     condition = condition.buffer_not_empty,
-    highlight = {colors.fg, colors.section_bg},
-  },
-}
-
-j = j + 1
-gls.short_line_left[j] = {
-  BufferIcon = {
-    provider = 'BufferIcon',
-    highlight = {colors.fg, colors.bg}
+    highlight = {colors.white.gui, colors.vertsplit.gui},
+    separator_highlight = {colors.white.gui, colors.vertsplit.gui},
   }
-}
+})
+
+table.insert(gls.short_line_left, {
+  SFileName = {
+    provider = 'SFileName',
+    condition = condition.buffer_not_empty,
+    highlight = {colors.white.gui, colors.vertsplit.gui},
+    separator_highlight = {colors.white.gui, colors.vertsplit.gui},
+  }
+})
+
+table.insert(gls.short_line_right, {
+  SBufferIcon = {
+    provider= 'BufferIcon',
+    highlight = {colors.white.gui, colors.vertsplit.gui},
+    separator_highlight = {colors.white.gui, colors.vertsplit.gui},
+  }
+})
+
+-- table.insert(gls.short_line_right, {
+--   SGitIcon = {
+--     provider = function() return '   ' end,
+--     condition = condition.check_git_workspace,
+--     separator = ' ',
+--     highlight = {colors.white.gui, colors.vertsplit.gui},
+--     separator_highlight = {colors.white.gui, colors.vertsplit.gui},
+--   }
+-- })
+
+-- table.insert(gls.short_line_right, {
+--   SGitBranch = {
+--     provider = 'GitBranch',
+--     condition = condition.check_git_workspace,
+--     highlight = {colors.white.gui, colors.vertsplit.gui},
+--   }
+-- })
+
+table.insert(gls.short_line_right, {
+  SWhitespace = {
+    provider = function() return ' ' end,
+    highlight = {'NONE', colors.vertsplit.gui},
+  }
+})

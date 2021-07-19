@@ -18,8 +18,9 @@ vim.o.showmatch = true
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.wildmode = 'list:longest,full'
-vim.o.spellfile = '~/.config/nvim/spell/en.utf-8.add,~/.config/nvim/spell/de.utf-8.add,~/.config/nvim/spell/names.utf-8.add'
-vim.o.spelllang = 'en_us,de_de,names'
+vim.o.termguicolors = true
+-- vim.o.spellfile = '~/.config/nvim/spell/en.utf-8.add,~/.config/nvim/spell/de.utf-8.add,~/.config/nvim/spell/names.utf-8.add'
+-- vim.o.spelllang = 'en_us,de_de,names'
 
 vim.wo.number = true
 vim.wo.relativenumber = true
