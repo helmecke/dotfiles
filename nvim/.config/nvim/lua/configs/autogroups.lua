@@ -1,5 +1,11 @@
-local utils = require("utils")
+local utils = require 'utils'
 
-local autogroups = {}
+local autogroups = {
+  neovim_terminal = {
+    'TermOpen * startinsert',
+    'TermOpen * :set nonumber norelativenumber',
+    'TermOpen * nnoremap <buffer> <C-c> i<C-c>',
+  },
+}
 
-utils.create_autogroup(autogroups)
+utils.create_augroup(autogroups)

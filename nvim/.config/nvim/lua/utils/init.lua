@@ -2,30 +2,29 @@ local utils = {}
 
 function utils.create_filetype(definitions)
   for group_name, definition in pairs(definitions) do
-    vim.cmd("augroup filetype_" .. group_name)
-    vim.cmd("autocmd!")
+    vim.cmd('augroup filetype_' .. group_name)
+    vim.cmd 'autocmd!'
     for _, def in ipairs(definition) do
-      vim.cmd("autocmd FileType " .. group_name .. " setlocal " .. def)
+      vim.cmd('autocmd FileType ' .. group_name .. ' setlocal ' .. def)
     end
-    vim.cmd("augroup END")
+    vim.cmd 'augroup END'
   end
 end
 
 function utils.create_augroup(definitions)
   for group_name, definition in pairs(definitions) do
-    api.cmd('augroup '..group_name)
-    api.cmd('autocmd!')
+    vim.cmd('augroup ' .. group_name)
+    vim.cmd 'autocmd!'
     for _, def in ipairs(definition) do
-      local command = table.concat(vim.tbl_flatten{'autocmd', def}, ' ')
-      api.cmd(command)
+      vim.cmd('autocmd ' .. def)
     end
-    api.cmd('augroup END')
+    vim.cmd 'augroup END'
   end
 end
 
 function utils.is_buffer_empty()
   -- Check whether the current buffer is empty
-  return vim.fn.empty(vim.fn.expand('%:t')) == 1
+  return vim.fn.empty(vim.fn.expand '%:t') == 1
 end
 
 function utils.has_width_gt(cols)
