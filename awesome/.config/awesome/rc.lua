@@ -3,7 +3,7 @@
 pcall(require, 'luarocks.loader')
 
 -- disable tmux hotkeys in tmux
-package.loaded["awful.hotkeys_popup.keys.tmux"] = {}
+package.loaded['awful.hotkeys_popup.keys.tmux'] = {}
 
 -- Standard awesome library
 local gears = require 'gears'
@@ -57,7 +57,7 @@ end
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_configuration_dir() .. 'themes/onedark/theme.lua')
 
-beautiful.hotkeys_font = "MesloLGM Nerd Font 11"
+beautiful.hotkeys_font = 'MesloLGM Nerd Font 11'
 beautiful.hotkeys_description_font = beautiful.hotkeys_font
 beautiful.menu_font = beautiful.hotkeys_font
 -- This is used later as the default terminal and editor to run.
@@ -75,21 +75,7 @@ modkey = 'Mod4'
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
   awful.layout.suit.tile,
-  awful.layout.suit.tile.left,
-  awful.layout.suit.tile.bottom,
-  awful.layout.suit.tile.top,
-  awful.layout.suit.fair,
-  awful.layout.suit.fair.horizontal,
-  awful.layout.suit.spiral,
-  awful.layout.suit.spiral.dwindle,
   awful.layout.suit.max,
-  awful.layout.suit.max.fullscreen,
-  awful.layout.suit.magnifier,
-  awful.layout.suit.floating,
-  awful.layout.suit.corner.nw,
-  awful.layout.suit.corner.ne,
-  awful.layout.suit.corner.sw,
-  awful.layout.suit.corner.se,
 }
 -- }}}
 
@@ -132,7 +118,11 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- {{{ Wibar
 -- Create a textclock widget
 local mytextclock = wibox.widget.textclock()
-local month_calendar = awful.widget.calendar_popup.month()
+local month_calendar = awful.widget.calendar_popup.month {}
+function month_calendar.call_calendar(self, offset, position, screen)
+  local screen = awful.screen.focused()
+  awful.widget.calendar_popup.call_calendar(self, offset, position, screen)
+end
 month_calendar:attach(mytextclock, 'tr')
 
 local myvolume = lain.widget.pulse()
@@ -180,27 +170,18 @@ local tasklist_buttons = gears.table.join(
   end)
 )
 
-local function set_wallpaper(s)
-  -- Wallpaper
-  if beautiful.wallpaper then
-    local wallpaper = beautiful.wallpaper
-    -- If wallpaper is a function, call it with the screen
-    if type(wallpaper) == 'function' then
-      wallpaper = wallpaper(s)
-    end
-    gears.wallpaper.maximized(wallpaper, s, true)
-  end
-end
-
--- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
-screen.connect_signal('property::geometry', set_wallpaper)
+gears.wallpaper.set '#21252b'
 
 awful.screen.connect_for_each_screen(function(s)
-  -- Wallpaper
-  set_wallpaper(s)
-
   -- Each screen has its own tag table.
-  awful.tag({ '1', '2', '3', '4' }, s, awful.layout.layouts[1])
+  awful.tag({ '1', '2', '3', '4', '5', '6', '7', '8', '9' }, s, awful.layout.layouts[1])
+
+  s.quake = lain.util.quake {
+    app = terminal,
+    argname = '--name=%s',
+    height = 0.4,
+    border = 2,
+  }
 
   -- Create a promptbox for each screen
   s.mypromptbox = awful.widget.prompt()
@@ -283,18 +264,10 @@ clientbuttons = gears.table.join(
   end)
 )
 
--- drop-down terminal
-local quake = lain.util.quake {
-  app = terminal,
-  argname = '--name=%s',
-  height = 0.4,
-  border = 2,
-}
-
 -- Set keys
 globalkeys = gears.table.join(
   awful.key({ modkey }, '`', function()
-    quake:toggle()
+    awful.screen.focused().quake:toggle()
   end, {
     description = 'drop-down terminal',
     group = 'launcher',
@@ -335,55 +308,54 @@ globalkeys = gears.table.join(
   awful.key({ modkey }, 'Right', awful.tag.viewnext, { description = 'view next', group = 'tag' }),
   awful.key({ modkey }, 'Escape', awful.tag.history.restore, { description = 'go back', group = 'tag' }),
 
-  -- awful.key({ modkey }, 'h', function()
-  --   awful.client.focus.bydirection('left')
-  -- end, {
-  --   description = 'focus left client',
-  --   group = 'client',
-  -- }),
-  -- awful.key({ modkey }, 'j', function()
-  --   awful.client.focus.bydirection('down')
-  -- end, {
-  --   description = 'focus client downwards',
-  --   group = 'client',
-  -- }),
-  -- awful.key({ modkey }, 'k', function()
-  --   awful.client.focus.bydirection('up')
-  -- end, {
-  --   description = 'focus client upwards',
-  --   group = 'client',
-  -- }),
-  -- awful.key({ modkey }, 'l', function()
-  --   awful.client.focus.bydirection('right')
-  -- end, {
-  --   description = 'focus right client',
-  --   group = 'client',
-  -- }),
-
-  awful.key({ modkey }, 'j', function()
-    awful.client.focus.byidx(1)
+  awful.key({ modkey }, 'h', function()
+    awful.client.focus.global_bydirection 'left'
   end, {
-    description = 'focus next by index',
+    description = 'focus left client',
+    group = 'client',
+  }),
+  awful.key({ modkey }, 'j', function()
+    awful.client.focus.global_bydirection 'down'
+  end, {
+    description = 'focus client downwards',
     group = 'client',
   }),
   awful.key({ modkey }, 'k', function()
-    awful.client.focus.byidx(-1)
+    awful.client.focus.global_bydirection 'up'
   end, {
-    description = 'focus previous by index',
+    description = 'focus client upwards',
+    group = 'client',
+  }),
+  awful.key({ modkey }, 'l', function()
+    awful.client.focus.global_bydirection 'right'
+  end, {
+    description = 'focus right client',
     group = 'client',
   }),
 
   -- Layout manipulation
-  awful.key({ modkey, 'Shift' }, 'j', function()
-    awful.client.swap.byidx(1)
+  awful.key({ modkey, 'Shift' }, 'h', function()
+    awful.client.swap.global_bydirection 'left'
   end, {
-    description = 'swap with next client by index',
+    description = 'swap with left client',
+    group = 'client',
+  }),
+  awful.key({ modkey, 'Shift' }, 'j', function()
+    awful.client.swap.global_bydirection 'down'
+  end, {
+    description = 'swap with down client',
     group = 'client',
   }),
   awful.key({ modkey, 'Shift' }, 'k', function()
-    awful.client.swap.byidx(-1)
+    awful.client.swap.global_bydirection 'up'
   end, {
-    description = 'swap with previous client by index',
+    description = 'swap with up client',
+    group = 'client',
+  }),
+  awful.key({ modkey, 'Shift' }, 'l', function()
+    awful.client.swap.global_bydirection 'right'
+  end, {
+    description = 'swap with right client',
     group = 'client',
   }),
   awful.key({ modkey, 'Control' }, 'j', function()
@@ -398,7 +370,7 @@ globalkeys = gears.table.join(
     description = 'focus the previous screen',
     group = 'screen',
   }),
-  awful.key({ modkey }, 'u', awful.client.urgent.jumpto, { description = 'jump to urgent client', group = 'client' }),
+  awful.key({ modkey }, 'x', awful.client.urgent.jumpto, { description = 'jump to urgent client', group = 'client' }),
   awful.key({ modkey }, 'Tab', function()
     awful.client.focus.history.previous()
     if client.focus then
@@ -416,61 +388,15 @@ globalkeys = gears.table.join(
     description = 'open a terminal',
     group = 'launcher',
   }),
-  -- awful.key({ modkey }, 'w', function()
-  --   awful.spawn.raise_or_spawn('qutebrowser', {}, function(c)
-  --     return awful.rules.match(c, { class = 'qutebrowser' })
-  --   end)
-  -- end, {
-  --   description = 'raise or spawn browser',
-  --   group = 'launcher',
-  -- }),
-  -- awful.key({ modkey }, '`', function()
-  --   awful.spawn.raise_or_spawn(terminal, { floating = true }, function(c)
-  --     return awful.rules.match(c, { class = terminal })
-  --   end)
-  -- end, {
-  --   description = 'raise or spawn browser',
-  --   group = 'launcher',
-  -- }),
   awful.key({ modkey, 'Control' }, 'r', awesome.restart, { description = 'reload awesome', group = 'awesome' }),
   awful.key({ modkey, 'Shift' }, 'q', awesome.quit, { description = 'quit awesome', group = 'awesome' }),
 
-  awful.key({ modkey }, 'l', function()
-    awful.tag.incmwfact(0.05)
-  end, {
-    description = 'increase master width factor',
-    group = 'layout',
-  }),
-  awful.key({ modkey }, 'h', function()
-    awful.tag.incmwfact(-0.05)
-  end, {
-    description = 'decrease master width factor',
-    group = 'layout',
-  }),
-  awful.key({ modkey, 'Shift' }, 'h', function()
-    awful.tag.incnmaster(1, nil, true)
-  end, {
-    description = 'increase the number of master clients',
-    group = 'layout',
-  }),
-  awful.key({ modkey, 'Shift' }, 'l', function()
-    awful.tag.incnmaster(-1, nil, true)
-  end, {
-    description = 'decrease the number of master clients',
-    group = 'layout',
-  }),
-  awful.key({ modkey, 'Control' }, 'h', function()
-    awful.tag.incncol(1, nil, true)
-  end, {
-    description = 'increase the number of columns',
-    group = 'layout',
-  }),
-  awful.key({ modkey, 'Control' }, 'l', function()
-    awful.tag.incncol(-1, nil, true)
-  end, {
-    description = 'decrease the number of columns',
-    group = 'layout',
-  }),
+  awful.key(
+    { modkey, 'Control' },
+    'c',
+    awful.placement.centered(client.focus),
+    { description = 'center client', group = 'client' }
+  ),
   awful.key({ modkey }, 'space', function()
     awful.layout.inc(1)
   end, {
@@ -504,7 +430,7 @@ globalkeys = gears.table.join(
     group = 'launcher',
   }),
 
-  awful.key({ modkey }, 'x', function()
+  awful.key({ modkey }, 'u', function()
     awful.prompt.run {
       prompt = 'Run Lua code: ',
       textbox = awful.screen.focused().mypromptbox.widget,
@@ -702,8 +628,8 @@ awful.rules.rules = {
   { rule_any = { type = { 'normal', 'dialog' } }, properties = { titlebars_enabled = false } },
 
   -- Set Firefox to always map on the tag named "2" on screen 1.
-  -- { rule = { class = "Firefox" },
-  --   properties = { screen = 1, tag = "2" } },
+  { rule = { class = 'qutebrowser' }, properties = { screen = awful.screen.primary, tag = '2' } },
+  { rule = { instance = 'nvr' }, properties = { screen = awful.screen.primary, tag = '1', switchtotag = true } },
 }
 -- }}}
 
@@ -761,14 +687,6 @@ client.connect_signal('request::titlebars', function(c)
     layout = wibox.layout.align.horizontal,
   }
 end)
-
--- client.connect_signal('property::floating', function(c)
---   if c.floating then
---     awful.titlebar.show(c)
---   else
---     awful.titlebar.hide(c)
---   end
--- end)
 
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal('mouse::enter', function(c)
