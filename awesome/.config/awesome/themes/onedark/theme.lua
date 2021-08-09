@@ -1,7 +1,7 @@
----------------------------
--- Default awesome theme --
----------------------------
-
+local awful = require 'awful'
+local gears = require 'gears'
+local wibox = require 'wibox'
+local lain = require 'lain'
 local theme_assets = require 'beautiful.theme_assets'
 local xresources = require 'beautiful.xresources'
 local dpi = xresources.apply_dpi
@@ -10,6 +10,7 @@ local gfs = require 'gears.filesystem'
 local themes_path = gfs.get_themes_dir()
 
 local theme = {}
+local modkey = 'Mod4'
 
 theme.font = 'MesloLGM Nerd Font 11'
 
@@ -119,6 +120,138 @@ theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height, theme.bg_focus
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
 theme.icon_theme = nil
+
+-- Create a wibox for each screen and add it
+local taglist_buttons = gears.table.join(
+  awful.button({}, 1, function(t)
+    t:view_only()
+  end),
+  awful.button({ modkey }, 1, function(t)
+    if client.focus then
+      client.focus:move_to_tag(t)
+    end
+  end),
+  awful.button({}, 3, awful.tag.viewtoggle),
+  awful.button({ modkey }, 3, function(t)
+    if client.focus then
+      client.focus:toggle_tag(t)
+    end
+  end),
+  awful.button({}, 4, function(t)
+    awful.tag.viewnext(t.screen)
+  end),
+  awful.button({}, 5, function(t)
+    awful.tag.viewprev(t.screen)
+  end)
+)
+
+local tasklist_buttons = gears.table.join(
+  awful.button({}, 1, function(c)
+    if c == client.focus then
+      c.minimized = true
+    else
+      c:emit_signal('request::activate', 'tasklist', { raise = true })
+    end
+  end),
+  awful.button({}, 3, function()
+    awful.menu.client_list { theme = { width = 250 } }
+  end),
+  awful.button({}, 4, function()
+    awful.client.focus.byidx(1)
+  end),
+  awful.button({}, 5, function()
+    awful.client.focus.byidx(-1)
+  end)
+)
+
+local mytextclock = wibox.widget.textclock ' %H:%M  %d.%m.%Y'
+mytextclock:set_font(theme.font)
+local month_calendar = awful.widget.calendar_popup.month {}
+function month_calendar.call_calendar(self, offset, position, screen)
+  screen = awful.screen.focused()
+  awful.widget.calendar_popup.call_calendar(self, offset, position, screen)
+end
+month_calendar:attach(mytextclock, 'tc')
+
+local logout_menu_widget = require 'awesome-wm-widgets.logout-menu-widget.logout-menu'
+
+function theme.at_screen_connect(s)
+  -- Each screen has its own tag table.
+  awful.tag(awful.util.tagnames, s, awful.layout.layouts[1])
+
+  s.quake = lain.util.quake {
+    app = awful.util.terminal,
+    argname = '--name=%s',
+    height = 0.4,
+    border = 2,
+  }
+
+  -- Create an imagebox widget which will contain an icon indicating which layout we're using.
+  -- We need one layoutbox per screen.
+  s.mylayoutbox = awful.widget.layoutbox(s)
+  s.mylayoutbox:buttons(gears.table.join(
+    awful.button({}, 1, function()
+      awful.layout.inc(1)
+    end),
+    awful.button({}, 3, function()
+      awful.layout.inc(-1)
+    end),
+    awful.button({}, 4, function()
+      awful.layout.inc(1)
+    end),
+    awful.button({}, 5, function()
+      awful.layout.inc(-1)
+    end)
+  ))
+  s.mylayoutbox = wibox.container.margin(s.mylayoutbox, 5, 5, 5, 5)
+
+  -- Create a taglist widget
+  s.mytaglist = awful.widget.taglist {
+    screen = s,
+    filter = awful.widget.taglist.filter.all,
+    buttons = taglist_buttons,
+  }
+
+  -- Create a tasklist widget
+  s.mytasklist = awful.widget.tasklist {
+    screen = s,
+    filter = awful.widget.tasklist.filter.currenttags,
+    buttons = tasklist_buttons,
+  }
+
+  -- Create the wibox
+  s.mywibox = awful.wibar { position = 'top', screen = s, height = 28 }
+
+  -- Add widgets to the wibox
+  s.mywibox:setup {
+    layout = wibox.layout.align.horizontal,
+    expand = 'none',
+    { -- Left widgets
+      layout = wibox.layout.fixed.horizontal,
+      s.mylayoutbox,
+      s.mytaglist,
+    },
+    {
+      mytextclock,
+      layout = wibox.layout.fixed.horizontal,
+    },
+    { -- Right widgets
+      layout = wibox.layout.fixed.horizontal,
+      wibox.widget.systray(),
+      wibox.container.margin(
+        logout_menu_widget {
+          onlock = function()
+            awful.spawn.with_shell 'i3lock -c 282c34'
+          end,
+        },
+        3,
+        3,
+        3,
+        3
+      ),
+    },
+  }
+end
 
 return theme
 
