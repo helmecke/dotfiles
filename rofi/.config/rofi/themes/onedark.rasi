@@ -4,35 +4,37 @@
  * Copyright: Rasmus Steinke
  ******************************************************************************/
 * {
+    red:                         #e06c75;
+    blue:                        #61afef;
+    green:                       #98C379;
     selected-normal-foreground:  @foreground;
     foreground:                  #979eab;
     normal-foreground:           @foreground;
     alternate-normal-background: @background;
-    red:                         #e06c75;
-    selected-urgent-foreground:  @foreground;
-    blue:                        #61afef;
-    urgent-foreground:           @foreground;
+    selected-urgent-foreground:  @background;
+    urgent-foreground:           @red;
     alternate-urgent-background: @background;
-    active-foreground:           #abb2bf;
-    lightbg:                     rgba ( 238, 232, 213, 100 % );
-    selected-active-foreground:  @foreground;
+    active-foreground:           @green;
+    lightbg:                     @background;
+    selected-active-foreground:  @background;
     alternate-active-background: @background;
     background:                  #282c34;
-    bordercolor:                 rgba ( 0, 43, 55, 100 % );
+    bordercolor:                 @foreground;
     alternate-normal-foreground: @foreground;
     normal-background:           @background;
-    lightfg:                     rgba ( 88, 104, 117, 100 % );
+    lightfg:                     #abb2bf;
     selected-normal-background:  #393e48;
     border-color:                @foreground;
     spacing:                     2;
-    separatorcolor:              rgba ( 0, 54, 66, 100 % );
+    separatorcolor:              #21242b;
     urgent-background:           @background;
-    selected-urgent-background:  @background;
+    selected-urgent-background:  @red;
     alternate-urgent-foreground: @urgent-foreground;
     background-color:            @background;
     alternate-active-foreground: @active-foreground;
     active-background:           @background;
-    selected-active-background:  @background;
+    selected-active-background:  @green;
+    highlight:                   bold #61afef;
 }
 #window {
     background-color: @background;
