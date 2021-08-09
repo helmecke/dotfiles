@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+kitty --title nvr --name nvr zsh -c 'tmux a -t nvr || tmux new -s nvr nvr'
+
