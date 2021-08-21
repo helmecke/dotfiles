@@ -12,6 +12,25 @@ local themes_path = gfs.get_themes_dir()
 local theme = {}
 local modkey = 'Mod4'
 
+local colors = {
+  red = '#E06C75',
+  dark_red = '#BE5046',
+  green = '#98C379',
+  yellow = '#E5C07B',
+  dark_yellow = '#D19A66',
+  blue = '#61AFEF',
+  purple = '#C678DD',
+  cyan = '#56B6C2',
+  white = '#ABB2BF',
+  dark_white = '#979EAB',
+  black = '#282C34',
+  comment_grey = '#5C6370',
+  gutter_fg_grey = '#4B5263',
+  cursor_grey = '#2C323C',
+  special_grey = '#3B4048',
+  vertsplit = '#21252B',
+}
+
 theme.font = 'MesloLGM Nerd Font 11'
 
 theme.bg_normal = '#282c34'
@@ -44,10 +63,26 @@ theme.border_marked = '#be5046'
 -- Example:
 --theme.taglist_bg_focus = "#ff0000"
 
+theme.taglist_fg_focus = colors.blue
+theme.taglist_fg_empty = colors.comment_grey
+theme.taglist_fg_urgent = colors.red
+theme.taglist_bg_urgent = colors.black
+theme.taglist_fg_occupied = colors.dark_white
+theme.taglist_fg_volatile = colors.purple
+
+theme.notification_font = theme.font
+theme.notification_bg = theme.bg_normal
+theme.notification_fg = theme.fg_normal
+theme.notification_border_width = theme.border_width
+theme.notification_border_color = theme.border_focus
+theme.notification_icon_size = dpi(64)
+theme.notification_max_width = dpi(600)
+theme.notification_max_height = dpi(300)
+
 -- Generate taglist squares:
-local taglist_square_size = dpi(4)
-theme.taglist_squares_sel = theme_assets.taglist_squares_sel(taglist_square_size, theme.fg_normal)
-theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(taglist_square_size, theme.fg_normal)
+-- local taglist_square_size = dpi(4)
+-- theme.taglist_squares_sel = theme_assets.taglist_squares_sel(taglist_square_size, theme.fg_normal)
+-- theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(taglist_square_size, theme.fg_normal)
 
 -- Variables set for theming notifications:
 -- notification_font
@@ -186,6 +221,8 @@ function theme.at_screen_connect(s)
     border = 2,
   }
 
+  -- Create a promptbox for each screen
+  s.mypromptbox = awful.widget.prompt()
   -- Create an imagebox widget which will contain an icon indicating which layout we're using.
   -- We need one layoutbox per screen.
   s.mylayoutbox = awful.widget.layoutbox(s)
@@ -230,6 +267,7 @@ function theme.at_screen_connect(s)
       layout = wibox.layout.fixed.horizontal,
       s.mylayoutbox,
       s.mytaglist,
+      s.mypromptbox,
     },
     {
       mytextclock,
