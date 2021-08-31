@@ -3,3 +3,4 @@ nvim/.config/nvim/plugin/packer_compiled.vim
 nvim/.config/nvim/plugin/packer_compiled.lua
 xmonad/.xmonad/*
 !xmonad.hs
+__pycache__
