@@ -28,6 +28,7 @@ import subprocess
 from typing import List  # noqa: F401
 
 from libqtile import bar, layout, widget, hook, qtile
+from libqtile.widget.battery import Battery, BatteryState
 from libqtile.config import (
     Click,
     Drag,
@@ -40,18 +41,40 @@ from libqtile.config import (
     ScratchPad,
 )
 from libqtile.lazy import lazy
-from libqtile.utils import guess_terminal
+
+
+def get_group(group_name):
+    for group in groups:
+        if group.name == group_name:
+            return group
+    return None
 
 
 def toscreen(qtile, group_name):
+    """ Sticky screen focus group. """
     for i, group in enumerate(qtile.groups):
         if group_name == group.name:
-            if qtile.current_screen == group.screen or group.screen is None:
+            screen_affinity = get_group(group_name).screen_affinity
+            if (
+                qtile.current_screen == group.screen
+                or qtile.current_screen.index == screen_affinity
+            ):
+                return qtile.current_screen.set_group(qtile.groups[i])
+            elif group.screen is None and screen_affinity is None:
+                return qtile.current_screen.set_group(qtile.groups[i])
+            elif qtile.current_screen.index == screen_affinity:
+                return qtile.current_screen.set_group(qtile.groups[i])
+            elif (
+                qtile.current_screen.index != screen_affinity
+                and screen_affinity is not None
+            ):
+                qtile.cmd_to_screen(screen_affinity)
                 return qtile.current_screen.set_group(qtile.groups[i])
             else:
                 qtile.cmd_to_screen(group.screen.index)
                 return qtile.current_screen.set_group(qtile.groups[i])
-                # return qtile.cmd_spawn("notify-send '%s'" % group.screen.index)
+                # qtile.cmd_spawn("notify-send '%s'" % "test")
+
     # if group_name == qtile.current_screen.group.name:
     #     return qtile.current_screen.set_group(qtile.current_screen.previous_group)
     # for i, group in enumerate(qtile.groups):
@@ -64,7 +87,7 @@ alt = "mod1"
 shift = "shift"
 ctrl = "control"
 
-terminal = guess_terminal()
+terminal = "kitty"
 editor = terminal + " --title nvim zsh -c nvim"
 
 colors = {
@@ -94,45 +117,46 @@ keys = [
     Key([mod], "k", lazy.layout.up()),
     Key([mod], "u", lazy.next_urgent()),
     # Move windows
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left()),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right()),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down()),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up()),
+    Key([mod, shift], "h", lazy.layout.shuffle_left()),
+    Key([mod, shift], "l", lazy.layout.shuffle_right()),
+    Key([mod, shift], "j", lazy.layout.shuffle_down()),
+    Key([mod, shift], "k", lazy.layout.shuffle_up()),
     # Resize windows
-    Key([mod, "control"], "h", lazy.layout.grow_left()),
-    Key([mod, "control"], "l", lazy.layout.grow_right()),
-    Key([mod, "control"], "j", lazy.layout.grow_down()),
-    Key([mod, "control"], "k", lazy.layout.grow_up()),
-    Key([mod, "shift", "control"], "h", lazy.layout.swap_column_left()),
-    Key([mod, "shift", "control"], "l", lazy.layout.swap_column_right()),
+    Key([mod, ctrl], "h", lazy.layout.grow_left()),
+    Key([mod, ctrl], "l", lazy.layout.grow_right()),
+    Key([mod, ctrl], "j", lazy.layout.grow_down()),
+    Key([mod, ctrl], "k", lazy.layout.grow_up()),
+    Key([mod, shift, ctrl], "h", lazy.layout.swap_column_left()),
+    Key([mod, shift, ctrl], "l", lazy.layout.swap_column_right()),
     Key([mod], "n", lazy.layout.normalize()),
     Key([mod], "m", lazy.layout.toggle_split()),
-    Key([mod], "f", lazy.window.toggle_fullscreen()),
-    Key([mod, "control"], "space", lazy.window.toggle_floating()),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
     Key(
-        [mod, "control"],
+        [mod, ctrl],
         "Return",
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
     ),
+    Key([mod, ctrl], "space", lazy.window.toggle_floating()),
+    Key([mod, ctrl], "n", lazy.window.toggle_minimize()),
+    Key([mod, ctrl], "f", lazy.window.toggle_fullscreen()),
     # Focus screens
     Key([mod], "o", lazy.next_screen()),
     Key([mod], "i", lazy.prev_screen()),
     Key([mod], "b", lazy.hide_show_bar()),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod, "shift"], "Return", lazy.spawn(editor), desc="Launch editor"),
+    Key([mod, shift], "Return", lazy.spawn(editor), desc="Launch editor"),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod, "shift"], "Tab", lazy.prev_layout(), desc="Toggle between layouts"),
-    Key([mod], "space", lazy.layout.next_layout()),
-    Key([mod, "shift"], "space", lazy.layout.prev_layout()),
+    Key([mod, shift], "Tab", lazy.prev_layout(), desc="Toggle between layouts"),
+    Key([mod], "space", lazy.next_layout()),
+    Key([mod, shift], "space", lazy.prev_layout()),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key([mod, ctrl], "r", lazy.restart(), desc="Restart Qtile"),
+    Key([mod, ctrl], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key(
         [mod],
         "r",
@@ -205,6 +229,12 @@ for i in groups:
             Key(
                 [mod],
                 i.name,
+                lazy.function(toscreen, i.name),
+                desc="Switch to group {}".format(i.name),
+            ),
+            Key(
+                [mod, ctrl],
+                i.name,
                 lazy.group[i.name].toscreen(),
                 desc="Switch to group {}".format(i.name),
             ),
@@ -217,10 +247,10 @@ for i in groups:
             ),
             # Or, use below if you prefer not to switch to that group.
             # # mod1 + shift + letter of group = move focused window to group
-            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+            # Key([mod, shift], i.name, lazy.window.togroup(i.name),
             #     desc="move focused window to group {}".format(i.name)),
             Key(
-                [mod, ctrl],
+                [mod, shift, ctrl],
                 i.name,
                 lazy.group.switch_groups(i.name),
                 desc="Move current group to {}".format(i.name),
@@ -234,11 +264,11 @@ for i in groups:
 #             Key([mod], actual_key, lazy.group[group.name].toscreen()),
 #             # Send window to workspace N (actual_key)
 #             Key(
-#                 [mod, "shift"],
+#                 [mod, shift],
 #                 actual_key,
 #                 lazy.window.togroup(group.name, switch_group=True),
 #             ),
-#             Key([mod, "control"], actual_key, lazy.function(toscreen, group.name)),
+#             Key([mod, ctrl], actual_key, lazy.function(toscreen, group.name)),
 #         ]
 #     )
 
@@ -247,28 +277,34 @@ groups.extend(
         Group(
             "chat",
             label=" ",
-            spawn="slack",
-            # persist=False,
-            # init=False,
+            persist=False,
+            init=False,
             matches=[Match(wm_class=["slack"])],
             screen_affinity=1,
         ),
         Group(
             "www",
             label=" ",
-            spawn="qutebrowser",
-            layout="stack",
-            # persist=False,
-            # init=False,
+            layout="max",
+            persist=False,
+            init=False,
             matches=[Match(wm_class=["qutebrowser", "firefox"])],
+            screen_affinity=0,
         ),
         Group(
             "edit",
             label=" ",
-            spawn="kitty --class nvr --title nvr zsh -c 'rm -rf /tmp/nvim*; nvr'",
-            # persist=False,
-            # init=False,
-            matches=[Match(title=["nvr"])],
+            persist=False,
+            init=False,
+            matches=[Match(title=["nvr"]), Match(wm_class=["nvr"])],
+            screen_affinity=0,
+        ),
+        Group(
+            "file",
+            label=" ",
+            persist=False,
+            init=False,
+            matches=[Match(title=["vifm"]), Match(wm_class=["vifm"])],
         ),
     ]
 )
@@ -293,17 +329,25 @@ groups.append(
 layout_defaults = dict(
     border_focus=colors["blue"],
     border_normal=colors["comment_grey"],
+    border_focus_stack=colors["green"],
+    border_normal_stack=colors["comment_grey"],
+    border_on_single=True,
     border_width=2,
 )
 
 keys.extend(
     [
-        Key([mod], "s", lazy.group["chat"].toscreen()),
-        Key([mod, "shift"], "s", lazy.window.togroup("chat", switch_group=True)),
-        Key([mod], "w", lazy.group["www"].toscreen()),
-        Key([mod, "shift"], "w", lazy.window.togroup("www", switch_group=True)),
-        Key([mod], "e", lazy.group["edit"].toscreen()),
-        Key([mod, "shift"], "e", lazy.window.togroup("edit", switch_group=True)),
+        # Key([mod], "s", lazy.group["chat"].toscreen()),
+        Key([mod], "s", lazy.function(toscreen, "chat")),
+        Key([mod, shift], "s", lazy.window.togroup("chat", switch_group=True)),
+        # Key([mod], "w", lazy.group["www"].toscreen()),
+        Key([mod], "w", lazy.function(toscreen, "www")),
+        Key([mod, shift], "w", lazy.window.togroup("www", switch_group=True)),
+        # Key([mod], "e", lazy.group["edit"].toscreen()),
+        Key([mod], "e", lazy.function(toscreen, "edit")),
+        Key([mod, shift], "e", lazy.window.togroup("edit", switch_group=True)),
+        Key([mod], "f", lazy.function(toscreen, "file")),
+        Key([mod, shift], "f", lazy.window.togroup("file", switch_group=True)),
         Key([mod], "grave", lazy.group["scratchpad"].dropdown_toggle("term")),
         KeyChord(
             [mod],
@@ -319,19 +363,17 @@ keys.extend(
 layouts = [
     layout.Columns(
         **layout_defaults,
-        border_focus_stack=colors["green"],
-        border_normal_stack=colors["comment_grey"],
-        border_on_single=True,
     ),
-    layout.Stack(
+    layout.Columns(
         **layout_defaults,
-        num_stacks=1,
+        num_columns=1,
+        name="verticaltile",
     ),
-    layout.Tile(
+    layout.Columns(
         **layout_defaults,
-    ),
-    layout.VerticalTile(
-        **layout_defaults,
+        num_columns=1,
+        split=False,
+        name="max",
     ),
 ]
 
@@ -343,11 +385,59 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+
+class MyBattery(Battery):
+    def build_string(self, status):
+        if self.layout is not None:
+            if (
+                status.state == BatteryState.DISCHARGING
+                and status.percent < self.low_percentage
+            ):
+                self.layout.colour = self.low_foreground
+            else:
+                self.layout.colour = self.foreground
+        if status.state == BatteryState.DISCHARGING:
+            if status.percent > 0.75:
+                char = " "
+            elif status.percent > 0.45:
+                char = " "
+            else:
+                char = " "
+        elif status.percent >= 1 or status.state == BatteryState.FULL:
+            char = " "
+        elif status.state == BatteryState.EMPTY or status.percent == 0:
+            char = " "
+        else:
+            char = " "
+        return self.format.format(char=char, percent=status.percent)
+
+    def restore(self):
+        self.format = "{char}"
+        self.font = widget_defaults.font
+        self.timer_setup()
+
+    def button_press(self, x, y, button):
+        self.format = "{percent:2.0%}"
+        self.font = widget_defaults.font
+        self.timer_setup()
+        self.timeout_add(1, self.restore)
+
+
+battery = MyBattery(
+    format="{char}",
+    low_foreground=colors["red"],
+    show_short_text=False,
+    low_percentage=0.12,
+    foreground=colors["white"],
+    notify_below=12,
+)
+
 screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.CurrentLayoutIcon(scale=0.8),
+                widget.CurrentLayout(),
+                # widget.CurrentLayoutIcon(scale=0.8),
                 widget.GroupBox(
                     highlight_method="block",
                     rounded=False,
@@ -364,7 +454,8 @@ screens = [
                     name_transform=lambda name: name.upper(),
                 ),
                 widget.Systray(),
-                widget.BatteryIcon(),
+                battery,
+                widget.Spacer(length=2),
                 widget.Clock(format=" %H:%M  %d.%m.%Y"),
             ],
             24,
@@ -375,7 +466,8 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.CurrentLayoutIcon(scale=0.8),
+                widget.CurrentLayout(),
+                # widget.CurrentLayoutIcon(scale=0.8),
                 widget.GroupBox(
                     highlight_method="block",
                     rounded=False,
@@ -453,9 +545,7 @@ wmname = "LG3D"
 
 @hook.subscribe.startup_once
 def autostart():
-    processes = [
-        ["dunst"],
-    ]
+    processes = [["dunst"], ["sh -c './.fehbg'"]]
 
     for p in processes:
         subprocess.Popen(p)
