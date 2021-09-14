@@ -1,6 +1,0 @@
-rofi.combi-modi:    window,run,drun,ssh
-rofi.theme:         .config/rofi/themes/onedark
-rofi.modi:          combi
-
-rofi.font:          MesloLGM Nerd Font 11
-rofi.terminal:      kitty
