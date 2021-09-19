@@ -50,8 +50,27 @@ def get_group(group_name):
     return None
 
 
+def focus_master(qtile):
+    cur = qtile.current_layout.clients.current_client
+    master = qtile.current_layout.clients[0]
+    last = qtile.current_layout.group.focus_history[-2]
+
+    if cur == master:
+        return qtile.current_layout.group.focus(last)
+
+    return qtile.current_layout.group.focus(master)
+
+
+def swap_master(qtile):
+    cur = qtile.current_layout.clients.current_client
+    master = qtile.current_layout.clients[0]
+
+    qtile.current_layout.clients.swap(cur, master, 0)
+    return qtile.current_layout.group.focus(qtile.current_layout.clients[0])
+
+
 def toscreen(qtile, group_name):
-    """ Sticky screen focus group. """
+    """Sticky screen focus group."""
     for i, group in enumerate(qtile.groups):
         if group_name == group.name:
             screen_affinity = get_group(group_name).screen_affinity
@@ -110,39 +129,49 @@ colors = {
 }
 
 keys = [
-    # Focus windows
-    Key([mod], "h", lazy.layout.left()),
-    Key([mod], "l", lazy.layout.right()),
     Key([mod], "j", lazy.layout.down()),
     Key([mod], "k", lazy.layout.up()),
-    Key([mod], "u", lazy.next_urgent()),
-    # Move windows
-    Key([mod, shift], "h", lazy.layout.shuffle_left()),
-    Key([mod, shift], "l", lazy.layout.shuffle_right()),
+    Key([mod, shift], "h", lazy.layout.shrink_main()),
+    Key([mod, shift], "l", lazy.layout.grow_main()),
     Key([mod, shift], "j", lazy.layout.shuffle_down()),
     Key([mod, shift], "k", lazy.layout.shuffle_up()),
-    # Resize windows
-    Key([mod, ctrl], "h", lazy.layout.grow_left()),
-    Key([mod, ctrl], "l", lazy.layout.grow_right()),
-    Key([mod, ctrl], "j", lazy.layout.grow_down()),
-    Key([mod, ctrl], "k", lazy.layout.grow_up()),
-    Key([mod, shift, ctrl], "h", lazy.layout.swap_column_left()),
-    Key([mod, shift, ctrl], "l", lazy.layout.swap_column_right()),
+    Key([mod], "h", lazy.layout.shrink()),
+    Key([mod], "l", lazy.layout.grow()),
     Key([mod], "n", lazy.layout.normalize()),
-    Key([mod], "m", lazy.layout.toggle_split()),
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key(
-        [mod, ctrl],
-        "Return",
-        lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
-    ),
+    Key([mod, shift], "n", lazy.layout.reset()),
+    Key([mod], "m", lazy.layout.maximize()),
+    Key([mod, ctrl], "Return", lazy.layout.flip()),
+    Key([mod], "space", lazy.function(focus_master)),
+    Key([mod, shift], "space", lazy.function(swap_master)),
+    # Focus windows
+    # Key([mod], "h", lazy.layout.left()),
+    # Key([mod], "l", lazy.layout.right()),
+    # Key([mod], "j", lazy.layout.down()),
+    # Key([mod], "k", lazy.layout.up()),
+    # # Move windows
+    # Key([mod, shift], "h", lazy.layout.shuffle_left()),
+    # Key([mod, shift], "l", lazy.layout.shuffle_right()),
+    # Key([mod, shift], "j", lazy.layout.shuffle_down()),
+    # Key([mod, shift], "k", lazy.layout.shuffle_up()),
+    # # Resize windows
+    # Key([mod, ctrl], "h", lazy.layout.grow_left()),
+    # Key([mod, ctrl], "l", lazy.layout.grow_right()),
+    # Key([mod, ctrl], "j", lazy.layout.grow_down()),
+    # Key([mod, ctrl], "k", lazy.layout.grow_up()),
+    # Key([mod, shift, ctrl], "h", lazy.layout.swap_column_left()),
+    # Key([mod, shift, ctrl], "l", lazy.layout.swap_column_right()),
+    # Key([mod], "n", lazy.layout.normalize()),
+    # Key([mod], "m", lazy.layout.toggle_split()),
+    # Key(
+    #     [mod, ctrl],
+    #     "Return",
+    #     lazy.layout.toggle_split(),
+    #     desc="Toggle between split and unsplit sides of stack",
+    # ),
     Key([mod, ctrl], "space", lazy.window.toggle_floating()),
     Key([mod, ctrl], "n", lazy.window.toggle_minimize()),
     Key([mod, ctrl], "f", lazy.window.toggle_fullscreen()),
+    Key([mod], "u", lazy.next_urgent()),
     # Focus screens
     Key([mod], "o", lazy.next_screen()),
     Key([mod], "i", lazy.prev_screen()),
@@ -152,8 +181,6 @@ keys = [
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod, shift], "Tab", lazy.prev_layout(), desc="Toggle between layouts"),
-    Key([mod], "space", lazy.next_layout()),
-    Key([mod, shift], "space", lazy.prev_layout()),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, ctrl], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, ctrl], "q", lazy.shutdown(), desc="Shutdown Qtile"),
@@ -203,23 +230,6 @@ keys = [
     ),
 ]
 
-# groups = [
-#     Group("1", label=" "),
-#     Group(
-#         "2",
-#         label=" ",
-#         layout="stack",
-#         matches=[Match(wm_class=["qutebrowser", "firefox"])],
-#     ),
-#     Group("3", label=" ", matches=[Match(wm_class=["slack"])]),
-#     Group("4"),
-#     Group("5"),
-#     Group("6"),
-#     Group("7"),
-#     Group("8"),
-#     Group("9"),
-# ]
-
 groups = [Group(i) for i in "123456789"]
 
 for i in groups:
@@ -257,20 +267,6 @@ for i in groups:
             ),
         ]
     )
-
-#     keys.extend(
-#         [
-#             # Switch to workspace N (actual_key)
-#             Key([mod], actual_key, lazy.group[group.name].toscreen()),
-#             # Send window to workspace N (actual_key)
-#             Key(
-#                 [mod, shift],
-#                 actual_key,
-#                 lazy.window.togroup(group.name, switch_group=True),
-#             ),
-#             Key([mod, ctrl], actual_key, lazy.function(toscreen, group.name)),
-#         ]
-#     )
 
 groups.extend(
     [
@@ -361,13 +357,16 @@ keys.extend(
 )
 
 layouts = [
-    layout.Columns(
-        **layout_defaults,
+    layout.MonadTall(
+        border_focus=colors["blue"],
+        border_normal=colors["comment_grey"],
+        new_client_position="top",
+        ratio=0.6,
     ),
-    layout.Columns(
-        **layout_defaults,
-        num_columns=1,
-        name="verticaltile",
+    layout.MonadWide(
+        border_focus=colors["blue"],
+        border_normal=colors["comment_grey"],
+        new_client_position="top",
     ),
     layout.Columns(
         **layout_defaults,
@@ -436,8 +435,8 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.CurrentLayout(),
-                # widget.CurrentLayoutIcon(scale=0.8),
+                # widget.CurrentLayout(),
+                widget.CurrentLayoutIcon(scale=0.8),
                 widget.GroupBox(
                     highlight_method="block",
                     rounded=False,
@@ -545,7 +544,7 @@ wmname = "LG3D"
 
 @hook.subscribe.startup_once
 def autostart():
-    processes = [["dunst"], ["sh -c './.fehbg'"]]
+    processes = [["dunst"], ["sh -c './.fehbg'"], ["flameshot"]]
 
     for p in processes:
         subprocess.Popen(p)
