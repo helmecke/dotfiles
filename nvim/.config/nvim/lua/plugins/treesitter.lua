@@ -14,7 +14,10 @@ parser_configs.norg = {
 require('nvim-treesitter.configs').setup {
   ensure_installed = 'maintained',
   highlight = { enable = true },
-  indent = { enable = true },
+  indent = {
+    enable = true,
+    disable = { 'yaml' },
+  },
   incremental_selection = {
     enable = true,
     keymaps = {

@@ -56,11 +56,12 @@ local function get_current_file_name(modified_icon, readonly_icon)
   local file
   if condition.hide_in_width() then
     file = vim.fn.fnamemodify(vim.fn.expand '%', ':~:.')
-    if file:len() > 50 then
+    if file:len() > 50 and file ~= nil then
       file = file:sub(-48, -1)
-      bla = file
-      local bla = file:find('/')
-      file = '..' .. file:sub(bla, -1)
+      bla = file:find('/')
+      if bla ~= nil then
+        file = '..' .. file:sub(bla, -1)
+      end
     end
   else
     file = vim.fn.expand '%:t'

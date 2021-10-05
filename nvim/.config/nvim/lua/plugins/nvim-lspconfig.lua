@@ -47,10 +47,10 @@ lspconfig.dotls.setup {
   on_attach = on_attach,
 }
 
---[[ lspconfig.pyls.setup {
+lspconfig.pylsp.setup {
   on_attach = on_attach,
   settings = {
-    pyls = {
+    pylsp = {
       configurationSources = { 'flake8' },
       plugins = {
         autopep8 = { enabled = false },
@@ -64,7 +64,6 @@ lspconfig.dotls.setup {
     },
   },
 }
-]]
 
 lspconfig.yamlls.setup {
   on_attach = on_attach,
@@ -171,4 +170,8 @@ require('lspconfig').sumneko_lua.setup {
       },
     },
   },
+}
+
+lspconfig.golangcilsp.setup {
+  filetypes = { 'go' },
 }

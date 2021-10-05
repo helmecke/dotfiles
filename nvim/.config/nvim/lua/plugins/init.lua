@@ -31,7 +31,10 @@ return packer.startup(function()
       vim.cmd 'colorscheme onedark'
     end,
   }
-  use { 'hashivim/vim-terraform', config = [[require'plugins.vim-terraform']] }
+  use {
+    'hashivim/vim-terraform',
+    config = [[require'plugins.vim-terraform']], -- ./vim-terraform.lua
+  }
   use 'tpope/vim-unimpaired'
   use 'tpope/vim-repeat'
   use 'tpope/vim-surround'
@@ -39,10 +42,13 @@ return packer.startup(function()
   use 'google/vim-jsonnet'
   use {
     'tpope/vim-fugitive',
-    config = [[require'plugins.fugitive']],
+    config = [[require'plugins.fugitive']], -- ./fugitive.lua
     requires = {
       'tpope/vim-rhubarb',
-      { 'shumphrey/fugitive-gitlab.vim', config = [[require'plugins.fugitive-gitlab']] },
+      {
+        'shumphrey/fugitive-gitlab.vim',
+        config = [[require'plugins.fugitive-gitlab']], -- ./fugitive-gitlab.lua
+      },
     },
   }
   use {
@@ -53,8 +59,6 @@ return packer.startup(function()
       'nvim-treesitter/playground',
     },
   }
-  use { 'chriskempson/base16-vim', disable = true, config = [[require'plugins.base16-vim']] }
-  use { 'mhinz/vim-sayonara', disable = true, config = [[require('plugins.sayonara')]] }
   use {
     'moll/vim-bbye',
     config = function()
@@ -63,57 +67,48 @@ return packer.startup(function()
   }
   use {
     'kyazdani42/nvim-tree.lua',
-    config = [[require'plugins.nvim-tree']],
-    requires = {
-      'kyazdani42/nvim-web-devicons',
-    },
+    config = [[require'plugins.nvim-tree']], -- ./nvim-tree.lua
+    requires = 'kyazdani42/nvim-web-devicons',
   }
-  use { 'neovim/nvim-lspconfig', config = [[require'plugins.lsp']] }
+  use {
+    'neovim/nvim-lspconfig',
+    config = [[require'plugins.nvim-lspconfig']], -- ./nvim-lspconfig.lua
+  }
   use { 'creativenull/diagnosticls-nvim', requires = 'neovim/nvim-lspconfig' }
   use {
     'kabouzeid/nvim-lspinstall',
+    config = [[require'plugins.nvim-lspinstall']], -- ./nvim-lspinstall.lua
     requires = 'neovim/nvim-lspconfig',
-    config = function()
-      require('lspinstall').setup {}
-    end,
   }
-  use { 'hrsh7th/nvim-compe', config = [[require'plugins.nvim-compe']] }
+  use {
+    'hrsh7th/nvim-compe',
+    config = [[require'plugins.nvim-compe']], -- ./nvim-compe.lua
+  }
   use {
     'stevearc/vim-arduino',
-    setup = function()
-      vim.g.arduino_dir = '~/Documents/Arduino'
-      vim.g.arduino_serial_port = '/dev/ttyUSB0'
-    end,
+    setup = [[require'plugins.vim-arduino']], -- ./vim-arduino.lua
     ft = 'arduino',
   }
   use {
     'nvim-telescope/telescope.nvim',
-    config = [[require'plugins.telescope']],
+    config = [[require'plugins.telescope']], -- ./telescope.lua
     requires = {
-      { 'nvim-lua/popup.nvim' },
-      { 'nvim-lua/plenary.nvim' },
-      { 'nvim-telescope/telescope-ghq.nvim' },
-      { 'nvim-telescope/telescope-github.nvim' },
-      { 'nvim-telescope/telescope-fzy-native.nvim' },
+      'nvim-lua/popup.nvim',
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-ghq.nvim',
+      'nvim-telescope/telescope-github.nvim',
+      'nvim-telescope/telescope-fzy-native.nvim',
+      'ThePrimeagen/git-worktree.nvim',
     },
   }
   use {
-    'ThePrimeagen/git-worktree.nvim',
-    requires = { 'nvim-telescope/telescope.nvim' },
-    config = function()
-      require('git-worktree').setup {}
-      require('telescope').load_extension 'git_worktree'
-      require('which-key').register {
-        ['<leader>'] = {
-          g = {
-            w = { '<cmd>Telescope git_worktree<cr>', 'Find worktree' },
-          },
-        },
-      }
-    end,
+    'hkupty/iron.nvim',
+    config = [[require'plugins.iron']], -- ./iron.lua
   }
-  use { 'hkupty/iron.nvim', config = [[require'plugins.iron']] }
-  use { 'vimwiki/vimwiki', config = [[require'plugins.vimwiki']] }
+  use {
+    'vimwiki/vimwiki',
+    config = [[require'plugins.vimwiki']], -- ./vimwiki.lua
+  }
   use { 'npxbr/glow.nvim', cmd = 'Glow', ft = { 'markdown', 'vimwiki' } }
   use {
     'iamcco/markdown-preview.nvim',
@@ -125,14 +120,20 @@ return packer.startup(function()
     'tpope/vim-dadbod',
     requires = {
       'kristijanhusak/vim-dadbod-completion',
-      { 'kristijanhusak/vim-dadbod-ui', setup = [[require'plugins.dadbod-ui']] },
+      {
+        'kristijanhusak/vim-dadbod-ui',
+        config = [[require'plugins.vim-dadbod-ui']], -- ./vim-dadbod-ui.lua
+      },
     },
   }
   use { 'diepm/vim-rest-console', ft = { 'rest' } }
-  use { 'windwp/nvim-autopairs', config = [[require'plugins.nvim-autopairs']] }
+  use {
+    'windwp/nvim-autopairs',
+    config = [[require'plugins.nvim-autopairs']], -- ./nvim-autopairs.lua
+  }
   use {
     'akinsho/nvim-bufferline.lua',
-    config = [[require'plugins.nvim-bufferline']],
+    config = [[require'plugins.nvim-bufferline']], -- ./nvim-bufferline.lua
     requires = 'kyazdani42/nvim-web-devicons',
   }
   use {
@@ -142,36 +143,27 @@ return packer.startup(function()
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
   }
   use { 'Glench/Vim-Jinja2-Syntax', ft = { 'jinja' } }
-  use { 'norcalli/nvim-colorizer.lua', config = [[require'plugins.nvim-colorizer']] }
+  use {
+    'norcalli/nvim-colorizer.lua',
+    config = [[require'plugins.nvim-colorizer']], -- ./nvim-colorizer.lua
+  }
   use {
     'b3nj5m1n/kommentary',
-    config = function()
-      require('kommentary.config').configure_language('default', {
-        prefer_single_line_comments = true,
-      })
-    end,
+    config = [[require'plugins.kommentary']], -- ./kommentary.lua
   }
   use {
     'tools-life/taskwiki',
-    config = [[require'plugins.taskwiki']],
+    config = [[require'plugins.taskwiki']], -- ./taskwiki.lua
     requires = { 'powerman/vim-plugin-AnsiEsc', opt = true },
   }
   use {
     'oberblastmeister/neuron.nvim',
+    config = [[require'plugins.neuron']], -- ./neuron.lua
     requires = {
       'nvim-lua/popup.nvim',
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope.nvim',
     },
-    config = function()
-      require('neuron').setup {
-        virtual_titles = true,
-        mappings = true,
-        run = nil, -- function to run when in neuron dir
-        neuron_dir = '~/Git/gitlab.local.hacon.de/jahe/wiki', -- the directory of all of your notes, expanded by default (currently supports only one directory for notes, find a way to detect neuron.dhall to use any directory)
-        leader = 'gz', -- the leader key to for all mappings, remember with 'go zettel'
-      }
-    end,
   }
   use {
     'folke/which-key.nvim',
@@ -179,71 +171,13 @@ return packer.startup(function()
   }
   use {
     'folke/zen-mode.nvim',
-    config = function()
-      require('zen-mode').setup {
-        window = {
-          backdrop = 1, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
-          width = 120, -- width of the Zen window
-          height = 1, -- height of the Zen window
-          options = {
-            signcolumn = 'no', -- disable signcolumn
-            number = false, -- disable number column
-            relativenumber = false, -- disable relative numbers
-            cursorline = false, -- disable cursorline
-            cursorcolumn = false, -- disable cursor column
-            colorcolumn = '121',
-            foldcolumn = '0', -- disable fold column
-            list = false, -- disable whitespace characters
-          },
-        },
-        plugins = {
-          options = {
-            enabled = true,
-            ruler = true, -- disables the ruler text in the cmd line area
-            showcmd = true, -- disables the command in the last line of the screen
-          },
-          tmux = { enabled = true }, -- disables the tmux statusline
-          kitty = {
-            enabled = true,
-            font = '+4', -- font size increment
-          },
-        },
-      }
-
-      require('which-key').register {
-        ['<leader>'] = {
-          t = {
-            name = '+toggle',
-            z = { '<cmd>ZenMode<cr>', 'Zen Mode' },
-          },
-        },
-      }
-    end,
+    config = [[require'plugins.zen-mode']], -- ./zen-mode.lua
   }
   use {
+    disable = true,
     'aserowy/tmux.nvim',
     commit = '2a42166',
-    config = function()
-      require('tmux').setup {
-        -- overwrite default configuration
-        -- here, e.g. to enable default bindings
-        copy_sync = {
-          -- enables copy sync and overwrites all register actions to
-          -- sync registers *, +, unnamed, and 0 till 9 from tmux in advance
-          enable = false,
-          redirect_to_clipboard = true,
-        },
-        navigation = {
-          -- enables default keybindings (C-hjkl) for normal mode
-          enable_default_keybindings = true,
-          cycle_navigation = false,
-        },
-        resize = {
-          -- enables default keybindings (A-hjkl) for normal mode
-          enable_default_keybindings = true,
-        },
-      }
-    end,
+    config = [[require'plugins.tmux']], -- ./tmux.lua
   }
   use {
     'vhyrro/neorg',
