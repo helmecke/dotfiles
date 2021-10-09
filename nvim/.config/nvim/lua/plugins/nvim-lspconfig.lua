@@ -50,17 +50,15 @@ lspconfig.dotls.setup {
 lspconfig.pylsp.setup {
   on_attach = on_attach,
   settings = {
-    pylsp = {
-      configurationSources = { 'flake8' },
-      plugins = {
-        autopep8 = { enabled = false },
-        black = { enabled = true },
-        flake8 = { enabled = true },
-        mccabe = { enabled = false },
-        pycodestyle = { enabled = false },
-        pyflakes = { enabled = false },
-        yapf = { enabled = false },
-      },
+    configurationSources = { 'flake8', 'black', 'mypy', 'isort' },
+    plugins = {
+      autopep8 = { enabled = false },
+      black = { enabled = true },
+      flake8 = { enabled = true },
+      mccabe = { enabled = false },
+      pycodestyle = { enabled = false },
+      pyflakes = { enabled = false },
+      yapf = { enabled = false },
     },
   },
 }
@@ -85,11 +83,11 @@ lspconfig.yamlls.setup {
   },
 }
 
-shfmt = require 'lsp.diagnosticls.formatters.shfmt'
-shellcheck = require 'lsp.diagnosticls.linters.shellcheck'
-yamllint = require 'lsp.diagnosticls.linters.yamllint'
-ansible_lint = require 'lsp.diagnosticls.linters.ansible-lint'
-golangcilint = require 'lsp.diagnosticls.linters.golangci-lint'
+local shfmt = require 'lsp.diagnosticls.formatters.shfmt'
+local shellcheck = require 'lsp.diagnosticls.linters.shellcheck'
+local yamllint = require 'lsp.diagnosticls.linters.yamllint'
+local ansible_lint = require 'lsp.diagnosticls.linters.ansible-lint'
+local golangcilint = require 'lsp.diagnosticls.linters.golangci-lint'
 
 lspconfig.diagnosticls.setup {
   on_attach = on_attach,
@@ -155,13 +153,15 @@ require('lspconfig').sumneko_lua.setup {
       },
       diagnostics = {
         -- Get the language server to recognize the `vim` global
-        globals = { 'vim', 'describe' },
+        globals = { 'vim', 'describe', 'use', 'awesome', 'client', 'root' },
       },
       workspace = {
         -- Make the server aware of Neovim runtime files
         library = {
-          vim.api.nvim_get_runtime_file('', true),
-          [vim.fn.expand '/usr/share/awesome/lib'] = true,
+          -- vim.api.nvim_get_runtime_file('', true),
+          ['/usr/share/nvim/runtime/lua'] = true,
+          ['/usr/share/nvim/runtime/lua/lsp'] = true,
+          ['/usr/share/awesome/lib'] = true,
         },
       },
       -- Do not send telemetry data containing a randomized but unique identifier

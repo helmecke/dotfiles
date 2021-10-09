@@ -181,8 +181,12 @@ return packer.startup(function()
   }
   use {
     'vhyrro/neorg',
+    branch = 'unstable',
     config = [[require'plugins.neorg']], -- ./neorg.lua
-    requires = 'nvim-lua/plenary.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'vhyrro/neorg-telescope',
+    },
   }
   use {
     'will133/vim-dirdiff',
