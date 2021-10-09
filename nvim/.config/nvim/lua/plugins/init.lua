@@ -26,7 +26,7 @@ return packer.startup(function()
   -- Packer can manage itself as an optional plugin
   use { 'wbthomason/packer.nvim', opt = true }
   use {
-    '~/Git/github.com/helmecke/onedark.nvim',
+    'helmecke/onedark.nvim',
     config = function()
       vim.cmd 'colorscheme onedark'
     end,
