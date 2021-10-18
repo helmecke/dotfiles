@@ -81,8 +81,27 @@ return packer.startup(function()
     requires = 'neovim/nvim-lspconfig',
   }
   use {
+    disable = true,
     'hrsh7th/nvim-compe',
     config = [[require'plugins.nvim-compe']], -- ./nvim-compe.lua
+  }
+  use {
+    'hrsh7th/nvim-cmp',
+    config = [[require'plugins.nvim-cmp']], -- ./nvim-cmp.lua
+    requires = {
+      { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-vsnip', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
+      { 'f3fora/cmp-spell', after = 'nvim-cmp' },
+    },
+  }
+  use {
+    'hrsh7th/vim-vsnip',
+    requires = {
+      'rafamadriz/friendly-snippets',
+    },
   }
   use {
     'stevearc/vim-arduino',
