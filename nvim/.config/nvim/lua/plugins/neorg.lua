@@ -10,14 +10,14 @@ require('neorg').setup {
     },
     ['core.norg.completion'] = {
       config = {
-        engine = 'nvim-compe', -- We current support nvim-compe and nvim-cmp only
+        engine = 'nvim-cmp', -- We current support nvim-compe and nvim-cmp only
       },
     },
     ['core.norg.concealer'] = {}, -- Allows for use of icons
     ['core.norg.dirman'] = { -- Manage your directories with Neorg
       config = {
         workspaces = {
-          notes = '~/Dokumente/neorg',
+          default = '~/Documents/neorg',
           gtd = '~/Documents/gtd',
         },
       },
