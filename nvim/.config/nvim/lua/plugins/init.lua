@@ -95,6 +95,7 @@ return packer.startup(function()
       { 'hrsh7th/cmp-vsnip', after = 'nvim-cmp' },
       { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
       { 'f3fora/cmp-spell', after = 'nvim-cmp' },
+      { 'onsails/lspkind-nvim' },
     },
   }
   use {

@@ -8,6 +8,7 @@ local feedkey = function(key, mode)
 end
 
 local cmp = require 'cmp'
+local lspkind = require 'lspkind'
 cmp.setup {
   snippet = {
     expand = function(args)
@@ -46,5 +47,18 @@ cmp.setup {
     { name = 'buffer' },
     { name = 'path' },
     { name = 'spell' },
+  },
+  formatting = {
+    format = lspkind.cmp_format {
+      with_text = true,
+      maxwidth = 50,
+      menu = {
+        nvim_lsp = '[LSP]',
+        vsnip = '[Vsnip]',
+        buffer = '[Buffer]',
+        path = '[Path]',
+        spell = '[Spell]',
+      },
+    },
   },
 }
