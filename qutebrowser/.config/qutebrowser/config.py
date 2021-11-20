@@ -1,3 +1,5 @@
+# flake8: noqa: E266
+# type: ignore
 from themes import onedark as colors
 
 terminal = 'kitty'
@@ -475,7 +477,7 @@ c.colors.tabs.even.bg = colors[16]
 ## Foreground color of unselected even tabs.
 ## Type: QtColor
 # c.colors.tabs.even.fg = 'white'
-c.colors.tabs.even.fg = colors[7]
+c.colors.tabs.even.fg = colors[19]
 
 ## Color for the tab indicator on errors.
 ## Type: QtColor
@@ -509,7 +511,7 @@ c.colors.tabs.odd.bg = colors[16]
 ## Foreground color of unselected odd tabs.
 ## Type: QtColor
 # c.colors.tabs.odd.fg = 'white'
-c.colors.tabs.odd.fg = colors[7]
+c.colors.tabs.odd.fg = colors[19]
 
 ## Background color of pinned unselected even tabs.
 ## Type: QtColor
