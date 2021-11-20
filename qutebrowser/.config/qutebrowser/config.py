@@ -1,22 +1,4 @@
-
-solarized = {
-    'base03': '#002b36',
-    'base02': '#073642',
-    'base01': '#586e75',
-    'base00': '#657b83',
-    'base0': '#839496',
-    'base1': '#93a1a1',
-    'base2': '#eee8d5',
-    'base3': '#fdf6e3',
-    'yellow': '#b58900',
-    'orange': '#cb4b16',
-    'red': '#dc322f',
-    'magenta': '#d33682',
-    'violet': '#6c71c4',
-    'blue': '#268bd2',
-    'cyan': '#2aa198',
-    'green': '#859900'
-}
+from themes import onedark as colors
 
 terminal = 'kitty'
 editor = 'nvim'
@@ -108,53 +90,53 @@ c.auto_save.session = True
 ## Background color of the completion widget category headers.
 ## Type: QssColor
 # c.colors.completion.category.bg = 'qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #888888, stop:1 #505050)'
-c.colors.completion.category.bg = solarized['base03']
+c.colors.completion.category.bg = colors[16]
 
 ## Bottom border color of the completion widget category headers.
 ## Type: QssColor
 # c.colors.completion.category.border.bottom = 'black'
-c.colors.completion.category.border.bottom = solarized['base03']
+c.colors.completion.category.border.bottom = colors[16]
 
 ## Top border color of the completion widget category headers.
 ## Type: QssColor
 # c.colors.completion.category.border.top = 'black'
-c.colors.completion.category.border.top = solarized['base03']
+c.colors.completion.category.border.top = colors[16]
 
 ## Foreground color of completion widget category headers.
 ## Type: QtColor
 # c.colors.completion.category.fg = 'white'
-c.colors.completion.category.fg = solarized['base3']
+c.colors.completion.category.fg = colors[17]
 
 ## Background color of the completion widget for even rows.
 ## Type: QssColor
 # c.colors.completion.even.bg = '#333333'
-c.colors.completion.even.bg = solarized['base02']
+c.colors.completion.even.bg = colors[0]
 
 ## Text color of the completion widget. May be a single color to use for
 ## all columns or a list of three colors, one for each column.
 ## Type: List of QtColor, or QtColor
 # c.colors.completion.fg = ['white', 'white', 'white']
-c.colors.completion.fg = solarized['base3']
+c.colors.completion.fg = colors[17]
 
 ## Background color of the selected completion item.
 ## Type: QssColor
 # c.colors.completion.item.selected.bg = '#e8c000'
-c.colors.completion.item.selected.bg = solarized['violet']
+c.colors.completion.item.selected.bg = colors[5]
 
 ## Bottom border color of the selected completion item.
 ## Type: QssColor
 # c.colors.completion.item.selected.border.bottom = '#bbbb00'
-c.colors.completion.item.selected.border.bottom = solarized['violet']
+c.colors.completion.item.selected.border.bottom = colors[5]
 
 ## Top border color of the selected completion item.
 ## Type: QssColor
 # c.colors.completion.item.selected.border.top = '#bbbb00'
-c.colors.completion.item.selected.border.top = solarized['violet']
+c.colors.completion.item.selected.border.top = colors[5]
 
 ## Foreground color of the selected completion item.
 ## Type: QtColor
 # c.colors.completion.item.selected.fg = 'black'
-c.colors.completion.item.selected.fg = solarized['base3']
+c.colors.completion.item.selected.fg = colors[17]
 
 ## Foreground color of the matched text in the selected completion item.
 ## Type: QtColor
@@ -163,22 +145,22 @@ c.colors.completion.item.selected.fg = solarized['base3']
 ## Foreground color of the matched text in the completion.
 ## Type: QtColor
 # c.colors.completion.match.fg = '#ff4444'
-c.colors.completion.match.fg = solarized['base2']
+c.colors.completion.match.fg = colors[15]
 
 ## Background color of the completion widget for odd rows.
 ## Type: QssColor
 # c.colors.completion.odd.bg = '#444444'
-c.colors.completion.odd.bg = solarized['base02']
+c.colors.completion.odd.bg = colors[0]
 
 ## Color of the scrollbar in the completion view.
 ## Type: QssColor
 # c.colors.completion.scrollbar.bg = '#333333'
-c.colors.completion.scrollbar.bg = solarized['base0']
+c.colors.completion.scrollbar.bg = colors[7]
 
 ## Color of the scrollbar handle in the completion view.
 ## Type: QssColor
 # c.colors.completion.scrollbar.fg = 'white'
-c.colors.completion.scrollbar.fg = solarized['base2']
+c.colors.completion.scrollbar.fg = colors[15]
 
 ## Background color of disabled items in the context menu. If set to
 ## null, the Qt default is used.
@@ -213,37 +195,37 @@ c.colors.completion.scrollbar.fg = solarized['base2']
 ## Background color for the download bar.
 ## Type: QssColor
 # c.colors.downloads.bar.bg = 'black'
-c.colors.downloads.bar.bg = solarized['base03']
+c.colors.downloads.bar.bg = colors[16]
 
 ## Background color for downloads with errors.
 ## Type: QtColor
 # c.colors.downloads.error.bg = 'red'
-c.colors.downloads.error.bg = solarized['red']
+c.colors.downloads.error.bg = colors[1]
 
 ## Foreground color for downloads with errors.
 ## Type: QtColor
 # c.colors.downloads.error.fg = 'white'
-c.colors.downloads.error.fg = solarized['base3']
+c.colors.downloads.error.fg = colors[17]
 
 ## Color gradient start for download backgrounds.
 ## Type: QtColor
 # c.colors.downloads.start.bg = '#0000aa'
-c.colors.downloads.start.bg = solarized['blue']
+c.colors.downloads.start.bg = colors[4]
 
 ## Color gradient start for download text.
 ## Type: QtColor
 # c.colors.downloads.start.fg = 'white'
-c.colors.downloads.start.fg = solarized['base3']
+c.colors.downloads.start.fg = colors[17]
 
 ## Color gradient stop for download backgrounds.
 ## Type: QtColor
 # c.colors.downloads.stop.bg = '#00aa00'
-c.colors.downloads.stop.bg = solarized['green']
+c.colors.downloads.stop.bg = colors[2]
 
 ## Color gradient end for download text.
 ## Type: QtColor
 # c.colors.downloads.stop.fg = 'white'
-c.colors.downloads.stop.fg = solarized['base3']
+c.colors.downloads.stop.fg = colors[17]
 
 ## Color gradient interpolation system for download backgrounds.
 ## Type: ColorSystem
@@ -266,18 +248,18 @@ c.colors.downloads.stop.fg = solarized['base3']
 ## Background color for hints. Note that you can use a `rgba(...)` value
 ## for transparency.
 ## Type: QssColor
-c.colors.hints.bg = solarized['yellow']
 # c.colors.hints.bg = 'qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgba(255, 247, 133, 0.8), stop:1 rgba(255, 197, 66, 0.8))'
+c.colors.hints.bg = colors[3]
 
 ## Font color for hints.
 ## Type: QssColor
 # c.colors.hints.fg = 'black'
-c.colors.hints.fg = solarized['base3']
+c.colors.hints.fg = colors[17]
 
 ## Font color for the matched part of hints.
 ## Type: QtColor
 # c.colors.hints.match.fg = 'green'
-c.colors.hints.match.fg = solarized['base2']
+c.colors.hints.match.fg = colors[15]
 
 ## Background color of the keyhint widget.
 ## Type: QssColor
@@ -286,229 +268,229 @@ c.colors.hints.match.fg = solarized['base2']
 ## Text color for the keyhint widget.
 ## Type: QssColor
 # c.colors.keyhint.fg = '#FFFFFF'
-c.colors.keyhint.fg = solarized['base3']
+c.colors.keyhint.fg = colors[17]
 
 ## Highlight color for keys to complete the current keychain.
 ## Type: QssColor
 # c.colors.keyhint.suffix.fg = '#FFFF00'
-c.colors.keyhint.suffix.fg = solarized['yellow']
+c.colors.keyhint.suffix.fg = colors[3]
 
 ## Background color of an error message.
 ## Type: QssColor
 # c.colors.messages.error.bg = 'red'
-c.colors.messages.error.bg = solarized['red']
+c.colors.messages.error.bg = colors[1]
 
 ## Border color of an error message.
 ## Type: QssColor
 # c.colors.messages.error.border = '#bb0000'
-c.colors.messages.error.border = solarized['red']
+c.colors.messages.error.border = colors[1]
 
 ## Foreground color of an error message.
 ## Type: QssColor
 # c.colors.messages.error.fg = 'white'
-c.colors.messages.error.fg = solarized['base3']
+c.colors.messages.error.fg = colors[17]
 
 ## Background color of an info message.
 ## Type: QssColor
 # c.colors.messages.info.bg = 'black'
-c.colors.messages.info.bg = solarized['base03']
+c.colors.messages.info.bg = colors[16]
 
 ## Border color of an info message.
 ## Type: QssColor
 # c.colors.messages.info.border = '#333333'
-c.colors.messages.info.border = solarized['base03']
+c.colors.messages.info.border = colors[16]
 
 ## Foreground color of an info message.
 ## Type: QssColor
 # c.colors.messages.info.fg = 'white'
-c.colors.messages.info.fg = solarized['base3']
+c.colors.messages.info.fg = colors[17]
 
 ## Background color of a warning message.
 ## Type: QssColor
 # c.colors.messages.warning.bg = 'darkorange'
-c.colors.messages.warning.bg = solarized['orange']
+c.colors.messages.warning.bg = colors[9]
 
 ## Border color of a warning message.
 ## Type: QssColor
 # c.colors.messages.warning.border = '#d47300'
-c.colors.messages.warning.border = solarized['orange']
+c.colors.messages.warning.border = colors[9]
 
 ## Foreground color of a warning message.
 ## Type: QssColor
 # c.colors.messages.warning.fg = 'black'
-c.colors.messages.warning.fg = solarized['base3']
+c.colors.messages.warning.fg = colors[17]
 
 ## Background color for prompts.
 ## Type: QssColor
 # c.colors.prompts.bg = '#444444'
-c.colors.prompts.bg = solarized['base02']
+c.colors.prompts.bg = colors[0]
 
 ## Border used around UI elements in prompts.
 ## Type: String
 # c.colors.prompts.border = '1px solid gray'
-c.colors.prompts.border = '1px solid ' + solarized['base3']
+c.colors.prompts.border = '1px solid ' + colors[17]
 
 ## Foreground color for prompts.
 ## Type: QssColor
 # c.colors.prompts.fg = 'white'
-c.colors.prompts.fg = solarized['base3']
+c.colors.prompts.fg = colors[17]
 
 ## Background color for the selected item in filename prompts.
 ## Type: QssColor
 # c.colors.prompts.selected.bg = 'grey'
-c.colors.prompts.selected.bg = solarized['base01']
+c.colors.prompts.selected.bg = colors[18]
 
 ## Foreground color for the selected item in filename prompts.
 ## Type: QssColor
 # c.colors.prompts.selected.fg = 'white'
-c.colors.prompts.fg = solarized['base3']
+c.colors.prompts.fg = colors[17]
 
 ## Background color of the statusbar in caret mode.
 ## Type: QssColor
 # c.colors.statusbar.caret.bg = 'purple'
-c.colors.statusbar.caret.bg = solarized['blue']
+c.colors.statusbar.caret.bg = colors[4]
 
 ## Foreground color of the statusbar in caret mode.
 ## Type: QssColor
 # c.colors.statusbar.caret.fg = 'white'
-c.colors.statusbar.caret.fg = solarized['base3']
+c.colors.statusbar.caret.fg = colors[17]
 
 ## Background color of the statusbar in caret mode with a selection.
 ## Type: QssColor
 # c.colors.statusbar.caret.selection.bg = '#a12dff'
-c.colors.statusbar.caret.selection.bg = solarized['violet']
+c.colors.statusbar.caret.selection.bg = colors[5]
 
 ## Foreground color of the statusbar in caret mode with a selection.
 ## Type: QssColor
 # c.colors.statusbar.caret.selection.fg = 'white'
-c.colors.statusbar.caret.selection.fg = solarized['base3']
+c.colors.statusbar.caret.selection.fg = colors[17]
 
 ## Background color of the statusbar in command mode.
 ## Type: QssColor
 # c.colors.statusbar.command.bg = 'black'
-c.colors.statusbar.command.bg = solarized['base03']
+c.colors.statusbar.command.bg = colors[16]
 
 ## Foreground color of the statusbar in command mode.
 ## Type: QssColor
 # c.colors.statusbar.command.fg = 'white'
-c.colors.statusbar.command.fg = solarized['base3']
+c.colors.statusbar.command.fg = colors[17]
 
 ## Background color of the statusbar in private browsing + command mode.
 ## Type: QssColor
 # c.colors.statusbar.command.private.bg = 'darkslategray'
-c.colors.statusbar.command.private.bg = solarized['base01']
+c.colors.statusbar.command.private.bg = colors[18]
 
 ## Foreground color of the statusbar in private browsing + command mode.
 ## Type: QssColor
 # c.colors.statusbar.command.private.fg = 'white'
-c.colors.statusbar.command.private.fg = solarized['base3']
+c.colors.statusbar.command.private.fg = colors[17]
 
 ## Background color of the statusbar in insert mode.
 ## Type: QssColor
 # c.colors.statusbar.insert.bg = 'darkgreen'
-c.colors.statusbar.insert.bg = solarized['yellow']
+c.colors.statusbar.insert.bg = colors[3]
 
 ## Foreground color of the statusbar in insert mode.
 ## Type: QssColor
 # c.colors.statusbar.insert.fg = 'white'
-c.colors.statusbar.insert.fg = solarized['base3']
+c.colors.statusbar.insert.fg = colors[17]
 
 ## Background color of the statusbar.
 ## Type: QssColor
 # c.colors.statusbar.normal.bg = 'black'
-c.colors.statusbar.normal.bg = solarized['base03']
+c.colors.statusbar.normal.bg = colors[16]
 
 ## Foreground color of the statusbar.
 ## Type: QssColor
 # c.colors.statusbar.normal.fg = 'white'
-c.colors.statusbar.normal.fg = solarized['base3']
+c.colors.statusbar.normal.fg = colors[17]
 
 ## Background color of the statusbar in passthrough mode.
 ## Type: QssColor
 # c.colors.statusbar.passthrough.bg = 'darkblue'
-c.colors.statusbar.passthrough.bg = solarized['magenta']
+c.colors.statusbar.passthrough.bg = colors[6]
 
 ## Foreground color of the statusbar in passthrough mode.
 ## Type: QssColor
 # c.colors.statusbar.passthrough.fg = 'white'
-c.colors.statusbar.passthrough.fg = solarized['base3']
+c.colors.statusbar.passthrough.fg = colors[17]
 
 ## Background color of the statusbar in private browsing mode.
 ## Type: QssColor
 # c.colors.statusbar.private.bg = '#666666'
-c.colors.statusbar.private.bg = solarized['base01']
+c.colors.statusbar.private.bg = colors[18]
 
 ## Foreground color of the statusbar in private browsing mode.
 ## Type: QssColor
 # c.colors.statusbar.private.fg = 'white'
-c.colors.statusbar.private.fg = solarized['base3']
+c.colors.statusbar.private.fg = colors[17]
 
 ## Background color of the progress bar.
 ## Type: QssColor
 # c.colors.statusbar.progress.bg = 'white'
-c.colors.statusbar.progress.bg = solarized['base3']
+c.colors.statusbar.progress.bg = colors[17]
 
 ## Foreground color of the URL in the statusbar on error.
 ## Type: QssColor
 # c.colors.statusbar.url.error.fg = 'orange'
-c.colors.statusbar.url.error.fg = solarized['red']
+c.colors.statusbar.url.error.fg = colors[1]
 
 ## Default foreground color of the URL in the statusbar.
 ## Type: QssColor
 # c.colors.statusbar.url.fg = 'white'
-c.colors.statusbar.url.fg = solarized['base3']
+c.colors.statusbar.url.fg = colors[17]
 
 ## Foreground color of the URL in the statusbar for hovered links.
 ## Type: QssColor
 # c.colors.statusbar.url.hover.fg = 'aqua'
-c.colors.statusbar.url.hover.fg = solarized['base2']
+c.colors.statusbar.url.hover.fg = colors[15]
 
 ## Foreground color of the URL in the statusbar on successful load
 ## (http).
 ## Type: QssColor
 # c.colors.statusbar.url.success.http.fg = 'white'
-c.colors.statusbar.url.success.http.fg = solarized['base3']
+c.colors.statusbar.url.success.http.fg = colors[17]
 
 ## Foreground color of the URL in the statusbar on successful load
 ## (https).
 ## Type: QssColor
 # c.colors.statusbar.url.success.https.fg = 'lime'
-c.colors.statusbar.url.success.https.fg = solarized['base3']
+c.colors.statusbar.url.success.https.fg = colors[17]
 
 ## Foreground color of the URL in the statusbar when there's a warning.
 ## Type: QssColor
 # c.colors.statusbar.url.warn.fg = 'yellow'
-c.colors.statusbar.url.warn.fg = solarized['yellow']
+c.colors.statusbar.url.warn.fg = colors[3]
 
 ## Background color of the tab bar.
 ## Type: QssColor
 # c.colors.tabs.bar.bg = '#555555'
-c.colors.tabs.bar.bg = solarized['base03']
+c.colors.tabs.bar.bg = colors[16]
 
 ## Background color of unselected even tabs.
 ## Type: QtColor
 # c.colors.tabs.even.bg = 'darkgrey'
-c.colors.tabs.even.bg = solarized['base03']
+c.colors.tabs.even.bg = colors[16]
 
 ## Foreground color of unselected even tabs.
 ## Type: QtColor
 # c.colors.tabs.even.fg = 'white'
-c.colors.tabs.even.fg = solarized['base0']
+c.colors.tabs.even.fg = colors[7]
 
 ## Color for the tab indicator on errors.
 ## Type: QtColor
 # c.colors.tabs.indicator.error = '#ff0000'
-c.colors.tabs.indicator.error = solarized['red']
+c.colors.tabs.indicator.error = colors[1]
 
 ## Color gradient start for the tab indicator.
 ## Type: QtColor
 # c.colors.tabs.indicator.start = '#0000aa'
-c.colors.tabs.indicator.start = solarized['blue']
+c.colors.tabs.indicator.start = colors[4]
 
 ## Color gradient end for the tab indicator.
 ## Type: QtColor
 # c.colors.tabs.indicator.stop = '#00aa00'
-c.colors.tabs.indicator.stop = solarized['green']
+c.colors.tabs.indicator.stop = colors[2]
 
 ## Color gradient interpolation system for the tab indicator.
 ## Type: ColorSystem
@@ -522,72 +504,72 @@ c.colors.tabs.indicator.stop = solarized['green']
 ## Background color of unselected odd tabs.
 ## Type: QtColor
 # c.colors.tabs.odd.bg = 'grey'
-c.colors.tabs.odd.bg = solarized['base03']
+c.colors.tabs.odd.bg = colors[16]
 
 ## Foreground color of unselected odd tabs.
 ## Type: QtColor
 # c.colors.tabs.odd.fg = 'white'
-c.colors.tabs.odd.fg = solarized['base0']
+c.colors.tabs.odd.fg = colors[7]
 
 ## Background color of pinned unselected even tabs.
 ## Type: QtColor
 # c.colors.tabs.pinned.even.bg = 'darkseagreen'
-c.colors.tabs.pinned.even.bg = solarized['base03']
+c.colors.tabs.pinned.even.bg = colors[16]
 
 ## Foreground color of pinned unselected even tabs.
 ## Type: QtColor
 # c.colors.tabs.pinned.even.fg = 'white'
-c.colors.tabs.pinned.even.fg = solarized['base0']
+c.colors.tabs.pinned.even.fg = colors[7]
 
 ## Background color of pinned unselected odd tabs.
 ## Type: QtColor
 # c.colors.tabs.pinned.odd.bg = 'seagreen'
-c.colors.tabs.pinned.odd.bg = solarized['base03']
+c.colors.tabs.pinned.odd.bg = colors[16]
 
 ## Foreground color of pinned unselected odd tabs.
 ## Type: QtColor
 # c.colors.tabs.pinned.odd.fg = 'white'
-c.colors.tabs.pinned.odd.fg = solarized['base0']
+c.colors.tabs.pinned.odd.fg = colors[7]
 
 ## Background color of pinned selected even tabs.
 ## Type: QtColor
 # c.colors.tabs.pinned.selected.even.bg = 'black'
-c.colors.tabs.pinned.selected.even.bg = solarized['base02']
+c.colors.tabs.pinned.selected.even.bg = colors[0]
 
 ## Foreground color of pinned selected even tabs.
 ## Type: QtColor
 # c.colors.tabs.pinned.selected.even.fg = 'white'
-c.colors.tabs.pinned.selected.even.fg = solarized['base3']
+c.colors.tabs.pinned.selected.even.fg = colors[17]
 
 ## Background color of pinned selected odd tabs.
 ## Type: QtColor
 # c.colors.tabs.pinned.selected.odd.bg = 'black'
-c.colors.tabs.pinned.selected.odd.bg = solarized['base02']
+c.colors.tabs.pinned.selected.odd.bg = colors[0]
 
 ## Foreground color of pinned selected odd tabs.
 ## Type: QtColor
 # c.colors.tabs.pinned.selected.odd.fg = 'white'
-c.colors.tabs.pinned.selected.odd.fg = solarized['base3']
+c.colors.tabs.pinned.selected.odd.fg = colors[17]
 
 ## Background color of selected even tabs.
 ## Type: QtColor
 # c.colors.tabs.selected.even.bg = 'black'
-c.colors.tabs.selected.even.bg = solarized['base02']
+c.colors.tabs.selected.even.bg = colors[0]
 
 ## Foreground color of selected even tabs.
 ## Type: QtColor
 # c.colors.tabs.selected.even.fg = 'white'
-c.colors.tabs.selected.even.fg = solarized['base3']
+c.colors.tabs.selected.even.fg = colors[17]
 
 ## Background color of selected odd tabs.
 ## Type: QtColor
 # c.colors.tabs.selected.odd.bg = 'black'
-c.colors.tabs.selected.odd.bg = solarized['base02']
+c.colors.tabs.selected.odd.bg = colors[0]
 
 ## Foreground color of selected odd tabs.
 ## Type: QtColor
 # c.colors.tabs.selected.odd.fg = 'white'
-c.colors.tabs.selected.odd.fg = solarized['base3']
+c.colors.tabs.selected.odd.fg = colors[17]
 
 ## Background color for webpages if unset (or empty to use the theme's
 ## color).
@@ -1466,7 +1448,7 @@ c.fonts.default_size = '14px'
 ## CSS border value for hints.
 ## Type: String
 # c.hints.border = '1px solid #E3BE23'
-c.hints.border = '2px solid' + solarized['yellow']
+c.hints.border = '2px solid' + colors[3]
 
 ## Characters used for hint strings.
 ## Type: UniqueCharString

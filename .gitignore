@@ -1,6 +1,6 @@
-vim/.vim/view
-nvim/.config/nvim/plugin/packer_compiled.vim
-nvim/.config/nvim/plugin/packer_compiled.lua
 xmonad/.xmonad/*
 !xmonad.hs
 __pycache__
+qutebrowser/.local/share/qutebrowser
+!qutebrowser/.local/share/qutebrowser/userscripts
+
