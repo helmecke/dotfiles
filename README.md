@@ -1,6 +1,6 @@
 # dotfiles
 
-> :warning: I moved [nvim](https://github.com/helmecke/nvim-config) and [qtile](https://github.com/helmecke/qtile-config) config to seperate repositories.
+> :warning: I moved [nvim](https://github.com/helmecke/nvim-config), [awesome](https://github.com/helmecke/awesome-config) and [qtile](https://github.com/helmecke/qtile-config) config to seperate repositories.
 
 ## Getting Started
 
