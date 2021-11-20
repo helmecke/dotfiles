@@ -485,7 +485,7 @@ nnoremap <a-i> :sync<cr>
 " Open directory under cursor in the other pane
 nnoremap <a-o> :sync %c<cr>
 " Swap panes
-nnoremap <c-u> <c-w>x
+nnoremap <c-y> <c-w>x
 
 " Various customization examples {{{1
 
@@ -521,7 +521,7 @@ highlight User6 ctermbg=14 ctermfg=red
 highlight User7 ctermbg=9 ctermfg=white
 let &statusline  = "%1*▎%2*  " " evil
 let &statusline .= "%3*%E " " file size
-let &statusline .= "Hint: %z%= %{&sort} " " fill the whole status line
+let &statusline .= "%= %{&sort} " " fill the whole status line
 let &statusline .= "%A " " file attributes
 let &statusline .= "%u:%g " " user and group owners of the file
 let &statusline .= "%d" " file modification date and time
