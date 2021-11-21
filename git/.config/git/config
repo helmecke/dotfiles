@@ -1,0 +1,10 @@
+[push]
+	default = current
+[alias]
+	co = checkout
+	wt = worktree
+	sync = !git fetch --prune
+[ghq]
+	root = ~/Git
+[init]
+	defaultBranch = master
