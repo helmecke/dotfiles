@@ -114,6 +114,7 @@ set statusline="  Hint: %z%= %A %10u:%-7g %15s %20d  "
 mark b ~/.local/bin/
 mark d ~/Git/github.com/helmecke/dotfiles
 mark h ~/
+mark D ~/Downloads/
 
 " Commands {{{1
 
@@ -129,6 +130,9 @@ mark h ~/
 " %D the other window directory name.
 " %m run the command in a menu window
 
+command! extract extract %a %f %n
+command! extract! extract -f %a %f %n
+
 command! df df -h %m 2> /dev/null
 command! diff kitty nvim -d %f %F
 command! zip zip -r %c.zip %f
@@ -137,6 +141,8 @@ command! make !!make %a
 command! mkcd :mkdir %a | cd %a
 command! vgrep kitty nvim "+grep %a"
 command! reload :write | restart full
+command! mkcd :mkdir! %a | cd %a
+command rsync rsync -a %f %D
 
 command G tig status
 command Gstatus tig status
