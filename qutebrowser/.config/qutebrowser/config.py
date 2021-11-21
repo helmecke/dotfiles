@@ -1971,6 +1971,7 @@ c.hints.border = '2px solid' + colors[3]
 ##   - first: At the beginning.
 ##   - last: At the end.
 # c.tabs.new_position.related = 'next'
+c.tabs.new_position.related = 'last'
 
 ## Stack related tabs on top of each other when opened consecutively.
 ## Only applies for `next` and `prev` values of
