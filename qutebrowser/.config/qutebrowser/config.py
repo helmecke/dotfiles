@@ -123,17 +123,17 @@ c.colors.completion.fg = colors[17]
 ## Background color of the selected completion item.
 ## Type: QssColor
 # c.colors.completion.item.selected.bg = '#e8c000'
-c.colors.completion.item.selected.bg = colors[5]
+c.colors.completion.item.selected.bg = colors[19]
 
 ## Bottom border color of the selected completion item.
 ## Type: QssColor
 # c.colors.completion.item.selected.border.bottom = '#bbbb00'
-c.colors.completion.item.selected.border.bottom = colors[5]
+c.colors.completion.item.selected.border.bottom = colors[19]
 
 ## Top border color of the selected completion item.
 ## Type: QssColor
 # c.colors.completion.item.selected.border.top = '#bbbb00'
-c.colors.completion.item.selected.border.top = colors[5]
+c.colors.completion.item.selected.border.top = colors[19]
 
 ## Foreground color of the selected completion item.
 ## Type: QtColor
@@ -143,11 +143,12 @@ c.colors.completion.item.selected.fg = colors[17]
 ## Foreground color of the matched text in the selected completion item.
 ## Type: QtColor
 # c.colors.completion.item.selected.match.fg = '#ff4444'
+c.colors.completion.item.selected.match.fg = colors[4]
 
 ## Foreground color of the matched text in the completion.
 ## Type: QtColor
 # c.colors.completion.match.fg = '#ff4444'
-c.colors.completion.match.fg = colors[15]
+c.colors.completion.match.fg = colors[4]
 
 ## Background color of the completion widget for odd rows.
 ## Type: QssColor
