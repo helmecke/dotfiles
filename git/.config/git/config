@@ -4,6 +4,7 @@
 	co = checkout
 	wt = worktree
 	sync = !git fetch --prune
+	cleanup = !bash ~/.local/bin/git-cleanup
 [ghq]
 	root = ~/Git
 [init]
