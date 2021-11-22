@@ -14,3 +14,8 @@ export GO111MODULE=on
 export PATH=$PATH:$GOPATH/bin:${KREW_ROOT:-$HOME/.krew}/bin:$HOME/.local/bin
 
 export KEYID=0x69182E24A9EF4C5A
+
+export TASKRC=$XDG_CONFIG_HOME/taskwarrior/taskrc
+export TASKDATA=$XDG_DATA_HOME/taskwarrior
+export TIMEWARRIORDB=$XDG_CONFIG_HOME/timewarrior
+

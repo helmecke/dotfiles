@@ -6,7 +6,7 @@ context.work=+@work
 
 weekstart = Monday
 calendar.holidays = sparse
-include /home/jhe/.config/taskwarrior/holidays.de-DE.rc
+include ~/.config/taskwarrior/holidays.de-DE.rc
 
 # 16-color Solarized theme for taskwarrior.
 color=on
@@ -56,4 +56,3 @@ color.blocking=
 color.project.none=
 color.tag.none=
 color.alternate=
-context=work
