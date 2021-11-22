@@ -143,6 +143,7 @@ command! vgrep kitty nvim "+grep %a"
 command! reload :write | restart full
 command! mkcd :mkdir! %a | cd %a
 command rsync rsync -a %f %D
+command stow stow -t ~ %f
 
 command G tig status
 command Gstatus tig status
