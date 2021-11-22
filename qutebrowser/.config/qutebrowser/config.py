@@ -257,12 +257,12 @@ c.colors.hints.bg = colors[3]
 ## Font color for hints.
 ## Type: QssColor
 # c.colors.hints.fg = 'black'
-c.colors.hints.fg = colors[17]
+c.colors.hints.fg = colors[0]
 
 ## Font color for the matched part of hints.
 ## Type: QtColor
 # c.colors.hints.match.fg = 'green'
-c.colors.hints.match.fg = colors[15]
+c.colors.hints.match.fg = colors[2]
 
 ## Background color of the keyhint widget.
 ## Type: QssColor
@@ -396,7 +396,7 @@ c.colors.statusbar.insert.bg = colors[3]
 ## Foreground color of the statusbar in insert mode.
 ## Type: QssColor
 # c.colors.statusbar.insert.fg = 'white'
-c.colors.statusbar.insert.fg = colors[17]
+c.colors.statusbar.insert.fg = colors[0]
 
 ## Background color of the statusbar.
 ## Type: QssColor
