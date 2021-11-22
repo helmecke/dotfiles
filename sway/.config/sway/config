@@ -1,5 +1,6 @@
 # vim: fdm=marker
 # Read `man 5 sway` for a complete reference.
+# xwayland disable
 
 # Variables {{{1
 # Logo key. Use Mod1 for Alt. {{{2
@@ -11,12 +12,9 @@ set $up k
 set $right l
 
 # Your preferred applications {{{2
-set $term termite
-
-# Your preferred application launcher
-# Note: it's recommended that you pass the final command to sway
-set $menu rofi -show combi
-set $menu termite --name=launcher -e "$HOME/.local/bin/launcher"
+set $term kitty
+set $launcher $term --class=launcher
+set $menu wofi -f
 
 set $browser qutebrowser
 # Solarized colors {{{2
@@ -46,34 +44,30 @@ set $ws4 4
 set $ws5 5:
 set $ws6 6:
 set $ws7 7:
-set $ws8 8:
-set $ws9 9:
+set $ws8 8:
+set $ws9 9:
+set $ws10 10:
 
 # Font {{{1
-font InconsolataGo Nerd Font 11
+font MesloLGM Nerd Font 11
 
 # Output configuration {{{1
-output * bg ~/Pictures/Wallpaper/solarized-root.png center $S_base02
+output * bg $S_base01 solid_color
 
-output "eDP-1" {
-    position 0 360
-    # position 0 660
-    # position 640 1800
-    # scale 1.2
-}
+set $laptop "eDP-1"
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop enable
 
-output "DP-1" {
-    # position 1372 0
-    position 1920 0
+set $lg "Goldstar Company Ltd LG Ultra HD 0x00007F5E"
+output $lg {
     scale 1.5
 }
 
-output "DP-2" {
-    # position 1372 0
-    position 1920 0
-    scale 1.5
-}
+set $bq "BenQ Corporation BenQ GL2450H K1E03952019"
 
+output $bq {
+    scale 1
+}
 workspace $ws5 output DP-2
 workspace $ws6 output eDP-1
 workspace $ws7 output DP-2
@@ -107,6 +101,7 @@ input "1133:45900:Keyboard_K370/K375_Keyboard" {
 # Read `man 5 sway-input` for more information about this section.
 
 seat * hide_cursor 3000
+mouse_warping output
 
 # Key bindings {{{1
 # Basics {{{2
@@ -128,7 +123,7 @@ seat * hide_cursor 3000
     floating_modifier $mod normal
 
     # reload the configuration file
-    bindsym $mod+Shift+r reload
+    # bindsym $mod+Shift+r reload
 
 # Moving around {{{2
 
@@ -171,8 +166,9 @@ seat * hide_cursor 3000
     bindsym $mod+Shift+w move container to workspace $ws5
     bindsym $mod+Shift+s move container to workspace $ws6
     bindsym $mod+Shift+e move container to workspace $ws7
-    bindsym $mod+Shift+f move container to workspace $ws8
-    bindsym $mod+Shift+d move container to workspace $ws9
+    bindsym $mod+Shift+r move container to workspace $ws8
+    bindsym $mod+Shift+f move container to workspace $ws9
+    bindsym $mod+Shift+d move container to workspace $ws10
 
     # move focused workspace to output
     bindsym $mod+Control+$left move workspace to output left
@@ -198,13 +194,14 @@ seat * hide_cursor 3000
     # bindsym $mod+w layout tabbed
     # bindsym $mod+e layout toggle split
     bindsym $mod+tab layout toggle
-    # bindsym $mod+Shift+tab layout toggle split tabbed stacking
+    bindsym $mod+Shift+tab layout toggle split tabbed stacking
 
     # Make the current focus fullscreen
     bindsym $mod+Control+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Control+space floating toggle
+    bindsym $mod+Alt+space floating toggle; resize set 1800 900
 
     # Swap focus between the tiling area and the floating area
     # bindsym $mod+space focus mode_toggle
@@ -231,16 +228,16 @@ seat * hide_cursor 3000
     bindsym $mod+w workspace $ws5; \
         exec [ $(pgrep -c $browser) = 0 ] && \
         $browser
-    # bindsym $mod+e workspace $ws7; \
-    #     exec [ $(pgrep -cf '^vim.--servername.vim$') = 0 ] && \
-    #     termite --name vim -t vim -e 'vim'
+    bindsym $mod+r workspace $ws8; \
+        exec ![ $(pgrep -c 'term_run') = 0 ] && \
+        $term --class term_run --title term_run -e 'zsh'
     bindsym $mod+e workspace $ws7; \
-        exec [ $(pgrep -cf '^nvim$') = 0 ] && \
-        termite --name nvim -t nvim -e 'nvr'
-    bindsym $mod+f workspace $ws8; \
+        exec [ $(pgrep -cf '^nvr$') = 0 ] && \
+        $term --class nvr --title nvr zsh -c 'rm -rf /tmp/nvim*; nvr'
+    bindsym $mod+f workspace $ws9; \
         exec [ $(pgrep -cf 'vifm$') = 0 ] && \
-        termite --name vifm -t vifm -e 'vifm'
-    bindsym $mod+d workspace $ws9; \
+        $term --class vifm --title vifm -e 'vifm'
+    bindsym $mod+d workspace $ws10; \
         exec [ $(pgrep -c electron) = 0 ] && \
         keeweb&
     bindsym $mod+s workspace $ws6; \
@@ -265,9 +262,18 @@ seat * hide_cursor 3000
 
     bindsym $mod+c exec wl-paste -p | wl-copy -n
 
+    bindsym $mod+grave exec $term --class term_temp --title term_temp -e 'zsh'
+    # bindsym $mod+grave exec "if [[ $(pgrep -cf 'term_temp') = 0 ]]; then $term --class term_temp --title term_temp -e 'zsh'; else pkill -f 'term_temp'; fi"
+
+
 # Window rules {{{1
 # use: swaymsg -t get_tree
     for_window [title="^wl-clipboard$"] floating enable
+    for_window [instance="freecad"] floating enable
+    for_window [instance="matplotlib"] floating enable
+    for_window [class="zoom"] floating enable
+    for_window [app_id="zoom"] floating enable
+    for_window [app_id="wdisplays"] floating enable
     for_window [app_id="galculator"] floating enable
     for_window [app_id="pavucontrol"] floating enable
     for_window [app_id="nm-connection-editor"] floating enable
@@ -275,15 +281,17 @@ seat * hide_cursor 3000
     for_window [app_id="org.qutebrowser.input"] floating enable; resize grow width 450px; resize grow height 450px
     for_window [app_id="tipp10"] floating enable
     for_window [app_id="org.pwmt.zathura"] floating enable; resize grow width 450px; resize grow height 450px
+    for_window [app_id="term_temp"] floating enable; resize set 80 ppt 80 ppt; sticky enable
 
-    assign [app_id="nvim"] $ws7
+    assign [app_id="nvr"] $ws7
+    assign [app_id="term_run"] $ws8
     assign [title="^Preview:.*qutebrowser$"] $ws7
-    assign [app_id="vifm"] $ws8
+    assign [app_id="vifm"] $ws9
     assign [app_id="org.qutebrowser.qutebrowser"] $ws5
 
     assign [instance="brave-browser"] $ws5
     assign [instance="rambox"] $ws6
-    assign [instance="keeweb"] $ws9
+    assign [instance="keeweb"] $ws10
 
 # Modes {{{1
 # Resizing containers {{{2
@@ -296,6 +304,7 @@ mode "resize" {
     bindsym $down resize grow height 10px
     bindsym $up resize shrink height 10px
     bindsym $right resize grow width 10px
+    bindsym c mode "default"; resize set 80 ppt 80 ppt; move position center
 
     # return to default mode
     bindsym Return mode "default"
@@ -321,13 +330,13 @@ mode $mode_layout {
 bindsym $mod+t mode $mode_layout
 
 # Screenshot {{{2
-set $mode_screenshot "Screenshot: (a) all, (w) workspace, (r) region, (c) region to clipboard, (f) flameshot"
+set $mode_screenshot "Screenshot: (a) all, (w) workspace, (r) region, (c) region to clipboard, (s) swappy"
 mode $mode_screenshot {
     bindsym a mode "default"; exec grim $(xdg-user-dir PICTURES)/Screenshots/$(date +'%Y-%m-%d-%H%M%S.png')
     bindsym w mode "default"; exec grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') $(xdg-user-dir PICTURES)/Screenshots/$(date +'%Y-%m-%d-%H%M%S.png')
     bindsym r mode "default"; exec slurp | grim -g - $(xdg-user-dir PICTURES)/Screenshots/$(date +'%Y-%m-%d-%H%M%S.png')
     bindsym c mode "default"; exec slurp | grim -g - - | wl-copy
-    bindsym f mode "default"; exec flameshot gui
+    bindsym s mode "default"; exec slurp | grim -g - - | swappy -f -
 
     # return to default mode
     bindsym Return mode "default"
@@ -336,13 +345,14 @@ mode $mode_screenshot {
 bindsym Print mode $mode_screenshot
 
 # Power {{{2
-set $mode_system "System: (l) lock, (e) exit, (s) suspend, (r) reboot, (p) shutdown"
+set $mode_system "System: (l) lock, (e) exit, (s) suspend, (r) reboot, (p) shutdown, (o) reload"
 mode $mode_system {
     bindsym l mode "default"; exec swaylock
     bindsym e mode "default"; exit
     bindsym s mode "default"; exec systemctl suspend
     bindsym r mode "default"; exec systemctl reboot
     bindsym p mode "default"; exec systemctl poweroff
+    bindsym o mode "default"; reload
 
     # return to default mode
     bindsym Return mode "default"
@@ -393,12 +403,9 @@ bar {
 # Notification daemon
 exec mako
 
-# Clipboard sync
-exec wl-paste --watch wl-copy --primary
-
 exec --no-startup-id autotiling
 
-# Idle configuration {{{2
+# Idle configuration
 exec swayidle -w \
    timeout 300 'swaylock' \
    timeout 600 'swaymsg "output * dpms off"' \
