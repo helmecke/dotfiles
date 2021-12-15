@@ -1,6 +1,9 @@
 [push]
 	default = current
 [alias]
+	cc = commit
+	ca = commit --amend
+	ce = commit --amend --no-edit
 	co = checkout
 	wt = worktree
 	sync = !git fetch --prune
