@@ -463,11 +463,11 @@ nnoremap A cw
 nnoremap H za
 
 " Mappings for better movement
-nnoremap <c-h> <c-w>h
+nnoremap <a-h> <c-w>h
 nmap <bs> <c-h>
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-l> <c-w>l
+nnoremap <a-j> <c-w>j
+nnoremap <a-k> <c-w>k
+nnoremap <a-l> <c-w>l
 
 " Open console in current directory
 nnoremap ,t :!kitty &<cr>
