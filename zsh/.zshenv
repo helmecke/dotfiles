@@ -4,10 +4,9 @@ export XDG_DATA_HOME="$HOME/.local/share"
 
 export VISUAL="nvim"
 export EDITOR="nvim"
+export TERMINAL="kitty"
 
-export GCE_INI_PATH=~/Documents/Ansible/gce.ini
-
-export GOPATH=~/Documents/Go
+export GOPATH=~/Go
 export GOROOT=/usr/lib/go
 export GO111MODULE=on
 
@@ -15,7 +14,5 @@ export PATH=$PATH:$GOPATH/bin:${KREW_ROOT:-$HOME/.krew}/bin:$HOME/.local/bin
 
 export KEYID=0x69182E24A9EF4C5A
 
-export TASKRC=$XDG_CONFIG_HOME/taskwarrior/taskrc
-export TASKDATA=$XDG_DATA_HOME/taskwarrior
-export TIMEWARRIORDB=$XDG_CONFIG_HOME/timewarrior
-
+export FZF_DEFAULT_OPTS="--reverse --height=8 --no-info --color='bg+:-1,hl:4,hl+:4,fg:7,fg+:7,pointer:4,marker:4,prompt:1'"
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripgreprc"
