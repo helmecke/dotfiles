@@ -1,0 +1,11 @@
+# vim:ft=conf
+
+# Don't let ripgrep vomit really long lines to my terminal, and show a preview.
+--max-columns=80
+--max-columns-preview
+
+# Using glob patterns to include/exclude files or folders
+--glob=!.git/
+
+# Because who cares about case!?
+--smart-case
