@@ -141,6 +141,23 @@ ec2ssh() {
     __tm_command ec2ssh "$@"
 }
 
+#{{ term title
+autoload -Uz add-zsh-hook
+
+function xterm_title_precmd () {
+	print -Pn -- '\e]2;term - %1~\a'
+}
+
+function xterm_title_preexec () {
+	print -Pn -- '\e]2;term - %1~ %# ' && print -n -- "${(q)1}\a"
+}
+
+if [[ "$TERM" == (Eterm*|alacritty*|aterm*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|tmux*|xterm*) ]]; then
+	add-zsh-hook -Uz precmd xterm_title_precmd
+	add-zsh-hook -Uz chpwd xterm_title_precmd
+	add-zsh-hook -Uz preexec xterm_title_preexec
+fi
+
 # {{ pet snippets
 function pet-select() {
   BUFFER=$(pet search --query "$LBUFFER")
