@@ -145,11 +145,11 @@ ec2ssh() {
 autoload -Uz add-zsh-hook
 
 function xterm_title_precmd () {
-	print -Pn -- '\e]2;term - %1~\a'
+	print -Pn -- '\e]2;term • %1~\a'
 }
 
 function xterm_title_preexec () {
-	print -Pn -- '\e]2;term - %1~ %# ' && print -n -- "${(q)1}\a"
+	print -Pn -- '\e]2;term • %1~ %# ' && print -n -- "${(q)1}\a"
 }
 
 if [[ "$TERM" == (Eterm*|alacritty*|aterm*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|tmux*|xterm*) ]]; then
