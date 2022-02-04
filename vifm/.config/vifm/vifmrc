@@ -152,6 +152,25 @@ command Gblame tig blame %f
 command Gbrowse hub browse
 command Git git %a
 
+command! FZFfind : set noquickview
+        \| let $FZF_PICK = term('find | fzf 2>/dev/tty')
+        \| if $FZF_PICK != ''
+        \|     execute 'goto' fnameescape($FZF_PICK)
+        \| endif
+
+command! FZFlocate : set noquickview
+        \| let $FZF_PICK = term('locate $HOME | fzf 2>/dev/tty')
+        \| if $FZF_PICK != ''
+        \|     execute system('[ -f "$FZF_PICK" ] && echo goto || echo cd') fnameescape($FZF_PICK)
+        \| endif
+
+command! FZFghq : set noquickview
+        \| let $FZF_PICK = term('ghq list | fzf 2>/dev/tty')
+	\| let $GHQ_ROOT = system('ghq root')
+        \| if $FZF_PICK != ''
+        \|     execute 'cd' fnameescape($GHQ_ROOT . "/" . $FZF_PICK) | redraw
+        \| endif
+
 " Filetypes {{{1
 
 " The file type is for the default programs to be used with
@@ -496,6 +515,10 @@ nnoremap <a-i> :sync<cr>
 nnoremap <a-o> :sync %c<cr>
 " Swap panes
 nnoremap <c-y> <c-w>x
+
+nnoremap <a-f> :FZFfind<cr>
+nnoremap <a-l> :FZFlocate<cr>
+nnoremap <a-g> :FZFghq<cr>
 
 " Various customization examples {{{1
 
