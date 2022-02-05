@@ -517,7 +517,6 @@ nnoremap <a-o> :sync %c<cr>
 nnoremap <c-y> <c-w>x
 
 nnoremap <a-f> :FZFfind<cr>
-nnoremap <a-l> :FZFlocate<cr>
 nnoremap <a-g> :FZFghq<cr>
 
 " Various customization examples {{{1
