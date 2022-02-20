@@ -1,4 +1,4 @@
-#{ XDG
+#{{{1 XDG
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -26,23 +26,23 @@ export KEYID=0x69182E24A9EF4C5A
 export FZF_DEFAULT_OPTS="--reverse --height=8 --no-info --color='bg+:-1,hl:4,hl+:4,fg:7,fg+:7,pointer:4,marker:4,prompt:1'"
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripgreprc"
 
-#{ Enable emacs style keybinds
+#{{{1 Enable emacs style keybinds
 bindkey -e
 
-#{ Enable autocomplete
+#{{{1 Enable autocomplete
 autoload -U +X compinit && compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
 autoload -Uz +X bashcompinit && bashcompinit -d "$XDG_CACHE_HOME/zsh/bcompdump-$ZSH_VERSION"
 
 fpath=($XDG_DATA_HOME/zsh/completion/ $fpath)
 zstyle ':completion:*' menu select
 
-#{{ Add completions
+#{{{2 Add completions
 complete -o nospace -C /usr/bin/terraform terraform
 complete -o nospace -C /usr/bin/aws_completer aws
 
 compdef _rg hg
 
-#{ Options
+#{{{1 Options
 # Disable beep
 unsetopt beep
 # Treat the '!' character specially during expansion.
@@ -73,7 +73,7 @@ HISTFILE="$XDG_DATA_HOME/zsh/history"
 HISTSIZE=12500000
 SAVEHIST=10000000
 
-#{ Prompt
+#{{{1 Prompt
 autoload -Uz promptinit
 promptinit
 PS1="%B%(!.#.$)%b "
@@ -81,12 +81,12 @@ PS2="%B>%b "
 PS3='%B?#%b '
 PS4='%B+>%b '
 
-#{ Enable Ctrl-x-e to edit command line
+#{{{1 Enable Ctrl-x-e to edit command line
 autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
 
-#{ Colors
+#{{{1 Colors
 autoload -Uz colors && colors
 if [ -f "~/.dircolors" ]; then
   if ! type sw_vers > /dev/null 2>&1; then
@@ -94,7 +94,7 @@ if [ -f "~/.dircolors" ]; then
   fi
 fi
 
-#{ Aliases
+#{{{1 Aliases
 if ! type sw_vers > /dev/null 2>&1; then
   alias ls="ls --hyperlink=auto --color=auto"
 else
@@ -115,18 +115,18 @@ alias k="kubectl"
 alias kctx="kubectx"
 alias kns="kubens"
 
-#{ Exports
+#{{{1 Exports
 export k="app.kubernetes.io"
 export h="helm.sh"
 
-#{ Custom functions
-#{{ mkdir, cd into it (via http://onethingwell.org/post/586977440/mkcd-improved)
+#{{{1 Custom functions
+#{{{2 mkdir, cd into it (via http://onethingwell.org/post/586977440/mkcd-improved)
 function mkcd () {
   mkdir -p "$*"
   cd "$*"
 }
 
-#{{ change window title to host on ssh
+#{{{2 change window title to host on ssh
 # Make short hostname only if its not an IP address
 __tm_get_hostname(){
     local HOST="$(echo $* | rev | cut -d ' ' -f 1 | rev)"
@@ -160,7 +160,7 @@ ec2ssh() {
     __tm_command ec2ssh "$@"
 }
 
-#{{ term title
+#{{{2 term title
 autoload -Uz add-zsh-hook
 
 function xterm_title_precmd () {
@@ -177,7 +177,7 @@ if [[ "$TERM" == (Eterm*|alacritty*|aterm*|gnome*|konsole*|kterm*|putty*|rxvt*|s
 	add-zsh-hook -Uz preexec xterm_title_preexec
 fi
 
-# {{ pet snippets
+# {{{2 pet snippets
 function pet-select() {
   BUFFER=$(pet search --query "$LBUFFER")
   CURSOR=$#BUFFER
@@ -187,7 +187,7 @@ zle -N pet-select
 stty -ixon
 bindkey '^s' pet-select
 
-#{{ ghq-fzf
+#{{{2 ghq-fzf
 function ghq-fzf() {
   local selected_dir=$(ghq list | fzf --query="$LBUFFER")
 
@@ -202,7 +202,7 @@ function ghq-fzf() {
 zle -N ghq-fzf
 bindkey '\eg' ghq-fzf
 
-#{ ssh-agent
+#{{{1 ssh-agent
 if ! pgrep -u "$USER" ssh-agent > /dev/null; then
     ssh-agent -t 1h > "$XDG_RUNTIME_DIR/ssh-agent.env"
 fi
@@ -210,14 +210,14 @@ if [[ ! "$SSH_AUTH_SOCK" ]]; then
     source "$XDG_RUNTIME_DIR/ssh-agent.env" >/dev/null
 fi
 
-#{ kitty ssh fix
+#{{{1 kitty ssh fix
 if [[ $TERM == "xterm-kitty" ]] then;
   kitty + complete setup zsh | source /dev/stdin
   # alias ssh="kitty +kitten ssh"
   alias ssh='TERM=xterm-256color ssh'
 fi
 
-#{ conda
+#{{{1 conda
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$($XDG_DATA_HOME'/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -233,7 +233,6 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-#{ FZF
 if [ -f "/usr/share/fzf/completion.zsh" ]; then
   source "/usr/share/fzf/completion.zsh"
 fi
@@ -241,3 +240,4 @@ fi
 if [ -f "/usr/share/fzf/key-bindings.zsh" ]; then
   source "/usr/share/fzf/key-bindings.zsh"
 fi
+#{{{1 FZF
