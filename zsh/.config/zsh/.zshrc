@@ -233,11 +233,6 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-if [ -f "/usr/share/fzf/completion.zsh" ]; then
-  source "/usr/share/fzf/completion.zsh"
-fi
-
-if [ -f "/usr/share/fzf/key-bindings.zsh" ]; then
-  source "/usr/share/fzf/key-bindings.zsh"
-fi
 #{{{1 FZF
+[ -f "/usr/share/fzf/completion.zsh" ] &&  source "/usr/share/fzf/completion.zsh"
+[ -f "/usr/share/fzf/key-bindings.zsh" ] && source "/usr/share/fzf/key-bindings.zsh"
