@@ -1,15 +1,54 @@
-#{{{1 XDG
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_DATA_HOME="$HOME/.local/share"
+#!/bin/zsh
 
-if [[ -n "$XDG_CACHE_HOME/zsh" ]]; then
-  mkdir -p "$XDG_CACHE_HOME/zsh"
-fi
+#{{{1 History
 
-if [[ -n "$XDG_DATA_HOME/zsh" ]]; then
-  mkdir -p "$XDG_DATA_HOME/zsh"
-fi
+HISTFILE=${XDG_DATA_HOME:=~/.local/share}/zsh/history
+
+# If the parent directory doesn't exist, create it.
+[[ -d $HISTFILE:h ]] || mkdir -p $HISTFILE:h
+
+# Max number of entries to keep in history file.
+SAVEHIST=$(( 100 * 1000 ))
+
+# Max number of history entries to keep in memory.
+HISTSIZE=$(( 1.2 * SAVEHIST ))
+
+# Use modern file-locking mechanisms, for better safety & performance.
+setopt HIST_FCNTL_LOCK
+
+# Treat the '!' character specially during expansion.
+setopt BANG_HIST
+
+# Write to the history file immediately not when the shell exits.
+setopt INC_APPEND_HISTORY
+
+# Expire duplicate entries first when trimming history.
+setopt HIST_EXPIRE_DUPS_FIRST
+
+# Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_DUPS
+
+# Delete old recorded entry if new entry is a duplicate.
+setopt HIST_IGNORE_ALL_DUPS
+
+# Do not display a line previously found.
+setopt HIST_FIND_NO_DUPS
+
+# Don't record an entry starting with a space.
+setopt HIST_IGNORE_SPACE
+
+# Don't write duplicate entries in the history file.
+setopt HIST_SAVE_NO_DUPS
+
+# Don't remove blanks to keep indentation
+unsetopt HIST_REDUCE_BLANKS
+
+# Don't execute immediately upon history expansion.
+setopt HIST_VERIFY
+
+#{{{1 Environment variables
+
+export LANG=en_US.UTF-8
 
 export VISUAL="nvim"
 export EDITOR="nvim"
@@ -24,54 +63,76 @@ export PATH=$PATH:$GOPATH/bin:${KREW_ROOT:-$HOME/.krew}/bin:$HOME/.local/bin
 export KEYID=0x69182E24A9EF4C5A
 
 export FZF_DEFAULT_OPTS="--reverse --height=8 --no-info --color='bg+:-1,hl:4,hl+:4,fg:7,fg+:7,pointer:4,marker:4,prompt:1'"
+
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripgreprc"
 
-#{{{1 Enable emacs style keybinds
-bindkey -e
+export LSCOLORS="exfxcxdxbxegedabagacad"
+export CLICOLOR=true
 
-#{{{1 Enable autocomplete
+
+#{{{1 Plugins
+
+# yay -S zsh-syntax-highlighting
+[ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && \
+  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# yay -S zsh-autosuggestions
+[ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ] && \
+  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# yay -S zsh-abbr
+# INFO: import gpg with `curl -s https://github.com/olets.gpg | gpg --import`
+[ -f /usr/share/zsh/plugins/zsh-abbr/zsh-abbr.zsh ] && \
+  source /usr/share/zsh/plugins/zsh-abbr/zsh-abbr.zsh
+
+# yay -S fzf
+[ -f /usr/share/fzf/completion.zsh ] && \
+  source /usr/share/fzf/completion.zsh
+[ -f /usr/share/fzf/key-bindings.zsh ] && \
+  source /usr/share/fzf/key-bindings.zsh
+
+# yay -S zsh-hist-git
+[ -f /usr/share/zsh/plugins/zsh-hist/zsh-hist.plugin.zsh ] && \
+  source /usr/share/zsh/plugins/zsh-hist/zsh-hist.plugin.zsh
+
+# {{{2 Plugin settings
+
+zstyle ':hist:*' auto-format no
+
+typeset -A ZSH_HIGHLIGHT_REGEXP
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets regexp)
+ZSH_HIGHLIGHT_REGEXP+=('(^| )('${(j:|:)${(k)ABBR_REGULAR_USER_ABBREVIATIONS}}')($| )' fg=blue)
+ZSH_HIGHLIGHT_REGEXP+=('\<('${(j:|:)${(k)ABBR_GLOBAL_USER_ABBREVIATIONS}}')$' fg=magenta)
+ZSH_HIGHLIGHT_STYLES[alias]=fg=cyan
+
+#{{{1 Options
+# Disable beep
+unsetopt beep
+# Disable globbing
+setopt NO_NOMATCH
+
+#{{{1 Completion
+
 autoload -U +X compinit && compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
 autoload -Uz +X bashcompinit && bashcompinit -d "$XDG_CACHE_HOME/zsh/bcompdump-$ZSH_VERSION"
 
-fpath=($XDG_DATA_HOME/zsh/completion/ $fpath)
-zstyle ':completion:*' menu select
+zstyle ':completion:*' completer _complete _ignored _approximate
+zstyle ':completion:*' menu select=2
+zstyle ':completion:*:*:*:*:descriptions' format '%F{green}-- %d --%f'
+zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
+zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' file-list all
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/zcompcache"
+zstyle ':completion:*' squeeze-slashes true
+zstyle ':completion:*' complete-options true
 
 #{{{2 Add completions
 complete -o nospace -C /usr/bin/terraform terraform
 complete -o nospace -C /usr/bin/aws_completer aws
 
 compdef _rg hg
-
-#{{{1 Options
-# Disable beep
-unsetopt beep
-# Treat the '!' character specially during expansion.
-setopt BANG_HIST
-# Write to the history file immediately not when the shell exits.
-setopt INC_APPEND_HISTORY
-# Expire duplicate entries first when trimming history.
-setopt HIST_EXPIRE_DUPS_FIRST
-# Don't record an entry that was just recorded again.
-setopt HIST_IGNORE_DUPS
-# Delete old recorded entry if new entry is a duplicate.
-setopt HIST_IGNORE_ALL_DUPS
-# Do not display a line previously found.
-setopt HIST_FIND_NO_DUPS
-# Don't record an entry starting with a space.
-setopt HIST_IGNORE_SPACE
-# Don't write duplicate entries in the history file.
-setopt HIST_SAVE_NO_DUPS
-# Remove superfluous blanks before recording entry.
-setopt HIST_REDUCE_BLANKS
-# Don't execute immediately upon history expansion.
-setopt HIST_VERIFY
-# Disable globbing
-setopt NO_NOMATCH
-
-# Save history to xdg data home
-HISTFILE="$XDG_DATA_HOME/zsh/history"
-HISTSIZE=12500000
-SAVEHIST=10000000
 
 #{{{1 Prompt
 autoload -Uz promptinit
@@ -84,7 +145,6 @@ PS4='%B+>%b '
 #{{{1 Enable Ctrl-x-e to edit command line
 autoload -Uz edit-command-line
 zle -N edit-command-line
-bindkey "^X^E" edit-command-line
 
 #{{{1 Colors
 autoload -Uz colors && colors
@@ -93,27 +153,6 @@ if [ -f "~/.dircolors" ]; then
     eval `dircolors ~/.dircolors`
   fi
 fi
-
-#{{{1 Aliases
-if ! type sw_vers > /dev/null 2>&1; then
-  alias ls="ls --hyperlink=auto --color=auto"
-else
-  alias ls="ls --hyperlink=auto"
-fi
-alias l="ls -h"
-alias ll="ls -lh"
-alias lla="ls -lha"
-
-# A trailing space in VALUE causes the next word to be checked for alias substitution when the alias is expanded.
-alias watch="watch "
-alias poweroff="sudo poweroff"
-alias reboot="sudo reboot"
-alias pac-rank-mirror="sudo reflector --verbose --country 'Germany' -l 200 -p https --sort rate --save /etc/pacman.d/mirrorlist"
-alias dos2unixdir="find . -type f -exec dos2unix {} \;"
-alias vim="nvim"
-alias k="kubectl"
-alias kctx="kubectx"
-alias kns="kubens"
 
 #{{{1 Exports
 export k="app.kubernetes.io"
@@ -185,7 +224,6 @@ function pet-select() {
 }
 zle -N pet-select
 stty -ixon
-bindkey '^s' pet-select
 
 #{{{2 ghq-fzf
 function ghq-fzf() {
@@ -200,7 +238,6 @@ function ghq-fzf() {
   zle reset-prompt
 }
 zle -N ghq-fzf
-bindkey '\eg' ghq-fzf
 
 #{{{1 ssh-agent
 if ! pgrep -u "$USER" ssh-agent > /dev/null; then
@@ -233,6 +270,26 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-#{{{1 FZF
-[ -f "/usr/share/fzf/completion.zsh" ] &&  source "/usr/share/fzf/completion.zsh"
-[ -f "/usr/share/fzf/key-bindings.zsh" ] && source "/usr/share/fzf/key-bindings.zsh"
+#{{{1 Keybinds
+bindkey -e
+bindkey "^q" push-line-or-edit
+bindkey '^g' get-line
+bindkey "^x^e" edit-command-line
+bindkey '^s' pet-select
+bindkey '^[g' ghq-fzf
+
+#{{{1 Aliases
+if ! type sw_vers > /dev/null 2>&1; then
+  alias ls="ls --hyperlink=auto --color=auto"
+else
+  alias ls="ls --hyperlink=auto"
+fi
+alias l="ls -h"
+alias la="ls -ha"
+alias ll="ls -lh"
+alias lla="ls -lha"
+
+# A trailing space in VALUE causes the next word to be checked for alias substitution when the alias is expanded.
+alias watch="watch "
+
+(( $+commands[nvim] )) && alias vi="nvim" vim="nvim"

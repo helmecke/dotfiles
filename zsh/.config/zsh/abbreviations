@@ -1,0 +1,6 @@
+abbr -g G="| grep"
+abbr g="git"
+abbr k="kubectl"
+abbr kctx="kubectx"
+abbr pac-rank-mirror="sudo reflector --verbose --country 'Germany' -l 200 -p https --sort rate --save /etc/pacman.d/mirrorlist"
+abbr dos2unixdir="find . -type f -exec dos2unix {} \;"
