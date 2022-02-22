@@ -69,6 +69,10 @@ export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripgreprc"
 export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
 
+#{{{1 Emacs Keybindings
+# Must be done bevor loading plugins
+
+bindkey -e
 
 #{{{1 Plugins
 
@@ -271,7 +275,6 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 #{{{1 Keybinds
-bindkey -e
 bindkey "^q" push-line-or-edit
 bindkey '^g' get-line
 bindkey "^x^e" edit-command-line
