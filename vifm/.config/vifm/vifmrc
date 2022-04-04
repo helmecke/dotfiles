@@ -455,7 +455,7 @@ nnoremap w :view<cr>
 vnoremap w :view<cr>gv
 
 " Open file in existing instance of nvim
-nnoremap O :!nvr -l %f<cr>
+nnoremap O :!nvim --server ~/.cache/nvim/server.pipe --remote %f:p<cr>
 " Open file in new instance of nvim
 nnoremap o :!kitty nvim %f<cr>
 
