@@ -17,3 +17,5 @@
 	excludesfile = ~/.config/git/ignore
 [fetch]
 	prune = true
+[github]
+	user = helmecke
