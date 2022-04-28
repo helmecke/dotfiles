@@ -7,7 +7,6 @@
 	ce = commit --amend --no-edit
 	co = checkout
 	wt = worktree
-	sync = !git fetch --prune
 	cleanup = !bash ~/.local/bin/git-cleanup
 	change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch -f --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f"
 [ghq]
@@ -16,3 +15,5 @@
 	defaultBranch = master
 [core]
 	excludesfile = ~/.config/git/ignore
+[fetch]
+	prune = true
