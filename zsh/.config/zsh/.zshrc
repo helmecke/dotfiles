@@ -313,3 +313,5 @@ alias lla="ls -lha"
 alias watch="watch "
 
 (( $+commands[nvim] )) && alias vi="nvim" vim="nvim"
+(( $+commands[kubectx] )) && alias kctx="kubectx"
+(( $+commands[kubens] )) && alias kns="kubens"
