@@ -3,4 +3,6 @@ xmonad/.xmonad/*
 __pycache__
 qutebrowser/.local/share/qutebrowser
 !qutebrowser/.local/share/qutebrowser/userscripts
+qutebrowser/.config/qutebrowser
+!qutebrowser/.config/qutebrowser/config.py
 
