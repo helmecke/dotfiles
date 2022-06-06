@@ -279,7 +279,9 @@ filextype {*.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm},<image/*>
         \ {View in vimiv}
         \ vimiv,
 fileviewer {*.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm},<image/*>
-         \ identify %f
+        \ kitty +icat --silent --transfer-mode=stream --place=%pwx%ph@%pxx%py %c %N
+        \ %pc
+        \ kitty icat --clear --silent %pd
 
 " OpenRaster
 filextype *.ora
