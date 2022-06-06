@@ -2254,6 +2254,7 @@ c.url.searchengines = {
 # config.bind('@', 'macro-run')
 # config.bind('B', 'set-cmd-text -s :quickmark-load -t')
 # config.bind('D', 'tab-close -o')
+config.unbind('D')
 # config.bind('F', 'hint all tab')
 # config.bind('G', 'scroll-to-perc')
 # config.bind('H', 'back')
@@ -2283,6 +2284,7 @@ c.url.searchengines = {
 # config.bind('cd', 'download-clear')
 # config.bind('co', 'tab-only')
 # config.bind('d', 'tab-close')
+config.unbind('d')
 # config.bind('f', 'hint')
 # config.bind('g$', 'tab-focus -1')
 # config.bind('g0', 'tab-focus 1')
@@ -2501,3 +2503,7 @@ config.bind('zl', 'spawn --userscript qute-gopass --no-insert-mode')
 config.bind('zul', 'spawn --userscript qute-gopass --username-only --no-insert-mode')
 config.bind('zpl', 'spawn --userscript qute-gopass --password-only --no-insert-mode')
 config.bind('zol', 'spawn --userscript qute-gopass --otp-only --no-insert-mode')
+
+## Additional binding for tabs
+config.bind(',bc', 'tab-close')
+config.bind(',bd', 'tab-close -o')
