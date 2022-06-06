@@ -48,6 +48,9 @@ setopt HIST_VERIFY
 
 #{{{1 Environment variables
 
+export -U PATH path FPATH fpath MANPATH manpath
+export -UT INFOPATH infopath  # -T creates a "tied" pair; see below.
+
 export LANG=en_US.UTF-8
 
 export VISUAL="nvim"
@@ -68,6 +71,13 @@ export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripgreprc"
 
 export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
+
+fpath=(
+    ~/.local/share/zsh/site-functions
+    ~/.local/share/zsh/completions
+    $ZDOTDIR/functions
+    $fpath
+)
 
 #{{{1 Emacs Keybindings
 # Must be done bevor loading plugins
