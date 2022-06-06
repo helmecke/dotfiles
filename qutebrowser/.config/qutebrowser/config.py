@@ -2499,6 +2499,8 @@ config.unbind('d')
 # config.bind('Y', 'prompt-accept --save yes', mode='yesno')
 # config.bind('n', 'prompt-accept no', mode='yesno')
 # config.bind('y', 'prompt-accept yes', mode='yesno')
+
+## Bindings for gopass
 config.bind('zl', 'spawn --userscript qute-gopass --no-insert-mode')
 config.bind('zul', 'spawn --userscript qute-gopass --username-only --no-insert-mode')
 config.bind('zpl', 'spawn --userscript qute-gopass --password-only --no-insert-mode')
