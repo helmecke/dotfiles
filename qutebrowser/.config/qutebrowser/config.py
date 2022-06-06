@@ -2507,3 +2507,5 @@ config.bind('zol', 'spawn --userscript qute-gopass --otp-only --no-insert-mode')
 ## Additional binding for tabs
 config.bind(',bc', 'tab-close')
 config.bind(',bd', 'tab-close -o')
+config.bind('[b', 'tab-prev')
+config.bind(']b', 'tab-next')
