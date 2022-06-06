@@ -1,5 +1,5 @@
 [General]
-  snippetdirs = ["/home/jhe/Git/github.com/helmecke/pet-snippets/", "/home/jhe/Git/github.com/t3n/pet-snippets/"]
+  snippetdirs = ["~/Git/github.com/helmecke/pet-snippets/", "~/Git/github.com/t3n/pet-snippets/"]
   editor = "nvim"
   column = 40
   selectcmd = "fzf"
