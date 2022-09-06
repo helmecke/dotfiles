@@ -2442,7 +2442,9 @@ config.unbind('d')
 # config.bind('<Return>', 'command-accept', mode='command')
 # config.bind('<Shift-Delete>', 'completion-item-del', mode='command')
 # config.bind('<Shift-Tab>', 'completion-item-focus prev', mode='command')
+config.bind('<Ctrl-P>', 'completion-item-focus prev', mode='command')
 # config.bind('<Tab>', 'completion-item-focus next', mode='command')
+config.bind('<Ctrl-N>', 'completion-item-focus next', mode='command')
 # config.bind('<Up>', 'completion-item-focus --history prev', mode='command')
 
 ## Bindings for hint mode
