@@ -1278,7 +1278,7 @@ c.content.blocking.method = 'both'
 ## Same as `{column}`, but starting from index 0.
 ## Type: ShellCommand
 # c.editor.command = ['gvim', '-f', '{file}', '-c', 'normal {line}G{column0}l']
-c.editor.command = [terminal, '--title', 'Qutebrowser Input', editor, '{file}', '+normal {line}G{column0}l', '+startinsert', '+set noendofline', '+set nofixendofline']
+c.editor.command = [terminal, '--title', 'Qutebrowser Input', '-o', 'initial_window_width 150c', '-o', 'initial_window_height 35c', editor, '{file}', '+normal {line}G{column0}l', '+startinsert!', '+set noendofline', '+set nofixendofline']
 
 ## Encoding to use for the editor.
 ## Type: Encoding
