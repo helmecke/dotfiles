@@ -46,6 +46,8 @@ unsetopt HIST_REDUCE_BLANKS
 # Don't execute immediately upon history expansion.
 setopt HIST_VERIFY
 
+setopt INTERACTIVE_COMMENTS
+
 #{{{1 Environment variables
 
 export -U PATH path FPATH fpath MANPATH manpath
@@ -118,6 +120,7 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets regexp)
 ZSH_HIGHLIGHT_REGEXP+=('(^| )('${(j:|:)${(k)ABBR_REGULAR_USER_ABBREVIATIONS}}')($| )' fg=blue)
 ZSH_HIGHLIGHT_REGEXP+=('\<('${(j:|:)${(k)ABBR_GLOBAL_USER_ABBREVIATIONS}}')$' fg=magenta)
 ZSH_HIGHLIGHT_STYLES[alias]=fg=cyan
+ZSH_HIGHLIGHT_STYLES[comment]=fg=8,bold
 
 #{{{1 Options
 # Disable beep
