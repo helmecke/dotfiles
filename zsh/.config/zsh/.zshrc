@@ -288,6 +288,13 @@ if [[ $TERM == "xterm-kitty" ]] then;
   alias ssh='TERM=xterm-256color ssh'
 fi
 
+#{{{1
+NPM_PACKAGES="${XDG_DATA_HOME}/npm-packages"
+mkdir -p ${NPM_PACKAGES}
+npm config set prefix ${NPM_PACKAGES}
+export PATH="$PATH:$NPM_PACKAGES/bin"
+export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
+
 #{{{1 conda
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
