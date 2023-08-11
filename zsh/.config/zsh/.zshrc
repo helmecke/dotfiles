@@ -93,25 +93,16 @@ fpath=(
 bindkey -e
 
 #{{{1 Plugins
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
 
-# yay -S zsh-syntax-highlighting
-[ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && \
-  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# yay -S zsh-autosuggestions
-[ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ] && \
-  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-# yay -S zsh-abbr
-# INFO: import gpg with `curl -s https://github.com/olets.gpg | gpg --import`
-[ -f /usr/share/zsh/plugins/zsh-abbr/zsh-abbr.zsh ] && \
-  source /usr/share/zsh/plugins/zsh-abbr/zsh-abbr.zsh
-
-# yay -S fzf
-[ -f /usr/share/fzf/completion.zsh ] && \
-  source /usr/share/fzf/completion.zsh
-[ -f /usr/share/fzf/key-bindings.zsh ] && \
-  source /usr/share/fzf/key-bindings.zsh
+zinit light zsh-users/zsh-autosuggestions
+zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light olets/zsh-abbr
+zinit light unixorn/fzf-zsh-plugin
+zinit light marlonrichert/zsh-hist
 
 # yay -S zsh-hist-git
 [ -f /usr/share/zsh/plugins/zsh-hist/zsh-hist.plugin.zsh ] && \
