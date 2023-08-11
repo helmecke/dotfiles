@@ -314,6 +314,7 @@ bindkey '^g' get-line
 bindkey "^x^e" edit-command-line
 bindkey '^s' pet-select
 bindkey '^[g' ghq-fzf
+bindkey '^U' undo
 
 #{{{1 Aliases
 if ! type sw_vers > /dev/null 2>&1; then
