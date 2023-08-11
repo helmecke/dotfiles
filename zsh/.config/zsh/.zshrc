@@ -53,6 +53,12 @@ setopt INTERACTIVE_COMMENTS
 export -U PATH path FPATH fpath MANPATH manpath
 export -UT INFOPATH infopath  # -T creates a "tied" pair; see below.
 
+if [[ $(uname) == "Darwin" ]]; then
+  export OS_MAC=true
+else
+  export OS_LINUX=true
+fi
+
 export LANG=en_US.UTF-8
 
 export VISUAL="nvim"
