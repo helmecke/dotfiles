@@ -338,3 +338,7 @@ alias watch="watch "
 if [ -d "${HOME}/.local/share/nvim/mason/bin/" ]; then
   export PATH="${PATH}:${HOME}/.local/share/nvim/mason/bin/"
 fi
+
+if [ -d "${HOME}/.config/emacs/bin/" ]; then
+  export PATH="${PATH}:${HOME}/.config/emacs/bin/"
+fi
