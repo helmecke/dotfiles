@@ -334,3 +334,7 @@ alias watch="watch "
 (( $+commands[kubectx] )) && alias kctx="kubectx"
 (( $+commands[kubens] )) && alias kns="kubens"
 (( $+commands[zk] )) && alias note="zk edit --interactive"
+
+if [ -d "${HOME}/.local/share/nvim/mason/bin/" ]; then
+  export PATH="${PATH}:${HOME}/.local/share/nvim/mason/bin/"
+fi
