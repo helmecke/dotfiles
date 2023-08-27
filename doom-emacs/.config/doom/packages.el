@@ -50,3 +50,10 @@
 ;(unpin! t)
 (package! ivy-ghq :recipe
   (:host github :repo "analyticd/ivy-ghq"))
+
+(unpin! org-roam)
+(package! org-roam-ui)
+
+(package! command-log-mode)
+
+(package! osx-trash)
