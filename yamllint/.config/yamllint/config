@@ -20,3 +20,5 @@ rules:
   indentation:
     spaces: consistent
     indent-sequences: consistent
+  truthy:
+    check-keys: false
