@@ -83,6 +83,16 @@ Persist information across conversations:
 | `write_memory` | Store project-specific notes |
 | `read_memory` | Retrieve stored information |
 | `list_memories` | Show all stored memories |
+| `edit_memory` | Update existing memory content |
+| `delete_memory` | Remove obsolete memories |
+
+**For detailed guidance on memory lifecycle management, see the `serena-memory-management` skill.**
+
+This covers:
+- When and how to create memories
+- Memory content best practices
+- Organizing and maintaining memories across sessions
+- Anti-patterns to avoid
 
 ## Workflow Patterns
 
