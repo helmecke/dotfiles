@@ -1,19 +1,22 @@
 ---
-name: serena
+name: serena-semantic-code
 description: |
-  ALWAYS ACTIVE: Serena MCP provides semantic code understanding and intelligent editing via Language Server Protocol.
-  This skill applies to ALL coding tasks. Use Serena tools for: (1) navigating codebases, (2) finding symbols and references,
-  (3) editing code at symbol level, (4) refactoring, (5) understanding project structure. Serena dramatically improves
-  code quality and reduces token usage compared to text-based operations. Activate for any code-related work.
+  ALWAYS ACTIVE: Use Language Server Protocol (LSP) for semantic code understanding and intelligent editing.
+  This skill applies to ALL coding tasks. Use Serena's LSP tools for: (1) semantic navigation and symbol discovery,
+  (2) finding references and dependencies, (3) symbol-level editing and refactoring, (4) understanding project structure.
+  Dramatically improves code quality and reduces token usage compared to text-based grep/read operations.
+  Activate for any code-related work.
 ---
 
-# Serena MCP Integration
+# Serena: Semantic Code Understanding via LSP
 
-Serena provides IDE-like semantic code understanding through Language Server Protocol integration. Use Serena tools instead of grep/read operations whenever possible.
+Serena provides IDE-like semantic code understanding through Language Server Protocol (LSP) integration. Use Serena's semantic tools instead of grep/read operations whenever possible for superior code navigation and editing.
 
 ## Core Principle
 
-**Prefer semantic operations over text-based operations:**
+**ALWAYS prefer semantic operations over text-based operations.**
+
+This applies to ALL coding tasks—no exceptions for emergencies, simple tasks, or time pressure.
 
 | Instead of... | Use Serena... |
 |---------------|---------------|
@@ -22,6 +25,17 @@ Serena provides IDE-like semantic code understanding through Language Server Pro
 | String replace across files | `rename_symbol` |
 | Manual line counting for edits | `insert_after_symbol` / `replace_symbol_body` |
 
+## Why Semantic Tools Matter
+
+**Semantic tools are FASTER when you account for total time:**
+
+- grep finds text matches (including comments, strings, tests) → you manually filter
+- `find_symbol` finds the actual definition → immediate precision
+- Text editing breaks on edge cases → you debug later
+- Symbol editing handles syntax correctly → no debugging needed
+
+**The "emergency exception" is a trap:** Using grep during a production incident doesn't save time—it creates noise you must manually parse while under pressure. Semantic tools give precise answers when precision matters most.
+
 ## Required Setup
 
 Before using Serena tools, ensure the project is activated:
@@ -29,6 +43,20 @@ Before using Serena tools, ensure the project is activated:
 1. **Check if onboarding was performed**: Use `check_onboarding_performed`
 2. **If not**: Run `onboarding` to analyze project structure
 3. **Activate project**: Use `activate_project` with project path
+
+**Setup is mandatory, not optional:** Even under time pressure or in emergencies, onboarding takes 2-3 minutes and prevents hours of mistakes. Do it once per project, benefit every session.
+
+### When LSP Is Unavailable
+
+If LSP fails to initialize or language servers are missing:
+
+1. **Install the language server** if time permits (usually 5-10 minutes)
+2. **If emergency prevents installation**: Use fallback tools (grep, read, edit) BUT:
+   - Document that semantic tools were unavailable (not inconvenient)
+   - Verify fixes more carefully (no LSP safety net)
+   - Install LSP immediately after emergency
+
+**This is the ONLY exception:** Semantic tools being non-functional (not "slower" or "unfamiliar") permits fallback. If Serena works, use it.
 
 ## Tool Categories
 
@@ -73,26 +101,6 @@ Use when symbol-level operations aren't applicable:
 | `onboarding` | Analyze project structure, find build/test commands |
 | `get_current_config` | Show active configuration |
 | `restart_language_server` | Reinitialize after external changes |
-
-### Memory System
-
-Persist information across conversations:
-
-| Tool | Purpose |
-|------|---------|
-| `write_memory` | Store project-specific notes |
-| `read_memory` | Retrieve stored information |
-| `list_memories` | Show all stored memories |
-| `edit_memory` | Update existing memory content |
-| `delete_memory` | Remove obsolete memories |
-
-**For detailed guidance on memory lifecycle management, see the `serena-memory-management` skill.**
-
-This covers:
-- When and how to create memories
-- Memory content best practices
-- Organizing and maintaining memories across sessions
-- Anti-patterns to avoid
 
 ## Workflow Patterns
 
@@ -142,7 +150,8 @@ This covers:
 - Use `find_symbol` before `read_file` for targeted navigation
 - Prefer `replace_symbol_body` over line-based replacements
 - Use `rename_symbol` for refactoring (handles all references automatically)
-- Store important findings with `write_memory` for future reference
+- Use semantic operations over text-based operations in ALL situations
+- Use semantic tools ESPECIALLY during emergencies (precision matters most under pressure)
 
 ### DON'T
 
@@ -150,6 +159,38 @@ This covers:
 - Use grep-style searches when `find_symbol` would work
 - Make line-based edits when symbol-based edits are possible
 - Forget to `restart_language_server` after external file changes
+- Skip semantic tools for "simple" tasks or "one-line" changes
+- Rationalize grep usage during production incidents
+
+## Common Rationalizations (And Why They're Wrong)
+
+| Rationalization | Reality |
+|-----------------|---------|
+| "Production emergency = different rules" | Emergencies need precision MORE, not less. grep noise wastes time. |
+| "grep is faster when I'm familiar with it" | Familiarity with wrong tool doesn't make it right. `find_symbol` is 10 seconds. |
+| "This is just a simple text search" | Symbol lookups are never "just text search"—comments, strings, tests create noise. |
+| "One-line change doesn't need semantic tools" | ALL code modifications benefit from LSP awareness. No exceptions. |
+| "Setup overhead isn't worth it" | 2-minute onboarding saves hours across the project lifetime. Do it once. |
+| "Senior said to use grep" | Authority suggests method, not mandate. Use the correct tool. |
+| "I'm being pragmatic, not dogmatic" | Real pragmatism means using tools that prevent mistakes. That's semantic tools. |
+| "When building is on fire, grab extinguisher" | False metaphor. Semantic tools ARE the fire extinguisher—they put out fires faster. |
+| "Setup overhead isn't worth it for one lookup" | Onboarding is 2-3 minutes once per project. You'll do dozens of lookups. Always worth it. |
+| "I don't know Serena syntax well" | Syntax is documented. Learning once beats repeatedly using wrong tool. |
+| "Project isn't activated yet" | Activate it now (3 minutes). Saves hours across all future work on this project. |
+
+## Red Flags - You're About to Rationalize
+
+If you catch yourself thinking:
+- "Just this once because..."
+- "Production is down, so..."
+- "This is too simple for..."
+- "I know grep better than..."
+- "Setup time isn't worth..."
+- "Senior/manager said..."
+- "Project isn't activated yet..."
+- "Don't know the syntax..."
+
+**STOP. Use semantic tools. No exceptions (unless LSP is literally non-functional).**
 
 ## Language Support
 
