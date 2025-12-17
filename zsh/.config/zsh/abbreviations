@@ -1,8 +1,0 @@
-abbr -g G="| grep"
-abbr -g NJ="| nvim -c \"setlocal ft=json | normal zX\" -"
-abbr -g NY="| nvim -c \"setlocal ft=yaml | normal zX\" -"
-abbr dos2unixdir="find . -type f -exec dos2unix {} \;"
-abbr g="git"
-abbr k="kubectl"
-abbr kctx="kubectx"
-abbr pac-rank-mirror="sudo reflector --verbose --country 'Germany' -l 200 -p https --sort rate --save /etc/pacman.d/mirrorlist"

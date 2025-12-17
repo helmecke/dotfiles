@@ -4,27 +4,10 @@
 
 ## Getting Started
 
-I manage _dotfiles_ using [(GNU Stow)](http://www.gnu.org/software/stow/).
+I manage _dotfiles_ using [(chezmoi)](https://www.chezmoi.io/).
 
-Install _dotfiles_ by cloning the git repository. I recommand using [ghq](https://github.com/x-motemen/ghq).
-
-```bash
-ghq get https://github.com/helmecke/dotfiles.git
-
-# or
-
-git clone https://github.com/helmecke/dotfiles.git ~/.dotfiles
-```
-
-You can now symlink any configurations you wish to use:
+Install _dotfiles_ by running the following command. Check out [chezmoin quick-start guide](https://www.chezmoi.io/quick-start/#using-chezmoi-across-multiple-machines).
 
 ```bash
-# Enter repository folder
-cd $(ghq list -p | grep helmecke/dotfiles)
-
-# Symlink sway config
-stow -t ~ sway
-
-# Remove sway symlink
-stow -t ~ -D sway
+chezmoi init https://github.com/helmecke/dotfiles.git
 ```
