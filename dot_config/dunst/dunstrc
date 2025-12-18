@@ -1,0 +1,31 @@
+# vim: ft=cfg
+[global]
+    geometry = "500x5-30+55"
+    shrink = yes
+    font = MesloLGM Nerd Font 11
+    frame_width = 3
+    frame_color = "#abb2bf"
+    padding = 8
+    horizontal_padding = 8
+    markup = full
+    format = "<b>%s</b>\n%b"
+    word_wrap = yes
+    max_icon_size = 32
+    dmenu = rofi -dmenu -p dunst
+
+[urgency_low]
+    background = "#353b45"
+    foreground = "#abb2bf"
+    timeout = 5
+
+[urgency_normal]
+    background = "#353b45"
+    foreground = "#abb2bf"
+    frame_color = "#859900"
+    timeout = 10
+
+[urgency_critical]
+    background = "#353b45"
+    foreground = "#abb2bf"
+    frame_color = "#be5046"
+    timeout = 0
