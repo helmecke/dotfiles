@@ -1,0 +1,24 @@
+[push]
+	default = current
+	followTags = true
+[alias]
+	cc = commit
+	ca = commit --amend
+	ce = commit --amend --no-edit
+	co = checkout
+	wt = worktree
+	cleanup = !bash ~/.local/bin/git-cleanup
+	change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch -f --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f"
+[ghq]
+	root = ~/Git
+[init]
+	defaultBranch = master
+[core]
+	excludesfile = ~/.config/git/ignore
+[fetch]
+	prune = true
+[github]
+	user = helmecke
+[user]
+	email = j.helmecke@gmail.com
+	name = Jakob Helmecke

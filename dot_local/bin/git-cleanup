@@ -1,0 +1,2 @@
+#!/bin/env bash
+comm -23 <(git branch | cut -c 3- | sort) <(git branch -r | grep -v HEAD | awk '{print $1}' | sed 's/origin\///' | sort) | xargs -n 1 git branch -d
