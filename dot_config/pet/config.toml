@@ -1,0 +1,6 @@
+[General]
+  snippetdirs = ["~/Git/github.com/helmecke/pet-snippets/", "~/Git/github.com/t3n/pet-snippets/"]
+  editor = "nvim"
+  column = 40
+  selectcmd = "fzf"
+  sortby = ""
