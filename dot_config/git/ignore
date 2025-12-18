@@ -1,0 +1,5 @@
+.env
+id_rsa
+*.ssh
+
+**/.claude/settings.local.json
