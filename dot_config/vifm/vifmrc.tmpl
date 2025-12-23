@@ -5,7 +5,7 @@
 " Blank lines are ignored.
 " The basic format for each item is shown with an example.
 
-" Settings {{{1
+" Settings
 
 " Command used to edit files in various contexts.  The default is vim.
 " If you would like to use another vi clone such as Elvis or Vile
@@ -109,17 +109,17 @@ set statusline="  Hint: %z%= %A %10u:%-7g %15s %20d  "
 
 set title
 
-" Bookmarks {{{1
+" Bookmarks
 
 " :mark mark /full/directory/path [filename]
 
 mark b ~/.local/bin
-mark d ~/Git/github.com/helmecke/dotfiles
+mark d ~/Git/github.com/{{ .github_user }}/dotfiles
 mark h ~/
 mark D ~/Downloads
 mark G ~/Git
 
-" Commands {{{1
+" Commands
 
 " :com[mand][!] command_name action
 " The following macros can be used in a command
@@ -173,7 +173,7 @@ command! FZFghq : set noquickview
         \|     execute 'cd' fnameescape($GHQ_ROOT . "/" . $FZF_PICK) | redraw
         \| endif
 
-" Filetypes {{{1
+" Filetypes
 
 " The file type is for the default programs to be used with
 " a file extension.
@@ -431,14 +431,14 @@ filextype */
 " For Windows:
 " filetype * start, explorer %"f &
 
-" Vifminfo {{{1
+" Vifminfo
 
 " What should be saved automatically between vifm sessions.  Drop "savedirs"
 " value if you don't want vifm to remember last visited directories for you.
 set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
     \phistory,fhistory,dirstack,registers,bookmarks,bmarks
 
-" Examples of configuring both panels {{{1
+" Examples of configuring both panels
 
 " Customize view columns a bit (enable ellipsis for truncated file names)
 "
@@ -448,7 +448,7 @@ set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
 "
 " filter! {*.lo,*.o,*.d,*.class,*.pyc,*.pyo,.*~}
 
-" Mappings {{{1
+" Mappings
 
 " Sample mappings
 
@@ -536,7 +536,7 @@ nnoremap <c-y> <c-w>x
 nnoremap <a-f> :FZFfind<cr>
 nnoremap <a-g> :FZFghq<cr>
 
-" Various customization examples {{{1
+" Various customization examples
 
 " Use ag (the silver searcher) instead of grep
 "
@@ -560,7 +560,7 @@ set grepprg='rg --line-number %i %a %s'
 "
 " let $VIFM_SERVER_NAME = v:servername
 
-" Statusline {{{1
+" Statusline
 
 highlight User1 ctermbg=0 ctermfg=7
 highlight User2 ctermbg=0 ctermfg=1
