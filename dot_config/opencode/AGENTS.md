@@ -1,10 +1,13 @@
 # Agent Triggering Patterns
 
++**Critical**: Before doing anything check if there is a skills for it.
+
 Guide for when to use each agent in OpenCode. Use these patterns to understand which agent to invoke or when the model should automatically delegate.
 
 ## Pattern Format
 
 Each agent documents:
+
 - **keyTrigger**: One-line summary of when to fire
 - **triggers**: Domain-specific activation conditions
 - **useWhen**: Example user phrases that indicate this agent
@@ -14,6 +17,7 @@ Each agent documents:
 ## Primary Agents
 
 ### Build (Default)
+
 **keyTrigger:** Any development task requiring file changes or command execution
 
 **triggers:**
@@ -24,6 +28,7 @@ Each agent documents:
 | General | Default agent when no specialized agent matches |
 
 **useWhen:**
+
 - "Create a new component"
 - "Fix this bug"
 - "Add a feature for..."
@@ -34,6 +39,7 @@ Each agent documents:
 ---
 
 ### Plan
+
 **keyTrigger:** Analysis or planning task where changes should be reviewed first
 
 **triggers:**
@@ -44,6 +50,7 @@ Each agent documents:
 | Review | Evaluating approaches without modifying |
 
 **useWhen:**
+
 - "Analyze this codebase"
 - "How should I approach..."
 - "What's the best way to..."
@@ -56,6 +63,7 @@ Each agent documents:
 ## Subagents
 
 ### General
+
 **keyTrigger:** Complex multi-step research or uncertain search scope
 
 **triggers:**
@@ -66,6 +74,7 @@ Each agent documents:
 | Multi-step | Tasks requiring sequential exploration |
 
 **useWhen:**
+
 - "Help me understand this system"
 - "Research how to implement X"
 - "Find all the places that handle Y"
@@ -75,6 +84,7 @@ Each agent documents:
 ---
 
 ### Explore
+
 **keyTrigger:** Fast codebase search with known patterns or keywords
 
 **triggers:**
@@ -85,8 +95,9 @@ Each agent documents:
 | Quick Lookup | When you know roughly what you're looking for |
 
 **useWhen:**
+
 - "Where is X implemented?"
-- "Find files matching *.config.ts"
+- "Find files matching \*.config.ts"
 - "Which files contain Y?"
 - "Find the code that does Z"
 - Quick searches with specific targets
@@ -94,6 +105,7 @@ Each agent documents:
 ---
 
 ### Research (Custom)
+
 **keyTrigger:** External library/source mentioned → fire `research` background
 
 **triggers:**
@@ -104,6 +116,7 @@ Each agent documents:
 | Implementation Examples | Finding OSS implementation patterns |
 
 **useWhen:**
+
 - "How do I use [library]?"
 - "What's the best practice for [framework feature]?"
 - "Why does [external dependency] behave this way?"
