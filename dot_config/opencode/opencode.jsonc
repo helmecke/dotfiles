@@ -6,17 +6,18 @@
     // TUI scroll speed. Default: 2, minimum: 1
     "scroll_speed": 5
   },
+  "model": "github-copilot/claude-sonnet-4.5",
   "agent": {
     "plan": {
-      "model": "anthropic/claude-opus-4-5",
+      "model": "github-copilot/claude-opus-4.5",
       "prompt": "{file:./prompt/plan.md}"
     },
     "explore": {
-      "model": "opencode/grok-code",
+      "model": "github-copilot/grok-code-fast-1",
       "prompt": "{file:./prompt/explore.md}"
     },
     "research": {
-      "model": "opencode/glm-4.7-free",
+      "model": "github-copilot/claude-haiku-4.5",
       "tools": {
         "write": false,
         "edit": false,
