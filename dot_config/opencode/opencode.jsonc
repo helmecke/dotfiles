@@ -6,6 +6,65 @@
     // TUI scroll speed. Default: 2, minimum: 1
     "scroll_speed": 5
   },
+  "agent": {
+    "plan": {
+      "model": "anthropic/claude-opus-4-5",
+      "prompt": "{file:./prompt/plan.md}"
+    },
+    "explore": {
+      "model": "opencode/grok-code",
+      "prompt": "{file:./prompt/explore.md}"
+    },
+    "research": {
+      "model": "opencode/glm-4.7-free",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": false
+      },
+      "temperature": 0.1
+    }
+  },
+  "lsp": {
+    "pyright": {
+      "disabled": true
+    },
+    "ty": {
+      "command": [
+        "uvx",
+        "ty",
+        "server"
+      ],
+      "extensions": [
+        ".py"
+      ],
+    },
+    "ruff": {
+      "command": [
+        "uv",
+        "run",
+        "ruff",
+        "server"
+      ],
+      "extensions": [
+        ".py",
+      ]
+    }
+  },
+  "formatter": {
+    "ruff-fix": {
+      "command": [
+        "uvx",
+        "ruff",
+        "check",
+        "--fix",
+        "$FILE"
+      ],
+      "extensions": [
+        ".py"
+      ]
+    }
+  },
   // MCP (Model Context Protocol) server configurations
   "mcp": {
     "context7": {
